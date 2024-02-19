@@ -1,0 +1,17 @@
+[project]
+name = "pytorch"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tasks]
+start = "jupyter lab"
+
+[dependencies]
+torchvision = ">=0.16.1,<0.17"
+cuda = ">=12.3.2,<12.4"
+matplotlib = ">=3.8.2,<3.9"
+jupyterlab = ">=4.1.1,<4.2"
+pytorch = ">=2.1.0,<2.2"
