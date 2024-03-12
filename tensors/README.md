@@ -107,7 +107,13 @@ Of course, tensors shape don't stop here, you may have higher-dimensional tensor
 ```
 
 ```pycon
->>> t2 = tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+>>> t2 = tensor([
+...     [1.0, 2.0, 3.0], 
+...     [4.0, 5.0, 6.0]
+... ])
+```
+
+```pycon
 ```
 
 
