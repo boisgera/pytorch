@@ -93,28 +93,45 @@ $$
 > $$
 >
 
-Of course, tensors shape don't stop here, you may have higher-dimensional tensors.
+Of course, tensors shape don't stop here, you may have higher-dimensional tensors. Yes, there are concrete use cases for them!
 
 
 ## Pytorch
 
+Preamble:
+
+```python
+import torch
+from torch import tensor
+```
+
+```pycon
+```
+
+
 ```pycon
 >>> t0 = tensor(1.0)
+>>> t0
+tensor(1.)
 ```
 
 ```pycon
 >>> t1 = tensor([1.0, 2.0, 3.0])
-```
-
-```pycon
->>> t2 = tensor([
-...     [1.0, 2.0, 3.0], 
-...     [4.0, 5.0, 6.0]
-... ])
+>>> t1
+tensor([1., 2., 3.])
 ```
 
 ```pycon
 ```
+
+```pycon
+>>> t2 = tensor([[1.0, 2.0, 3.0], 
+...              [4.0, 5.0, 6.0]])
+>>> t2
+tensor([[1., 2., 3.],
+        [4., 5., 6.]])
+```
+
 
 
 ## Examples (scalars, vectors, matrices, images, batches, etc.)
