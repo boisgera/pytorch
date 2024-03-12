@@ -2,6 +2,8 @@
 
 ## Definitions
 
+**TODO:** formal definition with size and dim an data type(?) as a function of dim indices.
+
 tensor $\simeq$ multi-dimensional array
 
   - 0-dim tensor $\simeq$ scalar
@@ -106,10 +108,6 @@ from torch import tensor
 ```
 
 ```pycon
-```
-
-
-```pycon
 >>> t0 = tensor(1.0)
 >>> t0
 tensor(1.)
@@ -121,17 +119,21 @@ tensor(1.)
 tensor([1., 2., 3.])
 ```
 
-```pycon
-```
+**TODO:**
 
-```pycon
->>> t2 = tensor([[1.0, 2.0, 3.0], 
-...              [4.0, 5.0, 6.0]])
->>> t2
-tensor([[1., 2., 3.],
-        [4., 5., 6.]])
-```
+  - `t.dim()`, `t.size()`, `t.nbytes`
+
+  - the raw data is not easily available ...
+
+## Tensor calculus
+
+(everything is a contraction pretty-much)
+
+## Vectorization 
+
+(and speed)
 
 
+## Examples (scalars, vectors, matrices, images, classifiers with proba, batches, etc.)
 
-## Examples (scalars, vectors, matrices, images, batches, etc.)
+
