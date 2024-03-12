@@ -1,5 +1,7 @@
 # Tensors
 
+## Definitions
+
 tensor $\simeq$ multi-dimensional array
 
   - 0-dim tensor $\simeq$ scalar
@@ -57,7 +59,7 @@ $$
     \begin{bmatrix}
         1.0 & 2.0
     \end{bmatrix} \\ 
-        \begin{bmatrix}
+    \begin{bmatrix}
         3.0 & 4.0
     \end{bmatrix} 
 \end{bmatrix}
@@ -66,13 +68,13 @@ $$
 $$
 \begin{bmatrix}
     \begin{bmatrix}
-        1.0 \\ 
-        2.0 \\ 
+        1.0 \\
+        2.0 \\
         3.0 
     \end{bmatrix} 
     \begin{bmatrix}
-        4.0 \\ 
-        5.0 \\ 
+        4.0 \\
+        5.0 \\
         6.0
     \end{bmatrix} 
 \end{bmatrix}
@@ -90,3 +92,23 @@ $$
 > \end{bmatrix}
 > $$
 >
+
+Of course, tensors shape don't stop here, you may have higher-dimensional tensors.
+
+
+## Pytorch
+
+```pycon
+>>> t0 = tensor(1.0)
+```
+
+```pycon
+>>> t1 = tensor([1.0, 2.0, 3.0])
+```
+
+```pycon
+>>> t2 = tensor([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+```
+
+
+## Examples (scalars, vectors, matrices, images, batches, etc.)
