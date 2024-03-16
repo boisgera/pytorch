@@ -2,6 +2,9 @@
 
 ## Definitions
 
+**TODO:** start with 1-dim and 2-dim tensors, higher-dim and 0-dim later (more complex).
+
+
 **TODO:** formal definition with size and dim an data type(?) as a function of dim indices.
 
 tensor $\simeq$ multi-dimensional array
@@ -104,26 +107,31 @@ Preamble:
 
 ```python
 import torch
-from torch import tensor
 ```
 
 ```pycon
->>> t0 = tensor(1.0)
+>>> t0 = torch.tensor(1.0)
 >>> t0
 tensor(1.)
 ```
 
 ```pycon
->>> t1 = tensor([1.0, 2.0, 3.0])
+>>> t1 = torch.tensor([1.0, 2.0, 3.0])
 >>> t1
 tensor([1., 2., 3.])
 ```
 
-**TODO:**
+```pycon
+>>> t2 = torch.tensor([[1.0, 2.0, 3.0], 
+...                    [4.0, 5.0, 6.0]])
+>>> t2
+tensor([[1., 2., 3.],
+        [4., 5., 6.]])
+```
 
-  - `t.dim()`, `t.size()`, `t.nbytes`
 
-  - the raw data is not easily available ...
+
+
 
 ## Tensor calculus
 
