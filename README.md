@@ -48,3 +48,14 @@
     - Neural networks
 
   - Datasets(?)
+
+
+References
+================================================================================
+
+  - 📖 🇫🇷 [Calcul Différentiel, Intégrale et Stochastique](https://github.com/boisgera/CDIS?tab=readme-ov-file#books-documents) by Sébastien Boisgérault, Thomas Romary, Emilie Chautru et Pauline Bernard.
+
+  - 📖 🇺🇸 [Elements of Differentiable Programming](https://arxiv.org/pdf/2403.14606)
+    by Mathieu Blondel and Vincent Roulet.
+
+
