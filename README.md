@@ -1,4 +1,7 @@
 
+Table of Contents
+================================================================================
+
   - Getting started 
 
     - Overview: the machine learning process
@@ -9,25 +12,37 @@
 
   - Tensors
 
-    - Concepts
+    - What's a tensor?
 
-    - Torch tensors
+    - Operations on tensors
 
-    - Computations
+    - Tensor calculus
 
     - Project: Images
 
   - Differentiation
+    
+    - Differential calculus 
 
-    - Derivative, jacobian matrix, gradient
+      - Derivative, partial derivative 
+    
+      - Gradient, Jacobian Matrix,
+    
+      - Differential, Chain rule
 
-    - Chain rule
+      - higher order differential calculus
 
-  - Automatic differentiation
+    - Differentiable programming:
 
-    - Computation graph
+      - Automatic differentiation
 
-    - Forward/backward differentiation
+      - Computation graph
+
+      - Forward/backward differentiation
+
+      - In Pytorch
+
+      - Tensor, Variable, Function
 
     - Project: Hamiltonian mechanics (?)
 
@@ -37,9 +52,11 @@
 
     - Torch optimizers
 
-    - Project: Rosenbrock function / Map (?)
+    - Project: Quadratic function / Rosenbrock function / Map (?)
 
   - Machine learning models
+
+    - Datasets(?)
 
     - Linear models
 
@@ -47,7 +64,7 @@
 
     - Neural networks
 
-  - Datasets(?)
+
 
 
 References
@@ -58,4 +75,6 @@ References
   - 📖 🇺🇸 [Elements of Differentiable Programming](https://arxiv.org/pdf/2403.14606)
     by Mathieu Blondel and Vincent Roulet.
 
+  - 📖 🇺🇸 [The Little Book of Deep Learning](https://fleuret.org/public/lbdl.pdf) by François Fleuret.
 
+  - 📖 🇺🇸 [Scientific Visualization: Python + Matplotlib](https://www.labri.fr/perso/nrougier/scientific-visualization.html)
