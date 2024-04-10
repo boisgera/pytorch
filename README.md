@@ -54,9 +54,14 @@ Table of Contents
 
     - Project: Quadratic function / Rosenbrock function / Map (?)
 
-  - Machine learning models
+  - Datasets
 
-    - Datasets(?)
+    - Tables & pandas
+
+    - ... (structure & formats & tools "in the wild"?)
+
+  - Machine learning
+
 
     - Linear models
 
