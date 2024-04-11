@@ -131,6 +131,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/linux-64/statsmodels-0.14.1-py312hc7c0aa3_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tbb-2021.11.0-h00ab1b0_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tk-8.6.13-noxft_h4845f30_101.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/torchvision-0.16.1-cpu_py312head212d_3.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/tornado-6.4-py312h98912ed_0.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/xcb-util-0.4.0-hd590300_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/xcb-util-image-0.4.0-h8ee46fc_1.conda
@@ -4666,6 +4667,33 @@ packages:
   - pkg:pypi/tomli
   size: 15940
   timestamp: 1644342331069
+- kind: conda
+  name: torchvision
+  version: 0.16.1
+  build: cpu_py312head212d_3
+  build_number: 3
+  subdir: linux-64
+  url: https://conda.anaconda.org/conda-forge/linux-64/torchvision-0.16.1-cpu_py312head212d_3.conda
+  sha256: 06e10cebd5870828567ea822d4896ff822e952217913e4731b885997d02ba7e9
+  md5: c92f42c335dd42325814caf27719150e
+  depends:
+  - __glibc >=2.17,<3.0.a0
+  - libgcc-ng >=12
+  - libjpeg-turbo >=3.0.0,<4.0a0
+  - libpng >=1.6.43,<1.7.0a0
+  - libstdcxx-ng >=12
+  - libtorch >=2.1.2,<2.2.0a0
+  - numpy >=1.26.4,<2.0a0
+  - pillow >=5.3.0,!=8.3.0,!=8.3.1
+  - python >=3.12,<3.13.0a0
+  - python_abi 3.12.* *_cp312
+  - pytorch 2.1.* cpu*
+  - pytorch >=2.1.2,<2.2.0a0
+  - requests
+  license: BSD-3-Clause
+  license_family: BSD
+  size: 10424739
+  timestamp: 1708903740375
 - kind: pypi
   name: torchviz
   version: 0.0.2
