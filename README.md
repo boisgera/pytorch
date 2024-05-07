@@ -82,4 +82,6 @@ References
 
   - 📖 🇺🇸 [The Little Book of Deep Learning](https://fleuret.org/public/lbdl.pdf) by François Fleuret.
 
+  - 📖 🇺🇸 [Learning Theory from First Principles](https://www.di.ens.fr/~fbach/learning_theory_class/) by Francis Bach.
+
   - 📖 🇺🇸 [Scientific Visualization: Python + Matplotlib](https://www.labri.fr/perso/nrougier/scientific-visualization.html)
