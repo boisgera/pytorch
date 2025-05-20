@@ -3,7 +3,9 @@
 boisgera@wreck:~/tmp/pytorch$ pixi init
 ✔ Created /home/boisgera/tmp/pytorch/pixi.toml
 boisgera@wreck:~/tmp/pytorch$ pixi add python pytorch torchvision
-✔ Added python >=3.13.3,<3.14                                           ✔ Added pytorch >=2.6.0,<3                                              ✔ Added torchvision >=0.21.0,<0.22
+✔ Added python >=3.13.3,<3.14                                           
+✔ Added pytorch >=2.6.0,<3                                              
+✔ Added torchvision >=0.21.0,<0.22
 ```
 
 ```pycon
