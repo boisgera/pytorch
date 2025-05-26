@@ -1,7 +1,18 @@
-.pixi
+# Python
+__pycache__
 
+# Jupyter
 .ipynb_checkpoints
 
-**/data
+# Marimo
+__marimo__
 
-sandbox
+# General
+**/data
+**/cache
+**/sandbox
+**/tmp
+
+# pixi environments
+.pixi
+*.egg-info

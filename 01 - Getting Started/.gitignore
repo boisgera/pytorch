@@ -1,2 +1,3 @@
 data
-model.pth
+**/model.pth
+__marimo__
