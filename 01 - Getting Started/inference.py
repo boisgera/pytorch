@@ -17,6 +17,13 @@ def _():
     return torch, torchvision
 
 
+@app.cell
+def _():
+    import pandas as pd
+    import PIL.Image
+    return PIL, pd
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""We download the subset of the FashionMNIST dataset that has *not* been used to train our model and put it in the `cache` directory.""")
@@ -113,6 +120,12 @@ def _(cls, dataset):
 @app.cell
 def _(dataset):
     dataset.classes # All known categories
+    return
+
+
+@app.cell
+def _(dataset):
+    list([datum[0] for datum in dataset if dataset.classes[datum[1]] == "Sneaker" ])
     return
 
 
@@ -305,7 +318,7 @@ def _(mo):
     \sum_{i=0}^9 e^{s_i} = \sum_{i=0}^9 p_i = 1
     $$
 
-    while in reality, the output of the neural network satisfies this constraint. 
+    while in reality, the output of the neural network satisfies this constraint.
     """
     )
     return
@@ -342,7 +355,6 @@ def _(mo):
     (p_0, \dots, p_9) = \mathrm{softmax}((s_0, \dots, s_9))
     }
     $$
-
     """
     )
     return
@@ -359,13 +371,7 @@ def _(scores, torch):
     softmax = torch.nn.Softmax(dim=1)
     p = softmax(scores).squeeze()
     p
-    return (p,)
-
-
-@app.cell
-def _():
-    import pandas as pd
-    return (pd,)
+    return p, softmax
 
 
 @app.cell
@@ -388,12 +394,74 @@ def _(df):
     plt.ylim(0.0, 1.0)
     plt.grid(True)
     sns.barplot(x="Category", y="Probability", data=df)
-    return
+    return plt, sns
 
 
 @app.cell(hide_code=True)
 def _(best_score_index, cls, dataset, mo, p):
     mo.md(rf"""The real category **{dataset.classes[cls]}** and the neural networked inferred **{dataset.classes[best_score_index]}** with a confidence of **{p[best_score_index]*100:.0f} %**.""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Consolidation""")
+    return
+
+
+@app.cell
+def _(model, pil_to_tensor, softmax, torch):
+    def classify(image):
+        input = pil_to_tensor(image) / (2**8 - 1)
+        with torch.no_grad():
+            logits = model(input)
+        return softmax(logits).squeeze()
+    return (classify,)
+
+
+@app.cell
+def _(dataset, pd, plt, sns):
+    def visualize(probas):
+        df = pd.DataFrame({ "Category": dataset.classes, "Probability": probas})
+        plt.figure(figsize=(10, 2))
+        plt.ylim(0.0, 1.0)
+        plt.grid(True)
+        sns.barplot(x="Category", y="Probability", data=df)
+        return plt.gcf()
+    return (visualize,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""## Out-of-dataset samples""")
+    return
+
+
+@app.cell
+def _(PIL):
+    image_kiprun = PIL.Image.open("images/kiprun-28x28.png")
+    image_kiprun
+    return (image_kiprun,)
+
+
+@app.cell
+def _(classify, image_kiprun, visualize):
+    probas_kiprun = classify(image_kiprun)
+    visualize(probas_kiprun)
+    return
+
+
+@app.cell
+def _(PIL):
+    image_columbia = PIL.Image.open("images/columbia-28x28.png")
+    image_columbia
+    return (image_columbia,)
+
+
+@app.cell
+def _(classify, image_columbia, visualize):
+    probas_columbia = classify(image_columbia)
+    visualize(probas_columbia)
     return
 
 
