@@ -8,7 +8,6 @@ __pycache__
 __marimo__
 
 # General
-**/data
 **/cache
 **/sandbox
 **/tmp
