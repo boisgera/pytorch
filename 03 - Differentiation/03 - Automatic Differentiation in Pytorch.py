@@ -111,6 +111,34 @@ def _(mo):
 
 
 @app.cell
+def _(mo):
+    mo.md(
+        r"""
+    /// warning
+    Any tensor operation done on a tensor with `requires_grad=True` belongs to the computation graph. 
+    To get only the value of such a tensor, detach it from the computation graph, then clone it:
+    ///
+    """
+    )
+    return
+
+
+@app.cell
+def _(torch):
+    _x = torch.tensor(1.0, requires_grad=True)
+    _y = _x + 1.0 # in the computation graph
+    _z = _y.detach().clone()
+    _z + 1.0 # this computation is not tracked!
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""## Application""")
+    return
+
+
+@app.cell
 def _(torch):
     _x_0 = torch.tensor(0.0, requires_grad=True)
     _x_1 = torch.tensor(1.0, requires_grad=True)
