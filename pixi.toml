@@ -23,6 +23,7 @@ scikit-learn = ">=1.6.1,<2"
 graphviz = ">=12.2.1,<13"
 seaborn = ">=0.13.2,<0.14"
 tensorboard = ">=2.19.0,<3"
+pyarrow = ">=20.0.0,<21"
 
 [pypi-dependencies]
 torchviz = ">=0.0.3, <0.0.4"

@@ -5,7 +5,8 @@ __pycache__
 .ipynb_checkpoints
 
 # Marimo
-__marimo__
+**/__marimo__
+**/layouts
 
 # General
 **/cache

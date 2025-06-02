@@ -696,7 +696,6 @@ def _(mo):
         \quad \text{ and } \quad    
         Q^T = Q^{-1}.
     $$
-
     """
     )
     return
@@ -750,7 +749,7 @@ def _(Q, S, b, f_diag, grad_descent, gradient_sequence_plot, plt, torch):
 
         x_min = - (1 / 2) * torch.linalg.inv(S) @ b
         y_min = Q @ x_min 
-    
+
         plt.plot(y_min[0], y_min[1], "k+")
         return plt.gcf()
     _()
@@ -791,8 +790,6 @@ def _(mo):
                    &= (I - 2 \eta \sigma(A)) \cdot e_n
     \end{split}
     $$
-
-
     """
     )
     return
@@ -851,7 +848,6 @@ def _(mo):
     $$
     0 < \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n.
     $$
-
     """
     )
     return
@@ -932,7 +928,6 @@ def _(mo):
     \|e_n\| \leq \left(1 - \frac{1}{\kappa} \right)^n \|e_0\|
     \to 0 \quad \text{ when } \quad n \to +\infty.
     $$
-
     """
     )
     return
