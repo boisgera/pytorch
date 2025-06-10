@@ -249,7 +249,7 @@ def _(df_1):
             "Mercedes": "Mercedes-Benz",
             "Vokswagen": "Volkswagen",
             "VW": "Volkswagen",
-        
+
         }
         name = fixes.get(name) or name
         return name

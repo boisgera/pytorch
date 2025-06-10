@@ -16,9 +16,8 @@ def _(mo):
         r"""
     # Differential Calculus
 
-    [Sébastien Boisgérault], [ITN], Mines Paris - PSL University
+    [Sébastien Boisgérault], Mines Paris - PSL University
 
-    [ITN]: https://itn.dev
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )
@@ -35,19 +34,45 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    /// note | Derivative
+    /// note | Derivative of Scalar-Valued Functions
 
     Let 
 
     $$
-    x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}^p.
+    x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}.
     $$
 
     The derivative of $f$ at $x \in \mathbb{R}$ is defined as
 
     $$
-    f'(x) := \lim_{\Delta x \to 0} \frac{f(x+\Delta x)-f(x)}{\Delta x} \in \mathbb{R}^p.
+    f'(x) := \lim_{\Delta x \to 0} \frac{f(x+\Delta x)-f(x)}{\Delta x} \in \mathbb{R}
     $$
+
+    whenever the limit exists.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note | Derivative of Vector-Valued Functions
+
+    Let 
+
+    $$
+    x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}^m.
+    $$
+
+    The derivative of $f$ at $x \in \mathbb{R}$ is defined as
+
+    $$
+    f'(x) := \lim_{\Delta x \to 0} \frac{f(x+\Delta x)-f(x)}{\Delta x} \in \mathbb{R}^m
+    $$
+
+    whenever the limit exists.
     """
     )
     return
@@ -59,16 +84,37 @@ def _(mo):
         r"""
     /// warning
 
-    The concept of derivative works without problems with scalar or vector-valued functions: 
+    The concept of derivative can also be defined for matrix-valued function or even for generally for arbitrary tensor-valued functions. However, it is only applicable for functions of a single scalar variable.
+
+    ///
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note | Derivatives of Vector-Valued Functions
+
+    The derivative of the function 
 
     $$
-    f(x) \in \mathbb{R}^p,
+    x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}^m
     $$
 
-    but it is only relevant for function of a single real variable: 
+    exists at $x\in \mathbb{R}$ if and only if for every $i \in {1, \dots, n}$, the derivative of the component function
+
 
     $$
-    x\in\mathbb{R}.
+    [f(\bullet )]_i \in \mathbb{R}: x \in \mathbb{R} \mapsto [f(x)]_i \in \mathbb{R}
+    $$
+
+    exists. When this is the case, then for every $i \in {1, \dots, n}$,
+
+    $$
+    [f'(x)]_i = \left([f(\bullet)]_{i}\right)'(x).
     $$
 
     ///
@@ -85,13 +131,13 @@ def _(mo):
     the function
 
     $$
-    \varepsilon(x, \Delta x) := \left(\frac{f(x+\Delta x)-f(x)}{\Delta x} - f'(x)\right) \frac{\Delta x}{|\Delta x|} 
+    \varepsilon_x(\Delta x) := \left(\frac{f(x+\Delta x)-f(x)}{\Delta x} - f'(x)\right) \frac{\Delta x}{|\Delta x|} 
     $$
 
     Then $f$ has a derivative at $x$ if and only iff
 
     $$
-    \lim_{\Delta x \to 0} \varepsilon(x, \Delta x) = 0.
+    \lim_{\Delta x \to 0} \varepsilon_x(\Delta x) = 0.
     $$
     """
     )
@@ -102,16 +148,16 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Given the definition of $\varepsilon$, that means that $f'(x)$ is uniquely characterized as the vector of $\mathbb{R}^p$ such that
+    Given the definition of $\varepsilon$, that means that $f'(x)$ is uniquely characterized as the tensor such that
 
     $$
-    f(x + \Delta x) = f(x) + f'(x) \Delta x + \varepsilon(x, \Delta x) |\Delta x|
+    f(x + \Delta x) = f(x) + f'(x) \Delta x + \varepsilon_x(\Delta x) |\Delta x|
     $$
 
     where 
 
     $$
-    \lim_{\Delta x \to 0} \varepsilon(x, \Delta x) = 0.
+    \lim_{\Delta x \to 0} \varepsilon_x(\Delta x) = 0.
     $$
 
     (If no such vector exists, the derivative $f'(x)$ is undefined.)
@@ -124,11 +170,13 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    This is usually written with the Landau notation:
+    This is usually written with the [Landau] notation:
 
     $$
     f(x + \Delta x) = f(x) + f'(x) \Delta x + o(\Delta x).
     $$
+
+    [Landau]: https://en.wikipedia.org/wiki/Edmund_Landau
     """
     )
     return
@@ -146,13 +194,13 @@ def _(mo):
     For functions of several variables:
 
     $$
-    x \in \mathbb{R}^m \to f(x) \in \mathbb{R}^p
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^{m}
     $$
 
     The partial derivative of $f$ with respect to the $i$th variable $x_i$ at 
 
     $$
-    x=(x_1, \dots, x_m)
+    x=(x_1, \dots, x_n)
     $$
 
     is defined by:
@@ -160,7 +208,7 @@ def _(mo):
     $$
     \partial_i f(x) = \frac{\partial f}{\partial x_i}(x) 
     := 
-    \lim_{\Delta x_i \to 0} \frac{f(x_1, \dots, x_{i-1}, x_i + \Delta x_i, x_{i+1}, \dots)-f(x)}{\Delta x_i} \in \mathbb{R}^p
+    \lim_{\Delta x_i \to 0} \frac{f(x_1, \dots, x_{i-1}, x_i + \Delta x_i, x_{i+1}, \dots)-f(x)}{\Delta x_i} \in \mathbb{R}^m.
     $$
     """
     )
@@ -176,7 +224,7 @@ def _(mo):
     Note that if we consider the $i$th partial function $\phi_i$ of $f$ at $x$:
 
     $$
-    \phi_i(t) := f(x_1, \dots, x_{i-1}, t, x_{i+1}, \dots, x_m)
+    \phi_i(t) := f(x_1, \dots, x_{i-1}, t, x_{i+1}, \dots, x_n)
     $$
 
     then the partial derivative of $f$ at $x$ with respect of the $i$ variable satisfies
@@ -198,16 +246,109 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md(r"""## Scalar-Valued Functions""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(
         r"""
-    ## Jacobian Matrix
+    /// note | Gradient
 
+    For scalar-valued functions of several variables:
+
+    $$
+    f: x \in \mathbb{R}^n \to y \in \mathbb{R},
+    $$
+
+    the gradient of $f$ at $x$ is defined as:
+
+    $$
+    \nabla f(x) := (\partial_1 f(x), \partial_2 f(x), \dots, \partial_n f(x)) \in \R^m
+    $$
+
+    whenever it exists.
+
+    ///
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// tip | Exercise
+
+    Compute the gradient of:
+
+    $$
+    f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
+    $$ 
+
+    ///
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// hint | Solution
+
+    Both partial functions of
+
+    $$
+    f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
+    $$ 
+
+    have a derivative ; 
+    they satisfy 
+
+    $$
+    \partial_1 f(x_1, x_2) = -2(x_2^2 - x_1) + 2 (x_1 - 1)
+    $$ 
+
+    and 
+
+    $$
+    \partial_2 f(x_1, x_2) = 4 (x_2^2 - x_1)x_2.
+    $$ 
+
+    Therefore its gradient is given by
+
+    $$
+    \nabla f(x_1, x_2)
+    =
+    (-2(x_2^2 - x_1) + 2 (x_1 - 1), 4 (x_2^2 - x_1)x_2) \in \R^2.
+    $$
+
+    ///
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Vector-Valued Functions""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
     /// note | Jacobian matrix
 
     Let 
 
     $$
-    x \in \mathbb{R}^m \to f(x) \in \mathbb{R}^p.
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^m.
     $$
 
     The **jacobian matrix** of $f$ at $x$ is defined as:
@@ -220,8 +361,9 @@ def _(mo):
     \partial_1 f (x) & \partial_2 f (x) & \cdots & \partial_n f (x) \\
     \vert & \vert & \cdots & \vert \\
     \end{array}
-    \right] \in \mathbb{R}^{p\times m}.
+    \right] \in \mathbb{R}^{m\times n}.
     $$
+    ///
     """
     )
     return
@@ -236,7 +378,7 @@ def _(mo):
     If $f$ is decomposed into scalar-valued components
 
     $$
-    f(x) = (f_1(x), \dots, f_i(x), \dots, f_p(x))
+    f(x) = (f_1(x), \dots, f_i(x), \dots, f_n(x))
     $$
 
     then we have
@@ -257,6 +399,37 @@ def _(mo):
 
     $$
     J_f(x) := \left[\partial_{j} f_i(x)\right]_{ij}.
+    $$
+
+    ///
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note
+    In the special case where $f(x)$ is a vector of dimension 1
+
+    $$
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^1
+    $$
+
+    we can identify $f(x)$ as its only scalar component, compute its gradient $\nabla f(x) \in \mathbb{R}$ and finally identify this gradient with a row vector of $\mathbb{R}^{1 \times n}$. If we do this, then we have:
+
+    $$
+    J_f(x) = \nabla f(x) = 
+    \left[ 
+    \begin{array}{c}
+    \partial_1 f(x) &
+    \partial_2 f(x) &
+    \cdots &
+    \partial_n f(x)
+    \end{array}
+    \right] \in \R^{1\times n}.
     $$
 
     ///
@@ -342,168 +515,90 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Gradient""")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// note | Gradient
-
-    For functions of several variables but a scalar value:
-
-    $$
-    f: x \in \mathbb{R}^m \to y \in \mathbb{R}
-    $$
-
-    The gradient of $f$ at $x$ is defined as:
-
-    $$
-    \nabla f(x) := (\partial_1 f(x), \partial_2 f(x), \dots, \partial_n f(x)) \in \R^n.
-    $$
-
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// note
-    If we identify $\nabla f(x)$ as column vector, then it is equal to the transposed jacobian matrix of $f$ at $x$:
-
-    $$
-    \nabla f(x) = J_f(x)^{\top} = 
-    \left[ 
-    \begin{array}{c}
-    \partial_1 f(x) \\
-    \partial_2 f(x) \\
-    \vdots \\
-    \partial_n f(x)
-    \end{array}
-    \right] \in \R^{n\times 1}.
-    $$
-
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// tip | Exercise
-
-    Compute the gradient of:
-
-    $$
-    f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
-    $$ 
-
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// hint | Solution
-
-    Both partial functions of
-
-    $$
-    f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
-    $$ 
-
-    have a derivative ; 
-    they satisfy 
-
-    $$
-    \partial_1 f(x_1, x_2) = -2(x_2^2 - x_1) + 2 (x_1 - 1)
-    $$ 
-
-    and 
-
-    $$
-    \partial_2 f(x_1, x_2) = 4 (x_2^2 - x_1)x_2.
-    $$ 
-
-    Therefore
-
-    $$
-    J_f(x_1, x_2) = 
-    \left[ 
-      \begin{array}{cc}
-      -2(x_2^2 - x_1) + 2 (x_1 - 1) &
-      4 (x_2^2 - x_1)x_2
-      \end{array}
-      \right] \in \R^{1 \times 2}.
-    $$
-
-    Its gradient is given by
-
-    $$
-    \nabla f(x_1, x_2)
-    =
-    (-2(x_2^2 - x_1) + 2 (x_1 - 1), 4 (x_2^2 - x_1)x_2) \in \R^2
-    $$
-
-    or, represented as a column vector:
-
-    $$
-    \nabla f(x_1, x_2) = J_f(x_1, x_2)^{\top} =
-    \left[ 
-      \begin{array}{c}
-      -2(x_2^2 - x_1) + 2 (x_1 - 1) \\
-      4 (x_2^2 - x_1)x_2
-      \end{array}
-      \right] \in \R^{2\times 1}.
-    $$
-
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
     mo.md(
         r"""
     ## Differential
 
-    /// note | Differentiable function
+    """
+    )
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note | Differentiable Scalar-Valued Function
 
     Let
 
     $$
-    x \in \mathbb{R}^m \to f(x) \in \mathbb{R}^p.
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}.
+    $$
+
+    The function $f$ is **differentiable at $x$** if its gradient is defined at $x$ and
+
+    $$
+    f(x + \Delta x) = f(x) + \nabla f(x) \cdot \Delta x + o(\Delta x),
+    $$
+
+    that is, if
+
+    $$
+    \frac{f(x + \Delta x) - f(x) - \nabla f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \; 
+    \text{ when } \; \Delta x  \to 0.
+    $$
+
+    The **differential** $df(x)$ at $x$ is associates to a vector $\Delta x$ the gradient-vector contraction:
+
+    $$
+    \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) := \nabla f(x) \cdot \Delta x\in \mathbb{R}.
+    $$ 
+
+
+    """
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(
+        r"""
+
+    /// note | Differentiable Vector-Valued Function
+
+    Let
+
+    $$
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^m.
     $$
 
     The function $f$ is **differentiable at $x$** if the jacobian matrix is defined at $x$ and
 
     $$
-    f(x + \Delta x) = f(x) + J_f(x) \Delta x + o(\Delta x).
+    f(x + \Delta x) = f(x) + J_f(x) \cdot\Delta x + o(\Delta x),
     $$
 
-    In other words, if
+    that is, if
 
     $$
-    \frac{f(x + \Delta x) - f(x) - J_f(x) \Delta x}{\|\Delta x\|} \to 0 \; 
+    \frac{f(x + \Delta x) - f(x) - J_f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \; 
     \text{ when } \; \Delta x  \to 0.
     $$
 
-    In this case, the **jacobian-vector product** (jvp) of $f$ at $x$ is the series expansion of order $1$ of $f$ at $x$. 
+
+    The **differential** $df(x)$ at $x$ associates to a vector $\Delta x$ the jacobian-vector contraction:
+
+    $$
+    \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) := J_f(x) \cdot \Delta x\in \mathbb{R}^m.
+    $$ 
+
     ///
     """
     )
@@ -554,8 +649,8 @@ def _(mo):
 
     /// note | Chain Rule
     If 
-    $f: \mathbb{R}^p \to \mathbb{R}^{m}$ and
-    $g: \mathbb{R}^m \to \mathbb{R}^{r}$ 
+    $f: \mathbb{R}^p \to \mathbb{R}^{n}$ and
+    $g: \mathbb{R}^n \to \mathbb{R}^{m}$ 
     are both differentiable, the composite function $g \circ f$ is differentiable and
 
     $$
@@ -579,7 +674,7 @@ def _(mo):
     mo.md(
         r"""
     /// tip | Implementation
-    Concretely, if there are three variables $x$, $y$ and $z$, such that
+    Concretely, if there are three vector variables $x$, $y$ and $z$, such that
 
     $$
     y = f(x) \; \text{ and } \; z= g(y),
