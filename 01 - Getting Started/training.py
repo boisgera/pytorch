@@ -32,7 +32,6 @@ def _(mo):
     - [ ] Represent its contents appropriately
     - [ ] Understand the purpose of the dataset loading options
     ///
-
     """
     )
     return
@@ -81,6 +80,13 @@ def _():
     return torch, torchvision
 
 
+@app.cell
+def _():
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    return pd, plt
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""## The FashionMNIST Dataset""")
@@ -89,7 +95,7 @@ def _(mo):
 
 @app.cell
 def _(torchvision):
-    # Download training data from open datasets.
+    # Download training data
     training_data = torchvision.datasets.FashionMNIST(
         root="data",
         train=True,
@@ -97,7 +103,7 @@ def _(torchvision):
         transform=torchvision.transforms.ToTensor(),
     )
 
-    # Download test data from open datasets.
+    # Download test data
     test_data = torchvision.datasets.FashionMNIST(
         root="data",
         train=False,
@@ -151,8 +157,7 @@ def _(data, index):
 
 
 @app.cell
-def _(data):
-    import pandas as pd
+def _(data, pd):
     df = [{"image": image, "class": data.classes[index]} for image, index in data]
     df = pd.DataFrame(df)
     df
@@ -182,13 +187,12 @@ def _(t):
 
 
 @app.cell
-def _(t):
+def _(plt, t):
     # No information has been lost in the conversion process!
-    import matplotlib.pyplot as plt
     plt.imshow(t.squeeze(), cmap="grey")
     plt.colorbar()
     plt.gcf()
-    return (plt,)
+    return
 
 
 @app.cell(hide_code=True)
@@ -227,40 +231,23 @@ def _(mo):
 
 @app.cell
 def _(torch):
-    class NeuralNetwork(torch.nn.Module):
-        def __init__(self):
-            super().__init__()
-            self.flatten = torch.nn.Flatten()
-            self.linear_1 = torch.nn.Linear(28*28, 512)
-            self.relu_1 = torch.nn.ReLU()
-            self.linear_2 = torch.nn.Linear(512, 512)
-            self.relu_2 = torch.nn.ReLU()
-            self.linear_3 = torch.nn.Linear(512, 10)
+    model = torch.nn.Sequential(
+        torch.nn.Flatten(),
+        torch.nn.Linear(28*28, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 10),
+    )
 
-        def forward(self, image_tensor):
-            image_flat = self.flatten(image_tensor)
-            x_0 = image_flat
-            x_1 = self.linear_1(x_0)
-            x_1 = self.relu_1(x_1)
-            x_2 = self.linear_2(x_1)
-            x_2 = self.relu_2(x_2)
-            x_3 = self.linear_3(x_2)
-            logits = x_3
-            return logits
-    return (NeuralNetwork,)
-
-
-@app.cell
-def _(NeuralNetwork):
-    model = NeuralNetwork()
     model
     return (model,)
 
 
 @app.cell
-def _(model, torch):
+def _():
     # Load the (trained) model state for this architecture
-    model.load_state_dict(torch.load("models/base-model.pth"))
+    # model.load_state_dict(torch.load("models/base-model.pth"))
     return
 
 
@@ -385,7 +372,7 @@ def _(mo):
 
 @app.cell
 def _(model):
-    model.flatten
+    model[0]
     return
 
 
@@ -678,18 +665,23 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    ```{warning}
+    /// warning
+
     The pytorch cross entropy function works directly with unnormalized log probabilities 
+
     $$
     \ell_i := \log p_i + c
     $$
+
     (the log probabilities up to a shared constant $c$) instead of the probabilites $p$. 
     The deterministic distribution is also specified by the index $i$ instead of the vector $q=e_i$.
     Hence, it actually computes
+
     $$
     \mathrm{loss}(\ell, i) := -\ell_i  + \log \left( \sum_je^{\ell_j} \right). 
     $$
-    ```
+
+    ///
     """
     )
     return
@@ -822,41 +814,40 @@ def _(torch):
 
 
 @app.cell
-def _(NeuralNetwork, test, test_dataloader, torch, train_dataloader):
-    model_1 = NeuralNetwork()
-    model_1.train()
-    optimizer = torch.optim.SGD(model_1.parameters(), lr=0.001)
-    _loss_function = torch.nn.CrossEntropyLoss()
-    score = 0.0
-    new_score = test(test_dataloader, model_1, _loss_function)
-    epoch = 0
-    keep_learning = True
-    while keep_learning:
-        epoch = epoch + 1
-        score = new_score
-        print(f'Epoch {epoch + 1}\n-------------------------------')
-        train(train_dataloader, model_1, _loss_function, optimizer)
-        new_score = test(test_dataloader, model_1, _loss_function)
-        keep_learning = new_score > score
-    print('Done!')
-    return (model_1,)
+def _(model, test, test_dataloader, torch, train_dataloader):
+    def learn(max_epoch=10, lr=1e-3):
+        model.train()
+        optimizer = torch.optim.SGD(model.parameters(), lr=lr)
+        loss_function = torch.nn.CrossEntropyLoss()
+    
+        score = 0.0
+        new_score = test(test_dataloader, model, loss_function)
+        epoch = 0
+    
+        while True:
+            if epoch >= max_epoch or new_score <= score:
+                break
+            epoch = epoch + 1
+            score = new_score
+            print(f'Epoch {epoch}\n-------------------------------')
+            train(train_dataloader, model, loss_function, optimizer)
+            new_score = test(test_dataloader, model, loss_function)
+        print("Done!")
+
+    learn(lr=5e-1)
+    return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""## Saving the Model""")
     return
 
 
 @app.cell
-def _(model_1, torch):
-    torch.save(model_1.state_dict(), 'models/model.pth')
-    print('Saved PyTorch Model State to model.pth')
-    return
-
-
-@app.cell
-def _():
+def _(model, torch):
+    torch.save(model.state_dict(), "models/model.pth")
+    print("Saved PyTorch Model State to 'models/model.pth'")
     return
 
 
