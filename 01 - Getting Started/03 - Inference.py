@@ -10,6 +10,41 @@ def _():
     return (mo,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    # Inference
+
+    [Sébastien Boisgérault], Mines Paris - PSL University
+
+    Source: [Pytorch tutorials](https://docs.pytorch.org/tutorials/)
+
+
+    [Sébastien Boisgérault]: mailto://Sebastien.Boisgerault@minesparis.psl.eu
+
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note | Learning Objectives
+    - [ ] Load a pre-trained neural network model
+    - [ ] Understand its output
+    - [ ] Use it for classification
+    - [ ] Use it in batched mode
+    - [ ] Evaluate the confidence in its answers
+
+    ///
+    """
+    )
+    return
+
+
 @app.cell
 def _():
     import torch
@@ -19,9 +54,11 @@ def _():
 
 @app.cell
 def _():
+    import matplotlib.pyplot as plt
     import pandas as pd
     import PIL.Image
-    return PIL, pd
+    import seaborn as sns; sns.set_theme()
+    return PIL, pd, plt, sns
 
 
 @app.cell(hide_code=True)
@@ -38,18 +75,6 @@ def _(torchvision):
 
 
 @app.cell
-def _(mo):
-    mo.md(
-        r"""
-    Any item in this dataset is a pair of [PIL] Image and class index.
-
-    [PIL]: https://he-arc.github.io/livre-python/pillow/index.html
-    """
-    )
-    return
-
-
-@app.cell
 def _(dataset):
     index = 0 # Select your item
     assert 0 <= index < len(dataset)
@@ -59,12 +84,6 @@ def _(dataset):
 @app.cell
 def _(dataset, index):
     datum = dataset[index]
-    datum
-    return (datum,)
-
-
-@app.cell
-def _(datum):
     image, cls = datum
     return cls, image
 
@@ -72,60 +91,6 @@ def _(datum):
 @app.cell
 def _(image):
     image
-    return
-
-
-@app.cell
-def _(image):
-    image.width, image.height
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""`image.mode = 'L'` stands for 8-bit grayscale, see [PIL modes](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes).""")
-    return
-
-
-@app.cell
-def _(image):
-    image.mode
-    return
-
-
-@app.cell
-def _(image):
-    image.format_description
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""The list of all object classes is available in `dataset.classes`. Use the class index as an index into this list to get the class name.""")
-    return
-
-
-@app.cell
-def _(dataset):
-    dataset.classes
-    return
-
-
-@app.cell
-def _(cls, dataset):
-    dataset.classes[cls] # Item category
-    return
-
-
-@app.cell
-def _(dataset):
-    dataset.classes # All known categories
-    return
-
-
-@app.cell
-def _(dataset):
-    list([datum[0] for datum in dataset if dataset.classes[datum[1]] == "Sneaker" ])
     return
 
 
@@ -345,14 +310,12 @@ def _(dataset, p, pd):
 
 
 @app.cell
-def _(df):
-    import matplotlib.pyplot as plt
-    import seaborn as sns
+def _(df, plt, sns):
     plt.figure(figsize=(10, 2))
     plt.ylim(0.0, 1.0)
     plt.grid(True)
     sns.barplot(x="Category", y="Probability", data=df)
-    return plt, sns
+    return
 
 
 @app.cell(hide_code=True)
@@ -390,28 +353,40 @@ def _(dataset, pd, plt, sns):
 
 
 @app.cell
+def _(classify, image, visualize):
+    visualize(probas=classify(image))
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(r"""## Batched Prediction""")
     return
 
 
 @app.cell
-def _(torch, training_data):
+def _(dataset, pil_to_tensor, torch):
     images = []
-    for i, (image_1, _) in enumerate(training_data):
-        if i >= 10:
+    for _i, (_image, _) in enumerate(dataset):
+        if _i >= 10:
             break
-        images.append(image_1)
+        images.append(pil_to_tensor(_image) / 255)
     images_tensor = torch.cat(images)
     images_tensor
     return (images_tensor,)
 
 
 @app.cell
+def _(images_tensor):
+    images_tensor.shape
+    return
+
+
+@app.cell
 def _(images_tensor, model, torch):
     with torch.no_grad():
-        output = model(images_tensor)
-    output
+        logits = model(images_tensor)
+    logits
     return
 
 

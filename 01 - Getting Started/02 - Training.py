@@ -16,41 +16,11 @@ def _(mo):
         r"""
     # Training
 
+    [Sébastien Boisgérault], Mines Paris - PSL University
+
     Source: [Pytorch tutorials](https://docs.pytorch.org/tutorials/)
-    """
-    )
-    return
 
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        rf"""
-    /// note | Learning Objectives
-
-    - [ ] Understand the structure of the FashionMNIST dataset
-    - [ ] Represent its contents appropriately
-    - [ ] Understand the purpose of the dataset loading options
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// note | Learning Objectives
-    - [ ] Load the pre-trained neural network model
-    - [ ] Understand its output
-    - [ ] Use it for classification
-    - [ ] Use it in batched mode
-    - [ ] Evaluate the confidence in its answers
-    - [ ] Understand the components it uses
-    - [ ] Get the model parameters
-    - [ ] Replicate manually its computation
-    ///
+    [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )
     return
@@ -61,12 +31,28 @@ def _(mo):
     mo.md(
         r"""
     /// Note | Learning Objectives
-    - [ ] Understand the loss function concept
-    - [ ] Understand what cross-entropy computes
-    - [ ] Understand what data loader does (at a high-level)
-    - [ ] Understand what the training loop does (at a high-level)
-    - [ ] Estimate model accuracy
-    - [ ] Save a model
+
+    **Everything is a Tensor**
+
+    - [ ] Understand the principle of conversion of images as tensors,
+    - [ ] Know why the single-precision floating-point numbers are used,
+
+    **Model Architecture**
+
+    - [ ] Learn how to assemble a model as a sequence of elementary models,
+    - [ ] Understand the basic components that compose a neural network,
+
+    **Loss Function**
+
+    - [ ] Understand the concept of loss function,
+    - [ ] Understand what cross-entropy computes and why it's appropriate here,
+
+    **Training**
+
+    - [ ] Understand what data loader does (at a high-level),
+    - [ ] Understand what the training loop does (at a high-level),
+    - [ ] Learn how to estimate model accuracy,
+    - [ ] Learn how to read and save the model parameters,
     ///
     """
     )
@@ -84,7 +70,7 @@ def _():
 def _():
     import matplotlib.pyplot as plt
     import pandas as pd
-    return pd, plt
+    return (plt,)
 
 
 @app.cell(hide_code=True)
@@ -113,92 +99,25 @@ def _(torchvision):
     return test_data, training_data
 
 
-@app.cell
-def _(torchvision):
-    # by default: training data set, no input/output transform, no download
-    data = torchvision.datasets.FashionMNIST(root="data") 
-    data
-    return (data,)
-
-
-@app.cell
-def _(data):
-    # data is list-like ; each item in an input-output pair
-    datum = data[0]
-    datum
-    return (datum,)
-
-
-@app.cell
-def _(datum):
-    image, index = datum
-    return image, index
-
-
-@app.cell
-def _(image):
-    image
-    return
-
-
-@app.cell
-def _(data):
-    # The output is a number that denotes the class of the pictured object. 
-    # The list of classes is:
-    data.classes
-    return
-
-
-@app.cell
-def _(data, index):
-    # Get the category name from the index:
-    data.classes[index] # that checks out!
-    return
-
-
-@app.cell
-def _(data, pd):
-    df = [{"image": image, "class": data.classes[index]} for image, index in data]
-    df = pd.DataFrame(df)
-    df
-    return (df,)
-
-
-@app.cell
-def _(df):
-    df.head()
-    return
-
-
-@app.cell
-def _(image, torchvision):
-    # Pytorch only want to deal with numeric array called "tensors", not images.
-    # So, we need to transform the input
-    image_to_tensor = torchvision.transforms.ToTensor()
-    t = image_to_tensor(image)
-    t
-    return (t,)
-
-
-@app.cell
-def _(t):
-    t.shape, t.dtype
-    return
-
-
-@app.cell
-def _(plt, t):
-    # No information has been lost in the conversion process!
-    plt.imshow(t.squeeze(), cmap="grey")
-    plt.colorbar()
-    plt.gcf()
-    return
-
-
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""## Model Architecture""")
     return
+
+
+@app.cell
+def _(torch):
+    model = torch.nn.Sequential(
+        torch.nn.Flatten(),
+        torch.nn.Linear(28*28, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 10),
+    )
+
+    model
+    return (model,)
 
 
 @app.cell(hide_code=True)
@@ -208,7 +127,7 @@ def _(mo):
     The model architecture is going to assign to each image input the vector of probability $p_i$ that the item belongs to the $i$th class.
     The class prediction is simply the class with the highest probability, but the fact that all $p_i$ are known allows us to evaluate the trust that we should have in the prediction.
 
-    The nitty-gritty details: the model does actually not output the probabilities $p_i \in [0, 1]$ directly but the corresponding unnormalized log probabilities
+    The nitty-gritty details: the model does actually not output the probabilities $p_i \in [0, 1]$ directly but the corresponding unnormalized log probabilities (or logits)
 
     $$
     \ell_i := \log p_i + c
@@ -230,25 +149,13 @@ def _(mo):
 
 
 @app.cell
-def _(torch):
-    model = torch.nn.Sequential(
-        torch.nn.Flatten(),
-        torch.nn.Linear(28*28, 512),
-        torch.nn.ReLU(),
-        torch.nn.Linear(512, 512),
-        torch.nn.ReLU(),
-        torch.nn.Linear(512, 10),
-    )
-
-    model
-    return (model,)
-
-
-@app.cell
 def _(plt, training_data):
     image_tensor, cls = training_data[0]
     plt.imshow(image_tensor.squeeze(), cmap="grey")
     plt.grid(False)
+    plt.colorbar()
+    plt.gcf()
+
     return (image_tensor,)
 
 
@@ -311,21 +218,19 @@ def _(mo):
     return
 
 
-@app.cell
-def _(model, torch):
+@app.cell(hide_code=True)
+def _(mo, model, torch):
     num_params = 0
     for _p in model.parameters():
         num_params = num_params + torch.prod(torch.tensor(_p.shape)).item()
-    return (num_params,)
-
-
-@app.cell(hide_code=True)
-def _(mo, num_params):
+    
     mo.md(
         rf"""
+    /// hint | Solution
     There are {num_params} ($\approx$ {num_params // 1_000}K) parameters in the model. 
 
     The size of each parameter is 4B, hence the total size is {round(num_params * 4 / 1_000_000, 1)}MB.
+    ///
     """
     )
     return
@@ -489,7 +394,7 @@ def _(mo):
 
 @app.cell
 def _(torch):
-    _loss_function = torch.nn.CrossEntropyLoss()
+    loss_function = torch.nn.CrossEntropyLoss()
     return
 
 

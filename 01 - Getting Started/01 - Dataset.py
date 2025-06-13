@@ -24,6 +24,20 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// note | Learning Objectives
+
+     - [ ] **Fetch a Dataset**. Load the FashionMNIST dataset,
+     - [ ] **Explore a Dataset.** Determine its main characteristics (contents, size, etc.),
+     - [ ] **Data Preprocessing.** Get familiar with the image process ing required to make such a dataset. 
+    """
+    )
+    return
+
+
 @app.cell
 def _():
     import torchvision
@@ -37,7 +51,8 @@ def _():
     import PIL.Image
     import PIL.ImageDraw
     import PIL.ImageEnhance
-    return PIL, np, pd
+    import scipy.ndimage
+    return PIL, np, pd, scipy
 
 
 @app.cell
@@ -130,7 +145,7 @@ def _():
     return (image_filename,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(PIL, image_filename, mo):
     image = PIL.Image.open(image_filename)
     mo.md(rf"""
@@ -159,6 +174,7 @@ def _(error, mo):
 def _(PIL, image_filename):
     image_thumbnail = PIL.Image.open(image_filename)
     image_thumbnail.thumbnail((200, 200))
+    image_thumbnail
     return
 
 
