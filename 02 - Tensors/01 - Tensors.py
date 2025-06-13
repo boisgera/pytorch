@@ -16,9 +16,8 @@ def _(mo):
         r"""
     # Tensors
 
-    [Sébastien Boisgérault], [ITN], Mines Paris - PSL University
+    [Sébastien Boisgérault], Mines Paris - PSL University
 
-    [ITN]: https://itn.dev
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )

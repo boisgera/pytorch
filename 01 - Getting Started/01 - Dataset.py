@@ -14,7 +14,7 @@ def _():
 def _(mo):
     mo.md(
         r"""
-    # Datasets
+    # Dataset
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
@@ -75,11 +75,13 @@ def _(dataset):
 
 @app.cell(hide_code=True)
 def _(image_0001, mo):
-    mo.md(rf"""
+    mo.md(
+        rf"""
     In this dataset, images are {image_0001.width}$\times${image_0001.height} thumbnails. They are also greyscale with the intensity coded on 8 bits (mode "L", see [Pillow Modes]).
 
     [Pillow Modes]: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
-    """)
+    """
+    )
     return
 
 
