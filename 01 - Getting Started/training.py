@@ -197,7 +197,7 @@ def _(plt, t):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Neural Network Model""")
+    mo.md(r"""## Model Architecture""")
     return
 
 
@@ -245,25 +245,16 @@ def _(torch):
 
 
 @app.cell
-def _():
-    # Load the (trained) model state for this architecture
-    # model.load_state_dict(torch.load("models/base-model.pth"))
-    return
-
-
-@app.cell
 def _(plt, training_data):
     image_tensor, cls = training_data[0]
     plt.imshow(image_tensor.squeeze(), cmap="grey")
     plt.grid(False)
-    None
     return (image_tensor,)
 
 
 @app.cell
-def _(image_tensor, model, torch):
-    with torch.no_grad():
-        logits = model(image_tensor)
+def _(image_tensor, model):
+    logits = model(image_tensor)
     logits = logits.squeeze()
     logits
     return (logits,)
@@ -280,48 +271,24 @@ def _(logits, torch):
 def _(probas, training_data):
     probas_dict = {training_data.classes[i]: _p.item() for i, _p in enumerate(probas)}
     probas_dict
-    return (probas_dict,)
-
-
-@app.cell
-def _(plt, probas_dict):
-    import seaborn as sns; sns.set_theme()
-    sns.barplot(probas_dict)
-    plt.gcf().set_figwidth(12)
-    plt.gca().set_ylabel("Probability")
-    None
-    return (sns,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""### Batched Prediction""")
-    return
-
-
-@app.cell
-def _(torch, training_data):
-    images = []
-    for i, (image_1, _) in enumerate(training_data):
-        if i >= 10:
-            break
-        images.append(image_1)
-    images_tensor = torch.cat(images)
-    images_tensor
-    return image_1, images_tensor
-
-
-@app.cell
-def _(images_tensor, model, torch):
-    with torch.no_grad():
-        output = model(images_tensor)
-    output
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Parameters""")
+    mo.md(r"""### Model State (Parameters)""")
+    return
+
+
+@app.cell
+def _(model):
+    model.state_dict()
+    return
+
+
+@app.cell
+def _(model):
+    list(model.parameters())
     return
 
 
@@ -336,9 +303,9 @@ def _(model):
 def _(mo):
     mo.md(
         r"""
-    ```{tip} Model Size
+    /// tip | Model Size
     How many scalar parameters describe the model? What is the corresponding model size in MB?
-    ```
+    ///
     """
     )
     return
@@ -354,13 +321,19 @@ def _(model, torch):
 
 @app.cell(hide_code=True)
 def _(mo, num_params):
-    mo.md(rf"""There are {num_params} ($\approx$ {num_params // 1_000}K) parameters in the model. The size of each parameter is 4B, hence the total size is {round(num_params * 4 / 1_000_000, 1)}MB.""")
+    mo.md(
+        rf"""
+    There are {num_params} ($\approx$ {num_params // 1_000}K) parameters in the model. 
+
+    The size of each parameter is 4B, hence the total size is {round(num_params * 4 / 1_000_000, 1)}MB.
+    """
+    )
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Under the Hood""")
+    mo.md(r"""### Components""")
     return
 
 
@@ -372,20 +345,28 @@ def _(mo):
 
 @app.cell
 def _(model):
-    model[0]
+    flatten = model[0]
+    flatten
+    return (flatten,)
+
+
+@app.cell
+def _(image_tensor):
+    image_tensor
     return
 
 
 @app.cell
-def _(image_1):
-    t_1 = image_1
-    t_1
-    return (t_1,)
+def _(flatten, image_tensor):
+    image_vector = flatten(image_tensor)
+    image_vector
+    return (image_vector,)
 
 
 @app.cell
-def _(model, t_1):
-    model.flatten(t_1)
+def _(image_tensor, image_vector):
+    print("before flatten:", image_tensor.shape)
+    print("after flatten:", image_vector.shape)
     return
 
 
@@ -397,90 +378,51 @@ def _(mo):
 
 @app.cell
 def _(model):
-    model.linear_1
+    linear_1 = model[1]
+    linear_1
+    return (linear_1,)
+
+
+@app.cell
+def _(linear_1):
+    list(linear_1.parameters())
     return
 
 
 @app.cell
-def _(torch):
-    linop = torch.nn.Linear(1, 2)
-    linop.weight, linop.bias
-    return (linop,)
-
-
-@app.cell
-def _(linop):
-    list(linop.parameters())
+def _(linear_1):
+    dict(linear_1.named_parameters())
     return
 
 
 @app.cell
-def _(torch):
-    input = torch.linspace(0.0, 5.0, 6)
-    input
-    return (input,)
-
-
-@app.cell
-def _(input, linop, torch):
-    with torch.no_grad():
-        input_t = input.reshape(1, -1, 1)
-        output_t = linop(input_t)
-    output_1 = output_t.squeeze()
-    return (output_1,)
-
-
-@app.cell
-def _(input, output_1, plt):
-    plt.plot(input, output_1)
-    None
+def _(linear_1):
+    linear_1.state_dict()
     return
 
 
 @app.cell
-def _(model):
-    model.linear_1.in_features == 28 * 28
+def _(linear_1):
+    linear_1.weight.shape
     return
 
 
 @app.cell
-def _(model):
-    linear_1_params = {name: param.data for name, param in model.linear_1.named_parameters()}
-    linear_1_params
-    return (linear_1_params,)
+def _(linear_1):
+    linear_1.bias.shape
+    return
 
 
 @app.cell
-def _(linear_1_params):
-    b1 = linear_1_params["bias"]
-    b1.shape
-    return (b1,)
+def _(image_vector, linear_1):
+    image_vector_lin_1 = linear_1(image_vector)
+    image_vector_lin_1
+    return (image_vector_lin_1,)
 
 
 @app.cell
-def _(linear_1_params):
-    A1 = linear_1_params["weight"]
-    A1.shape
-    return (A1,)
-
-
-@app.cell
-def _(A1, b1, image_1, torch):
-    t_2 = image_1
-    print(t_2.shape)
-    tf = torch.flatten(t_2)
-    print(tf.shape)
-    x1 = A1 @ tf + b1
-    x1
-    return t_2, x1
-
-
-@app.cell
-def _(plt, x1):
-    plt.imshow(x1.reshape((2**5, 2**4)))
-    plt.grid(False)
-    plt.colorbar()
-    None
+def _(image_vector, linear_1):
+    linear_1.weight @ image_vector.squeeze() + linear_1.bias
     return
 
 
@@ -491,127 +433,39 @@ def _(mo):
 
 
 @app.cell
-def _(model, x1):
-    x1_1 = model.relu_1(x1)
-    x1_1
-    return (x1_1,)
+def _(model):
+    relu = model[2]
+    return (relu,)
+
+
+@app.cell
+def _(relu):
+    relu
+    return
+
+
+@app.cell
+def _(image_vector_lin_1):
+    image_vector_lin_1
+    return
+
+
+@app.cell
+def _(image_vector_lin_1, relu):
+    relu(image_vector_lin_1)
+    return
 
 
 @app.cell
 def _(plt, torch):
-    relu = torch.nn.ReLU()
-    input_1 = torch.linspace(-3.0, 3.0, 7)
-    relu(input_1)
-    plt.plot(input_1, relu(input_1))
-    plt.axis('equal')
-    None
-    return
-
-
-@app.cell
-def _(plt, x1_1):
-    plt.imshow(x1_1.reshape((2 ** 5, 2 ** 4)))
-    plt.grid(False)
-    plt.colorbar()
-    None
-    return
-
-
-@app.cell
-def _(model):
-    list(model.relu_1.named_parameters())
-    return
-
-
-@app.cell
-def _(model, x1_1):
-    linear_2_params = {name: param.data for name, param in model.linear_2.named_parameters()}
-    A2 = linear_2_params['weight']
-    b2 = linear_2_params['bias']
-    x2 = A2 @ x1_1 + b2
-    x2
-    return (x2,)
-
-
-@app.cell
-def _(plt, x2):
-    plt.imshow(x2.reshape((2**5, 2**4)))
-    plt.grid(False)
-    plt.colorbar()
-    None
-    return
-
-
-@app.cell
-def _(model, x2):
-    x2_1 = model.relu_2(x2)
-    x2_1
-    return (x2_1,)
-
-
-@app.cell
-def _(plt, x2_1):
-    plt.imshow(x2_1.reshape((2 ** 5, 2 ** 4)))
-    plt.grid(False)
-    plt.colorbar()
-    None
-    return
-
-
-@app.cell
-def _(model, x2_1):
-    linear_3_params = {name: param.data for name, param in model.linear_3.named_parameters()}
-    A3 = linear_3_params['weight']
-    b3 = linear_3_params['bias']
-    x3 = A3 @ x2_1 + b3
-    x3
-    return (x3,)
-
-
-@app.cell
-def _(torch, x3):
-    def softmax(x):
-        return torch.nn.functional.softmax(x, dim=0)
-    probas_1 = softmax(x3)
-    probas_1
-    return (probas_1,)
-
-
-@app.cell
-def _(probas_1, training_data):
-    data_1 = {training_data.classes[i]: _p.item() for i, _p in enumerate(probas_1)}
-    data_1
-    return (data_1,)
-
-
-@app.cell
-def _(data_1, plt, sns):
-    sns.barplot(data_1)
-    plt.gcf().set_figwidth(12)
-    plt.gca().set_ylabel('Probability')
-    None
-    return
-
-
-@app.cell
-def _(model, t_2):
-    out = model(t_2).squeeze()
-    return (out,)
-
-
-@app.cell
-def _(out, torch):
-    ps = torch.nn.functional.softmax(out, dim=-1)
-    return (ps,)
-
-
-@app.cell
-def _(plt, ps, sns, training_data):
-    data_2 = {training_data.classes[i]: _p.item() for i, _p in enumerate(ps)}
-    sns.barplot(data_2)
-    plt.gcf().set_figwidth(12)
-    plt.gca().set_ylabel('Probability')
-    None
+    def _():
+        relu = torch.nn.ReLU()
+        input_1 = torch.linspace(-3.0, 3.0, 7)
+        relu(input_1)
+        plt.plot(input_1, relu(input_1))
+        plt.axis("equal")
+        return plt.gcf()
+    _()
     return
 
 
@@ -819,11 +673,11 @@ def _(model, test, test_dataloader, torch, train_dataloader):
         model.train()
         optimizer = torch.optim.SGD(model.parameters(), lr=lr)
         loss_function = torch.nn.CrossEntropyLoss()
-    
+
         score = 0.0
         new_score = test(test_dataloader, model, loss_function)
         epoch = 0
-    
+
         while True:
             if epoch >= max_epoch or new_score <= score:
                 break
@@ -834,7 +688,7 @@ def _(model, test, test_dataloader, torch, train_dataloader):
             new_score = test(test_dataloader, model, loss_function)
         print("Done!")
 
-    learn(lr=5e-1)
+    learn(lr=1e-2)
     return
 
 

@@ -137,64 +137,22 @@ def _(mo):
 
 @app.cell
 def _(torch):
-    class NeuralNetwork(torch.nn.Module):
-        def __init__(self):
-            super().__init__()
-            self.flatten = torch.nn.Flatten()
-            self.linear_1 = torch.nn.Linear(28*28, 512)
-            self.relu_1 = torch.nn.ReLU()
-            self.linear_2 = torch.nn.Linear(512, 512)
-            self.relu_2 = torch.nn.ReLU()
-            self.linear_3 = torch.nn.Linear(512, 10)
+    model = torch.nn.Sequential(
+        torch.nn.Flatten(),
+        torch.nn.Linear(28*28, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 512),
+        torch.nn.ReLU(),
+        torch.nn.Linear(512, 10),
+    )
 
-        def forward(self, image_tensor):
-            image_flat = self.flatten(image_tensor)
-            x_0 = image_flat
-            x_1 = self.linear_1(x_0)
-            x_1 = self.relu_1(x_1)
-            x_2 = self.linear_2(x_1)
-            x_2 = self.relu_2(x_2)
-            x_3 = self.linear_3(x_2)
-            logits = x_3
-            return logits
-    return (NeuralNetwork,)
-
-
-@app.cell
-def _(NeuralNetwork):
-    model = NeuralNetwork()
     model
     return (model,)
 
 
 @app.cell
-def _(model):
-    model.linear_1.weight
-    return
-
-
-@app.cell
-def _(model):
-    model.state_dict()
-    return
-
-
-@app.cell
-def _(model):
-    for key, value in model.state_dict().items():
-        print(key)
-    return
-
-
-@app.cell
-def _(model):
-    model.linear_1.weight
-    return
-
-
-@app.cell
 def _(torch):
-    state_dict = torch.load("models/base-model.pth")
+    state_dict = torch.load("models/model.pth")
     state_dict
     return (state_dict,)
 
@@ -429,6 +387,32 @@ def _(dataset, pd, plt, sns):
         sns.barplot(x="Category", y="Probability", data=df)
         return plt.gcf()
     return (visualize,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""## Batched Prediction""")
+    return
+
+
+@app.cell
+def _(torch, training_data):
+    images = []
+    for i, (image_1, _) in enumerate(training_data):
+        if i >= 10:
+            break
+        images.append(image_1)
+    images_tensor = torch.cat(images)
+    images_tensor
+    return (images_tensor,)
+
+
+@app.cell
+def _(images_tensor, model, torch):
+    with torch.no_grad():
+        output = model(images_tensor)
+    output
+    return
 
 
 @app.cell

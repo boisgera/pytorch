@@ -1,5 +1,6 @@
 # Python
 __pycache__
+*.egg-info
 
 # Jupyter
 .ipynb_checkpoints
@@ -13,6 +14,6 @@ __pycache__
 **/sandbox
 **/tmp
 
-# pixi environments
+# Pixi environments
 .pixi
-*.egg-info
+
