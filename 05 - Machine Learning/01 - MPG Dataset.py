@@ -12,7 +12,55 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# MPG Dataset""")
+    mo.md(
+        r"""
+    # MPG Dataset
+
+    [Sébastien Boisgérault], Mines Paris - PSL University
+
+    [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    /// tip | Learning Objectives
+    - [ ] Fetch the data set (use API and CSV to learn both ways),
+    - [ ] Explore the metadata, interpret the info,
+    - [ ] Make a dataframe from the data,
+    - [ ] Make a seaborn pairplot with the suitable hue,
+    - [ ] Clean-up: manage NaNs, fix errors, fix data types, get the brands, etc.
+    - [ ] Save your result in a suitable format.
+
+    """
+    )
+    return
+
+
+@app.cell
+def _():
+    import csv
+    import pathlib
+    return (pathlib,)
+
+
+@app.cell
+def _():
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import requests
+    import seaborn as sns; sns.set_theme()
+    import ucimlrepo
+    return pd, requests, sns, ucimlrepo
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Dataset""")
     return
 
 
@@ -29,88 +77,6 @@ def _(mo):
     [Auto MPG - UCI Machine Learning Repository]: https://archive.ics.uci.edu/dataset/9/auto+mpg
     """
     )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// tip | TODO
-    - [ ] get the data from the instructions of the web page (use both stuff; API and CSV to learn how to do it)
-    - [ ] explore the metadata, interpret the info
-    - [ ] make a dataframe from the data
-    - [ ] clean-up: manage NaNs, get suitable categorical values when needed
-    - [ ] make a seaborn pairplot with the suitable hue
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// tip | TODO
-    - [ ] Linear and affine prediction from weights only: do it with `torch.linalg.lstsq`, 
-    - [ ] scatter the results (`pairplot` or `scatter`)
-    - [ ] compute RMS error and associated relative error (as a %)
-    - [ ] Replace weight with its inverse (affine model), do it again.
-    - [ ] Use pytorch and SGD to get the same result ; find the "best" lr. This is a failure, investigate (theoretically)
-    - [ ] Improve the convergence with momentum
-    - [ ] Improve the convergence with rescaling (predict how well the algo is gonna do, then do it)
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
-    /// tip | TODO
-    - [ ] Try power laws with weights?
-    - [ ] Improve with extra variables (ex: years ?)
-    - [ ] Try other, non-linear architectures (ex: nn) ; take care of over-learning!!!
-    ///
-    """
-    )
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""Python Standard Library:""")
-    return
-
-
-@app.cell
-def _():
-    import csv
-    import pathlib
-    return (pathlib,)
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md("""Third-Party Librairies:""")
-    return
-
-
-@app.cell
-def _():
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    import requests
-    import seaborn as sns; sns.set_theme()
-    import ucimlrepo
-    return pd, requests, sns, ucimlrepo
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""## Dataset""")
     return
 
 
@@ -198,11 +164,6 @@ def _(df, pathlib, pd, requests):
     df_ = pd.read_csv("tmp/auto_mpg.csv")
     assert all(df == df_)
     df_
-    return
-
-
-@app.cell
-def _():
     return
 
 

@@ -12,7 +12,7 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# MPG Model""")
+    mo.md(r"""# MPG Linear Model""")
     return
 
 
@@ -20,14 +20,15 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    /// tip | TODO
-    - [ ] Linear and affine prediction from weights only: do it with `torch.linalg.lstsq`, 
-    - [ ] scatter the results (`pairplot` or `scatter`)
+    /// tip | Learning Objectives
+    - [ ] Learn what `torch.linalg.lstsq` (Least-Square Problem) is about,
+    - [ ] Discover how it solves linear prediction with root mean square error,
+    - [ ] Try some linear and affine prediction of mpg based on weights only, 
+    - [ ] Display the results (`pairplot` or `scatter`)
     - [ ] compute RMS error and associated relative error (as a %)
     - [ ] Replace weight with its inverse (affine model), do it again.
-    - [ ] Use pytorch and SGD to get the same result ; find the "best" lr. This is a failure, investigate (theoretically)
-    - [ ] Improve the convergence with momentum
-    - [ ] Improve the convergence with rescaling (predict how well the algo is gonna do, then do it)
+    - [ ] Take into account the production year,
+    - [ ] Take into account the origin.
     ///
     """
     )
@@ -36,15 +37,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    /// tip | TODO
-    - [ ] Try power laws with weights?
-    - [ ] Improve with extra variables (ex: years ?)
-    - [ ] Try other, non-linear architectures (ex: nn) ; take care of over-learning!!!
-    ///
-    """
-    )
+    mo.md(r""" """)
     return
 
 
@@ -194,7 +187,7 @@ def _(mpg, pd, predicted_0, sns):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""## Affine Model wrt Weight""")
     return
