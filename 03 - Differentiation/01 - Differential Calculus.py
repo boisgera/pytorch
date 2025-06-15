@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.13.11"
-app = marimo.App()
+app = marimo.App(layout_file="layouts/01 - Differential Calculus.slides.json")
 
 
 @app.cell
@@ -127,14 +127,13 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    There is an alternate presentation of the concept that will be useful later. Consider
-    the function
+    There is an alternate presentation of the concept that will be useful later. If $f$ has a derivative at $x \in \mathbb{R}$, then the function
 
     $$
     \varepsilon_x(\Delta x) := \left(\frac{f(x+\Delta x)-f(x)}{\Delta x} - f'(x)\right) \frac{\Delta x}{|\Delta x|} 
     $$
 
-    Then $f$ has a derivative at $x$ if and only iff
+    satisfies
 
     $$
     \lim_{\Delta x \to 0} \varepsilon_x(\Delta x) = 0.
@@ -148,7 +147,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    Given the definition of $\varepsilon$, that means that $f'(x)$ is uniquely characterized as the tensor such that
+    Given the definition of $\varepsilon$, that means that $f'(x)$ is uniquely characterized as the scalar/vector such that
 
     $$
     f(x + \Delta x) = f(x) + f'(x) \Delta x + \varepsilon_x(\Delta x) |\Delta x|
@@ -194,7 +193,7 @@ def _(mo):
     For functions of several variables:
 
     $$
-    x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^{m}
+    x \in \mathbb{R}^n \to f(x) \in \mathbb{R} \; (\text{or } \mathbb{R}^{m})
     $$
 
     The partial derivative of $f$ with respect to the $i$th variable $x_i$ at 
@@ -208,7 +207,7 @@ def _(mo):
     $$
     \partial_i f(x) = \frac{\partial f}{\partial x_i}(x) 
     := 
-    \lim_{\Delta x_i \to 0} \frac{f(x_1, \dots, x_{i-1}, x_i + \Delta x_i, x_{i+1}, \dots)-f(x)}{\Delta x_i} \in \mathbb{R}^m.
+    \lim_{\Delta x_i \to 0} \frac{f(x_1, \dots, x_{i-1}, x_i + \Delta x_i, x_{i+1}, \dots)-f(x)}{\Delta x_i} \in \mathbb{R}  \; (\text{or } \mathbb{R}^{m}).
     $$
     """
     )
@@ -265,7 +264,7 @@ def _(mo):
     the gradient of $f$ at $x$ is defined as:
 
     $$
-    \nabla f(x) := (\partial_1 f(x), \partial_2 f(x), \dots, \partial_n f(x)) \in \R^m
+    \nabla f(x) := (\partial_1 f(x), \partial_2 f(x), \dots, \partial_n f(x)) \in \R^n
     $$
 
     whenever it exists.
@@ -515,17 +514,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    ## Differential
-
-    """
-    )
-    return
-
-
-@app.cell
-def _():
+    mo.md(r"""## Differential""")
     return
 
 
@@ -558,19 +547,16 @@ def _(mo):
 
     $$
     \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) := \nabla f(x) \cdot \Delta x\in \mathbb{R}.
-    $$ 
-
-
+    $$
     """
     )
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
-
     /// note | Differentiable Vector-Valued Function
 
     Let

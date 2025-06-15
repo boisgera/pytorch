@@ -16,9 +16,8 @@ def _(mo):
         r"""
     # Automatic Differentiation in Pytorch
 
-    [Sébastien Boisgérault], [ITN], Mines Paris - PSL University
+    [Sébastien Boisgérault], Mines Paris - PSL University
 
-    [ITN]: https://itn.dev
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )
@@ -110,7 +109,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""
