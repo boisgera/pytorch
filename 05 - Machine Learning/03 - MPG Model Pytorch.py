@@ -102,17 +102,16 @@ def _(mo):
 
 
 @app.cell
-def _(inv_weight, ones, torch):
+def _(inv_weight, torch, weight):
+    ones = torch.ones_like(weight)
     A = torch.stack((inv_weight, ones), dim=1)
-    return (A,)
+    return A, ones
 
 
 @app.cell
-def _(A, mpg, torch, weight):
+def _(A, mpg, torch):
     def _(n=10_000, lr=1e-3):
         alpha_beta = torch.tensor([0.0, 0.0], dtype=torch.float64, requires_grad=True)
-        ones = torch.ones_like(weight)
-    
 
         def loss(alpha):
             mpg_pred = A @ alpha_beta
@@ -210,11 +209,9 @@ def _(mo):
 
 
 @app.cell
-def _(A, mpg, torch, weight):
+def _(A, mpg, torch):
     def _(n=100_000, lr=0.5):
         alpha_beta = torch.tensor([0.0, 0.0], dtype=torch.float64, requires_grad=True)
-        ones = torch.ones_like(weight)
-    
 
         def loss(alpha):
             mpg_pred = A @ alpha_beta
@@ -249,18 +246,16 @@ def _(alpha_2, beta_2, mpg, plt, weight):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""### What about Adam?""")
     return
 
 
 @app.cell
-def _(A, mpg, torch, weight):
+def _(A, mpg, torch):
     def _(n=200_000, lr=0.5):
         alpha_beta = torch.tensor([0.0, 0.0], dtype=torch.float64, requires_grad=True)
-        ones = torch.ones_like(weight)
-    
 
         def loss(alpha):
             mpg_pred = A @ alpha_beta
@@ -369,14 +364,13 @@ def _(S_scaled, torch):
 
 
 @app.cell
-def _(A_scaled, mean_weight, mpg, torch, weight):
+def _(A_scaled, mean_weight, mpg, torch):
     def _(n=1_000, lr=1/5):
         alpha_beta_scaled = torch.tensor(
             [0.0, 0.0],
             dtype=torch.float64,
             requires_grad=True,
         )
-        ones = torch.ones_like(weight)
 
         def loss(alpha):
             mpg_pred = A_scaled @ alpha_beta_scaled
@@ -410,67 +404,6 @@ def _(alpha_4, beta_4, mpg, plt, weight):
     plt.xlabel("weight")
     plt.ylabel("mpg")
     plt.scatter(weight, alpha_4 / weight + beta_4)
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""## Neural Network Model""")
-    return
-
-
-@app.cell
-def _(mean_weight, mpg, torch, weight):
-    weight_ = weight.reshape(-1, 1)
-    scaled_weight_ = weight_ / mean_weight
-    mean_mpg = mpg.mean().item()
-    mpg_ = mpg.reshape(-1, 1)
-    scaled_mpg_ = mpg_ / mean_mpg
-
-
-    def _(n=1_000_000, lr=100.0):
-        m, n_ = 2, 2
-        model = torch.nn.Sequential(
-            torch.nn.Linear(1, m, dtype=torch.float64),
-            torch.nn.ReLU(),
-            torch.nn.Linear(m, n_, dtype=torch.float64),
-            torch.nn.ReLU(),
-            torch.nn.Linear(n_, 1, dtype=torch.float64),
-        )
-        optimizer = torch.optim.Adam(
-            params=model.parameters(),
-            lr=lr,
-            betas=[0.9, 0.999],
-        )
-
-        for i in range(n):
-            loss = ((model(scaled_weight_) - scaled_mpg_) ** 2).mean()
-            if (i % int(n / 10)) == 0:
-                relative_error = loss.sqrt().item() / (scaled_mpg_**2).mean().sqrt().item()
-                print(f"i: {i} error: {relative_error * 100:.1f}%")
-            loss.backward()
-            optimizer.step()
-            optimizer.zero_grad()
-        return model
-
-
-    model = _()
-    return mean_mpg, model, scaled_weight_
-
-
-@app.cell
-def _(model):
-    dict(model.state_dict())
-    return
-
-
-@app.cell
-def _(mean_mpg, mean_weight, model, mpg, plt, scaled_weight_, weight):
-    model.eval()
-    plt.scatter(weight / mean_weight, mpg / mean_mpg)
-    plt.xlabel("weight")
-    plt.ylabel("mpg")
-    plt.scatter(weight / mean_weight, model(scaled_weight_).detach().numpy())
     return
 
 

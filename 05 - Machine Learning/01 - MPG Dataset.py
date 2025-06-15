@@ -35,7 +35,6 @@ def _(mo):
     - [ ] Make a seaborn pairplot with the suitable hue,
     - [ ] Clean-up: manage NaNs, fix errors, fix data types, get the brands, etc.
     - [ ] Save your result in a suitable format.
-
     """
     )
     return
