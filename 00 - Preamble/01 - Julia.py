@@ -6,7 +6,15 @@ app = marimo.App(width="medium")
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# Julia Sets""")
+    mo.md(
+        r"""
+    # Julia Sets
+
+    [Sébastien Boisgérault], Mines Paris - PSL University
+
+    [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
+    """
+    )
     return
 
 
@@ -14,7 +22,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    /// tip | Learning Objectives
+    /// note | Learning Objectives
 
      - [ ] Get a gentle introduction to Julia fractals,
      - [ ] Discover what tensor/vectorized computations are about in this context,
