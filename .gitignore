@@ -11,7 +11,6 @@ __pycache__
 
 # General
 **/cache
-**/sandbox
 **/tmp
 
 # Pixi environments
