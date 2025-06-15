@@ -15,7 +15,7 @@ Then,
 
   - Select one of the chapters (enter the corresponding directory),
 
-  - Select one of its marimo notebooks (any its Python files),
+  - Select one of its marimo notebooks (any of the Python files),
 
   - Execute `pixi run marimo edit THE_NOTEBOOK.py`.
 
