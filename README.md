@@ -1,7 +1,7 @@
 
 # Machine Learning with Pytorch
 
-A collection of [marimo](https://marimo.io) notebooks, by [Sébastien Boisgérault][Sebastien.Boisgerault@minesparis.psl.eu].
+A collection of [marimo](https://marimo.io) notebooks, by [Sébastien Boisgérault](mailto:Sebastien.Boisgerault@minesparis.psl.eu).
 
 ## Quickstart
 
