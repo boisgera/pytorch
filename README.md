@@ -1,4 +1,17 @@
 
+# Machine Learning with Pytorch
+
+A collection of [marimo](https://marimo.io) notebooks.
+
+## License
+
+[![Creative Commons License](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
+
+This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+
+<!--
+
 Table of Contents
 ================================================================================
 
@@ -86,3 +99,4 @@ References
 
   - 📖 🇺🇸 [Scientific Visualization: Python + Matplotlib](https://www.labri.fr/perso/nrougier/scientific-visualization.html) by Nicolas Rougier.
 
+-->
