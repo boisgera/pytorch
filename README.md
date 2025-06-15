@@ -13,7 +13,7 @@ To begin with,
 
 Then,
 
-  - Select of the chapters (enter the corresponding directory),
+  - Select one of the chapters (enter the corresponding directory),
 
   - Select one of its marimo notebooks (any its Python files),
 
