@@ -16,9 +16,8 @@ def _(mo):
         r"""
     # Linear Algebra
 
-    [Sébastien Boisgérault], [ITN], Mines Paris - PSL University
+    [Sébastien Boisgérault], Mines Paris - PSL University
 
-    [ITN]: https://itn.dev
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )
@@ -29,7 +28,7 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    /// tip | Learning Objectives
+    /// note | Learning Objectives
     - [ ] Do basic linear algebra with the "vectors are matrices" mindset,
     - [ ] Understand the more idiomatic "vectors are 1d-tensors" approach,
     - [ ] Understand what tensor contraction does and how to use it,

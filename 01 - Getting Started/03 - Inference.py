@@ -22,7 +22,6 @@ def _(mo):
 
 
     [Sébastien Boisgérault]: mailto://Sebastien.Boisgerault@minesparis.psl.eu
-
     """
     )
     return
@@ -33,11 +32,11 @@ def _(mo):
     mo.md(
         r"""
     /// note | Learning Objectives
-    - [ ] Load a pre-trained neural network model
-    - [ ] Understand its output
-    - [ ] Use it for classification
-    - [ ] Use it in batched mode
-    - [ ] Evaluate the confidence in its answers
+    - [ ] Load a pre-trained neural network model,
+    - [ ] Understand its output,
+    - [ ] Use it for classification,
+    - [ ] Use it in batched mode,
+    - [ ] Evaluate the confidence in its answers.
 
     ///
     """

@@ -16,9 +16,8 @@ def _(mo):
         r"""
     # Images
 
-    [Sébastien Boisgérault], [ITN], Mines Paris - PSL University
+    [Sébastien Boisgérault], Mines Paris - PSL University
 
-    [ITN]: https://itn.dev
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
     """
     )
@@ -236,12 +235,6 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""Source: <https://en.wikipedia.org/wiki/HSL_and_HSV>""")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""**TODO.** Increase/decrease saturation. Increase/decrase value, Rotate colors?""")
     return
 
 

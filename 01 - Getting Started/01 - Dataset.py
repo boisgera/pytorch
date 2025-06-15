@@ -32,7 +32,7 @@ def _(mo):
 
      - [ ] **Fetch a Dataset**. Load the FashionMNIST dataset,
      - [ ] **Explore a Dataset.** Determine its main characteristics (contents, size, etc.),
-     - [ ] **Data Preprocessing.** Get familiar with the image process ing required to make such a dataset. 
+     - [ ] **Data Preprocessing.** Get familiar with the image processing required to make such a dataset.
     """
     )
     return
