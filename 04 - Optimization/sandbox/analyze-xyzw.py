@@ -6,11 +6,7 @@ app = marimo.App()
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        # Prédiction Linéaire de w en fonction de x, y et z
-        """
-    )
+    mo.md(r"""# Prédiction Linéaire de w en fonction de x, y et z""")
     return
 
 
@@ -18,13 +14,11 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
+    Obtenir les tenseurs de données
+    -------------------------------
 
-
-        Obtenir les tenseurs de données
-        -------------------------------
-
-        "A la main" tout d'abord:
-        """
+    "A la main" tout d'abord:
+    """
     )
     return
 
@@ -65,11 +59,7 @@ def _(w_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ... ou avec pandas
-        """
-    )
+    mo.md(r"""... ou avec pandas""")
     return
 
 
@@ -94,11 +84,7 @@ def _(df, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Recherche de p = [alpha, beta, gamma] optimal
-        """
-    )
+    mo.md(r"""## Recherche de p = [alpha, beta, gamma] optimal""")
     return
 
 
@@ -112,10 +98,10 @@ def _(xyz_1):
 def _(mo):
     mo.md(
         r"""
-        $$
-        e = \frac{1}{n} \sum_{i=1}^n (w_i - \hat{w}_i)^2
-        $$
-        """
+    $$
+    e = \frac{1}{n} \sum_{i=1}^n (w_i - \hat{w}_i)^2
+    $$
+    """
     )
     return
 
@@ -127,7 +113,7 @@ def _():
 
     def error_mean(w, w_pred):
         return ((w-w_pred)**2).mean()
-    
+
     def RMS(w, w_pred):
         return ((w-w_pred)**2).mean().sqrt()
     return RMS, error_mean

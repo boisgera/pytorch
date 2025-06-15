@@ -1,7 +1,7 @@
 import marimo
 
 __generated_with = "0.13.11"
-app = marimo.App(layout_file="layouts/01 - Optimization.slides.json")
+app = marimo.App()
 
 
 @app.cell
@@ -29,17 +29,13 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    /// tip | Learning Objectives
+    /// note | Learning Objectives
 
     - [ ] Principles of gradient-descent optimization
-    - [ ] Manual implementation with function
-    - [ ] Pytorch API applied to modules
-    - [ ] Example: logistic binary classif with 2 params ?
-    - [ ] The "easy" benchmark: quadratic cost function
-    - [ ] Theory and practice of GD on Q (Bach, simu)
-    - [ ] Learning rates schedulers
-    - [ ] SGD with momentum, Adam, RMSProp ?
-    - [ ] Stochastic gradient, probabilistic modelling of the pb, batching.
+    - [ ] Manual implementation 
+    - [ ] Reimplementation with `PyTorch optim.SGD`,
+    - [ ] Experiments and learning rate tuning with quadratic functions,
+    - [ ] Theoretical analysis of stability and speed of convergence for quadratic functions.
 
     ///
     """
@@ -167,7 +163,7 @@ def _(mo):
       - They approximate locally any (twice continuously differentiable) function at the order 2:
 
         $$
-        f(x) = \frac{1}{2} (x - x_0) \cdot \nabla^2 f(x_*) \cdot (x - x_0) + \nabla f(x_0) \cdot (x - x_0) + f(x_0) + o(\|x-x_0\|)
+        f(x) = \frac{1}{2} (x - x_0) \cdot \nabla^2 f(x_*) \cdot (x - x_0) + \nabla f(x_0) \cdot (x - x_0) + f(x_0) + o(\|x-x_0\|^2)
         $$
 
       - Many minimisation techniques of quadratic functions generalize to convex functions.
@@ -223,7 +219,7 @@ def _(torch):
     return A, b, c
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(A, b, c, mo, torch):
     def _f(x):
         return x @ A @ x + b @ x + c
@@ -255,7 +251,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(A, b, c, torch):
     def f(x):
         return (
@@ -269,7 +265,7 @@ def _(A, b, c, torch):
     return (f,)
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(f, plt, torch):
     _x = torch.linspace(-5.0, 5.0, 100)
     _y = torch.linspace(-5.0, 5.0, 100)
@@ -615,7 +611,7 @@ def _(mo):
 
 
 @app.cell
-def _(S, b, f, grad_descent, gradient_sequence_plot, plt, torch):
+def _(b, f, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
     def _():
         gradient_sequence_plot(
             f=f,
@@ -628,7 +624,7 @@ def _(S, b, f, grad_descent, gradient_sequence_plot, plt, torch):
             x=torch.linspace(-5.0, 5.0, 100),
             y=torch.linspace(-5.0, 5.0, 100),
         )
-        x_min = - (1 / 2) * torch.linalg.inv(S) @ b
+        x_min = - (1 / 2) * torch.linalg.inv(sigma_A) @ b
 
         plt.plot(x_min[0], x_min[1], "k+")
         return plt.gcf()
@@ -703,7 +699,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Applied to $S = \sigma(A)$, this result allows us to find an orthonormal basis in which the axes of the ellipsoid that level sets of $f$ align with the basis axes.""")
+    mo.md(r"""Applied to $\sigma(A)$, this result allows us to find an orthonormal basis in which the axes of the ellipsoid that level sets of $f$ align with the basis axes.""")
     return
 
 
@@ -733,7 +729,7 @@ def _(Q, f, torch):
 
 
 @app.cell
-def _(Q, S, b, f_diag, grad_descent, gradient_sequence_plot, plt, torch):
+def _(Q, b, f_diag, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
     def _():
         gradient_sequence_plot(
             f=f_diag,
@@ -747,7 +743,7 @@ def _(Q, S, b, f_diag, grad_descent, gradient_sequence_plot, plt, torch):
             y=torch.linspace(-5.0, 5.0, 100),
         )
 
-        x_min = - (1 / 2) * torch.linalg.inv(S) @ b
+        x_min = - (1 / 2) * torch.linalg.inv(sigma_A) @ b
         y_min = Q @ x_min 
 
         plt.plot(y_min[0], y_min[1], "k+")
@@ -853,7 +849,7 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(
         r"""

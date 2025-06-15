@@ -6,11 +6,7 @@ app = marimo.App()
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        # Quadratic Voting
-        """
-    )
+    mo.md(r"""# Quadratic Voting""")
     return
 
 
@@ -28,20 +24,18 @@ def _():
 def _(mo):
     mo.md(
         r"""
-        Given a list of sensitivity $\alpha$ to three issues, for example $\alpha = (1.0, 2.0, 3.0)$,
-        determine how the voter should split its vote among the three issues
-        $$
-        x = (x_0, x_1, x_2), \; x_0 + x_1 + x_2 = 1, \; x_0 \geq 0, \; x_1 \geq 0, \; x_2 \geq 0. 
-        $$
-        to maximize the associated **utility**
-        $$
-        U(x)
-        :=
-        \alpha_1 x_1 + \alpha_2 x_2 + \alpha_3 x_3.
-        $$
-
-
-        """
+    Given a list of sensitivity $\alpha$ to three issues, for example $\alpha = (1.0, 2.0, 3.0)$,
+    determine how the voter should split its vote among the three issues
+    $$
+    x = (x_0, x_1, x_2), \; x_0 + x_1 + x_2 = 1, \; x_0 \geq 0, \; x_1 \geq 0, \; x_2 \geq 0. 
+    $$
+    to maximize the associated **utility**
+    $$
+    U(x)
+    :=
+    \alpha_1 x_1 + \alpha_2 x_2 + \alpha_3 x_3.
+    $$
+    """
     )
     return
 
@@ -92,11 +86,7 @@ def _(U, batch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Unconstrained Optimization
-        """
-    )
+    mo.md(r"""## Unconstrained Optimization""")
     return
 
 
@@ -120,11 +110,7 @@ def _(U, pd, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Projection Methods : kinda hard
-        """
-    )
+    mo.md(r"""## Projection Methods : kinda hard""")
     return
 
 
@@ -147,11 +133,7 @@ def _(U, pd, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Penalization
-        """
-    )
+    mo.md(r"""## Penalization""")
     return
 
 
@@ -175,11 +157,7 @@ def _(U, pd, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Reparametrization
-        """
-    )
+    mo.md(r"""## Reparametrization""")
     return
 
 
@@ -187,16 +165,16 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-        Use 3 "free" parameters $(y_0, y_1, y_2)$ in $\mathbb{R}^3$, compute $x$ from them with:
+    Use 3 "free" parameters $(y_0, y_1, y_2)$ in $\mathbb{R}^3$, compute $x$ from them with:
 
-        $$
-        x_i = \frac{\exp y_i}{\exp y_1 + \exp y_2 + \exp y_3}.
-        $$
+    $$
+    x_i = \frac{\exp y_i}{\exp y_1 + \exp y_2 + \exp y_3}.
+    $$
 
-        By design, $x$ belongs to the allowed parameter sets (⚠️ $x>0$!). 
+    By design, $x$ belongs to the allowed parameter sets (⚠️ $x>0$!). 
 
-        Optimize wrt $y$.
-        """
+    Optimize wrt $y$.
+    """
     )
     return
 
@@ -220,11 +198,7 @@ def _(U, pd, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Quadratic voting
-        """
-    )
+    mo.md(r"""## Quadratic voting""")
     return
 
 
@@ -271,11 +245,7 @@ def _(alpha_1, impact, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-        ## Using torch nn modules
-        """
-    )
+    mo.md(r"""## Using torch nn modules""")
     return
 
 
