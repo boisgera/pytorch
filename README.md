@@ -3,6 +3,25 @@
 
 A collection of [marimo](https://marimo.io) notebooks.
 
+## Quickstart
+
+To begin with,
+
+  - Install the [pixi] package manager,
+
+  - Download the contents of this repository.
+
+Then,
+
+  - Select of the chapters (enter the corresponding directory),
+
+  - Select one of its marimo notebooks (any its Python files),
+
+  - Execute `pixi run marimo edit THE_NOTEBOOK.py`.
+
+
+[pixi]: https://pixi.sh/latest/
+
 ## License
 
 [![Creative Commons License](https://licensebuttons.net/l/by/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/)
