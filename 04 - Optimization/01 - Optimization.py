@@ -134,7 +134,7 @@ def _(mo):
     to variables in higher dimensions
 
     $$
-    f(x) = x^T A x + b^T x + c, \; x \in \mathbb{R}^d
+    f(x) = x \cdot A \cdot x + b \cdot x + c, \; x \in \mathbb{R}^d
     $$
 
     where $A \in \mathbb{R}^{d\times d}$, $b \in \mathbb{R}^d$, $c \in \mathbb{R}^n$.
