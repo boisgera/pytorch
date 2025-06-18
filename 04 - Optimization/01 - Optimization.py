@@ -539,10 +539,10 @@ def _(mo):
     $$
     \begin{split}
     f(x) 
-      &= x^T A x + b^T x + c \\
-      &= \frac{1}{2} x^T A x + \frac{1}{2} x^T A^T x + b^T x + c \\
-      & = \frac{1}{2} x^T \left(A + A^T \right) x + b^T x + c \\
-      &= x^T \sigma(A) x + b^Tx + c
+      &= x \cdot A \cdot x + b \cdot x + c \\
+      &= \frac{1}{2} x \cdot A \cdot x + \frac{1}{2} x \cdot A^T \cdot x + b\cdot x + c \\
+      & = \frac{1}{2} x \cdot \left(A + A^T \right) x + b \cdot x + c \\
+      &= x\cdot \sigma(A) x + b \cdot x + c
     \end{split}
     $$
 
@@ -781,7 +781,7 @@ def _(mo):
     $$
     \begin{split}
     e_{n+1} &= e_{n+1} + \frac{1}{2} \sigma(A)^{-1} \cdot b \\
-                   &= (I - 2 \eta \sigma(A)) x_n -\eta b + \frac{1}{2} \sigma(A)^{-1} \cdot b \\
+                   &= (I - 2 \eta \sigma(A)) \cdot x_n -\eta b + \frac{1}{2} \sigma(A)^{-1} \cdot b \\
                    &= (I - 2 \eta \sigma(A)) \cdot (x_n +  \frac{1}{2} \sigma(A) ^{-1} \cdot b) +\eta b -\eta b \\
                    &= (I - 2 \eta \sigma(A)) \cdot e_n
     \end{split}
@@ -1063,7 +1063,7 @@ def _(mo):
     and therefore by induction
 
     $$
-    f(x_n) - f(x_*) = e_0^T (I - 2 \eta \sigma(A))^{2n} \sigma(A) e_0.
+    f(x_n) - f(x_*) = e_0 \cdot (I - 2 \eta \sigma(A))^{2n} \cdot \sigma(A) \cdot e_0.
     $$
 
     Now for $\eta = 1/(2\lambda_n)$, for example, we get
