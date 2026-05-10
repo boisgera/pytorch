@@ -1,45 +1,42 @@
 import marimo
 
-__generated_with = "0.13.11"
-app = marimo.App()
+__generated_with = "0.23.5"
+app = marimo.App(layout_file="layouts/01 - Optimization.slides.json")
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Optimization
 
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning Objectives
 
     - [ ] Principles of gradient-descent optimization
-    - [ ] Manual implementation 
+    - [ ] Manual implementation
     - [ ] Reimplementation with `PyTorch optim.SGD`,
     - [ ] Experiments and learning rate tuning with quadratic functions,
     - [ ] Theoretical analysis of stability and speed of convergence for quadratic functions.
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -49,27 +46,28 @@ def _():
     import torch.func
     import torch.linalg
     import torch.optim
+
     return (torch,)
 
 
 @app.cell
 def _():
     import matplotlib.pyplot as plt
+
     return (plt,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    ## Principles of Gradient Descent 
+    mo.md(r"""
+    ## Principles of Gradient Descent
 
     Let $f: \mathbb{R}^d \to \mathbb{R}$ be a differentiable function and let $x_0 \in \mathbb{R}^d$.
 
     Let $\eta >0$; the Taylor expansion of $f$ at $x$ provides:
 
     \begin{align*}
-    f\left(x_0 - \eta \nabla f(x) \right) 
+    f\left(x_0 - \eta \nabla f(x) \right)
       &= f(x_0) +  \nabla f(x_0) \cdot  (-\eta \nabla f(x_0)) + o(\eta) \\
       &= f(x_0) - \eta \nabla f(x_0) \cdot \nabla f(x_0) + o(\eta) \\
       &= f(x_0) - \eta \|\nabla f(x_0)\|^2 + o(\eta).
@@ -86,43 +84,39 @@ def _(mo):
     $$
     f(x_1) < f(x_0).
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Gradient Descent Minimization
 
 
-     0. **Learning rate.** Select a small $\eta > 0$, for example $10^{-3}$, 
+    0. **Learning rate.** Select a small $\eta > 0$, for example $10^{-3}$,
 
 
-     1. **Initial guess.** Pick $x_0 \in \mathbb{R}^d$ at random (or make a guess!).
+    1. **Initial guess.** Pick $x_0 \in \mathbb{R}^d$ at random (or make a guess!).
 
 
-     2. **Iterations.** Compute repeatedly $x_{n+1} := x_n - \eta \nabla f(x_{n})$,
+    2. **Iterations.** Compute repeatedly $x_{n+1} := x_n - \eta \nabla f(x_{n})$,
 
-     3. **Termination.** Stop when $f(x_{n+1}) \geq f(x_n)$ (or your computation budget is over).
+    3. **Termination.** Stop when progress stalls (or your computation budget is over).
 
 
     Then your approximation of the minimizer $x_*$ of $f$ is
 
-    $$x_* := x_n.$$ 
+    $$x_* := x_n.$$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Optimization of Quadratic Functions
 
     Quadratic functions generalize 2-order polynomials
@@ -138,57 +132,50 @@ def _(mo):
     $$
 
     where $A \in \mathbb{R}^{d\times d}$, $b \in \mathbb{R}^d$, $c \in \mathbb{R}^n$.
-    """
-    )
+    """)
     return
 
 
-@app.cell(hide_code=True)
+@app.cell
 def _(mo):
-    mo.md(
-        r"""
-    /// tip | Why this interest in quadratic functions?
+    mo.md(r"""
+    /// note | Why this interest in quadratic functions?
 
-      - The minimisation of quadratic function solves the (ubiquitous!) linear regression problem: to find the weight matrix $A$ and
-        bias $b$ such that $A x + b$ is the best prediction of $y$, solve
-
+    -   The minimisation of quadratic function solves the (ubiquitous!) linear regression problem: to find the weight matrix $A$ and bias $b$ such that $A x + b$ is the best prediction of $y$, solve
 
         $$
         \min_{W, b} \|A x + b - y \|^2.
         $$
 
-
         This criterion which is quadratic w.r.t. $(A, b)$[^1]!
 
-      - They approximate locally any (twice continuously differentiable) function at the order 2:
+    -   They approximate locally any (twice continuously differentiable) function at the order 2:
 
         $$
         f(x) = \frac{1}{2} (x - x_0) \cdot \nabla^2 f(x_*) \cdot (x - x_0) + \nabla f(x_0) \cdot (x - x_0) + f(x_0) + o(\|x-x_0\|^2)
         $$
 
-      - Many minimisation techniques of quadratic functions generalize to convex functions.
+    -   Many minimisation techniques of quadratic functions generalize to convex functions.
 
     ///
 
     [^1]: Suitably "flattened" as a vector of $\mathbb{R}^{d \times d + d}$.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Quadratic Functions in $\mathbb{R}^2$
 
-     1. Pick a random matrices $A \in \mathbb{R}^{2\times2}$, vector $b \in \mathbb{\R}^2$ and scalar $c \in \mathbb{R}$. Define in a PyTorch function $f$ that given $x \in \mathbb{R}^2$ returns the scalar
+    1.  Pick a random matrices $A \in \mathbb{R}^{2\times2}$, vector $b \in \mathbb{\R}^2$ and scalar $c \in \mathbb{R}$. Define in a PyTorch function $f$ that given $x \in \mathbb{R}^2$ returns the scalar
 
         $$
         f(x) = x \cdot A \cdot x + b \cdot x + c \in \mathbb{R}.
         $$
 
-     2. Check that $f$ is proper, that is
+    2.  Check that $f$ is proper, that is
 
         $$
         f(x) \to +\infty \;\;\; \; \text{ when } \;\; \|x\| \to + \infty.
@@ -202,8 +189,7 @@ def _(mo):
 
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -234,20 +220,20 @@ def _(A, b, c, mo, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    /// tip | 
+    mo.md(r"""
+    /// tip |
 
-     3. Now provide a vectorized PyTorch implementation of $f$, that will associate to any
+    3.  Now provide a vectorized PyTorch implementation of $f$, that will associate to any
         tensor $x$ of shape $(i_1, \dots, i_k, 2)$ the corresponding tensor
         $f(x)$ of shape $(i_1, \dots, i_k)$.
 
-     4. Use the [contour](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.contour.html) function of matplotlib to represent
-        level curves of your functions. Adjust the range of the input variables to display a neighborhood of the minimum.
+    4.  Use the [contour] function of matplotlib to represent level curves of your functions.
+        Adjust the range of the input variables to display a neighborhood of the minimum.
+
+    [contour]: (https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.contour.html)
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -299,20 +285,17 @@ def _(f, plt, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip |
 
-     6. Pick a random initial value of $x_0$ and a value $\eta$ of the learning rate (for example $10^{-3}$).
+    6.   Pick a random initial value of $x_0$ and a value $\eta$ of the learning rate (for example $10^{-3}$).
         Compute a gradient descent sequence with $n=100$ points. Display this sequence on top of the contour.
 
-     7. Change the value of the learning rate and experiment until you have discovered the learning rate at the limit of the convergence.
-        Test the gradient sequence with half that value ; experiment with other values until you find (approximately) the learning rate
-        that ensures the fastest convergence.
+    7.  Change the value of the learning rate and experiment until you have discovered the learning rate at the limit of the convergence.
+        Test the gradient sequence with half that value ; experiment with other values until you find (approximately) the learning rate that ensures the fastest convergence.
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -335,14 +318,15 @@ def _(f, torch):
 
 
 @app.cell
-def _(contour, plt):
+def _(contour, mo, plt):
     def gradient_sequence_plot(f, xys, x, y):
         fig = contour(f, x, y)
         _xs = [_xy[0] for _xy in xys]
         _ys = [_xy[1] for _xy in xys]
         plt.plot(_xs, _ys, "r-")
         plt.plot(_xs[-1], _ys[-1], "r+")
-        return fig
+        return mo.center(fig)
+
     return (gradient_sequence_plot,)
 
 
@@ -428,13 +412,11 @@ def _(f, grad_descent, gradient_sequence_plot, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip |
 
-     8. Replicate this computation using the PyTorch [`SGD`](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) optimizer class.
-    """
-    )
+    8.   Replicate this computation using the PyTorch [`SGD`](https://pytorch.org/docs/stable/generated/torch.optim.SGD.html) optimizer class.
+    """)
     return
 
 
@@ -462,8 +444,7 @@ def _(f, gradient_sequence_plot, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Theory
 
     ### Minimum
@@ -479,7 +460,7 @@ def _(mo):
 
     $$
     \begin{split}
-    df(x) (\Delta x) 
+    df(x) (\Delta x)
       &= \Delta x \cdot  A \cdot x + x \cdot A \cdot \Delta x + b \cdot \Delta x \\
       &= x \cdot A^T \cdot \Delta x + x \cdot A \cdot \Delta x + b \cdot \Delta x \\
       &= (x\cdot A^T + x\cdot A + b) \cdot \Delta x \\
@@ -493,15 +474,13 @@ def _(mo):
     $$
     \nabla f(x) = (A + A^T) \cdot x + b.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Matrix Symmetrization
 
     We call **symmetrization of $A$** the matrix
@@ -510,15 +489,14 @@ def _(mo):
     \sigma(A):= \frac{1}{2}(A + A^T) \in \mathbb{R}^{d \times d}.
     $$
 
-    By construction, the matrix $\sigma(A)$ is **symmetric**: 
+    By construction, the matrix $\sigma(A)$ is **symmetric**:
 
     $$
     \sigma(A)^T = \sigma(A).
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -531,14 +509,13 @@ def _(A):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Symmetry Assumption
     Note that since
 
     $$
     \begin{split}
-    f(x) 
+    f(x)
       &= x \cdot A \cdot x + b \cdot x + c \\
       &= \frac{1}{2} x \cdot A \cdot x + \frac{1}{2} x \cdot A^T \cdot x + b\cdot x + c \\
       & = \frac{1}{2} x \cdot \left(A + A^T \right) x + b \cdot x + c \\
@@ -554,21 +531,19 @@ def _(mo):
     $$
     \nabla f(x) = 2 \sigma(A) x + b.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Positive definitiveness
 
     A matrix $A \in \mathbb{R}^{d \times d}$ is **positive definite** when
 
     $$
-    \forall \, x \in \mathbb{R}^n, \; x \cdot \sigma(A) \cdot x \geq 0 
+    \forall \, x \in \mathbb{R}^n, \; x \cdot \sigma(A) \cdot x \geq 0
     \quad
     \text{ and }
     \quad
@@ -576,19 +551,17 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Existence, uniqueness and value of the minimum
     If $A$ is positive definite, then the function $f(x)$ has a unique global minimum.
 
-    The minimal argument $x_*$ is the (unique) solution of 
+    The minimal argument $x_*$ is the (unique) solution of
 
     $$
     \nabla f(x_*) = 0
@@ -605,8 +578,7 @@ def _(mo):
     $$
     f(x_*) = -\frac{1}{4} b \cdot \sigma(A)^{-1} \cdot b + c.
     $$
-    """
-    )
+    """)
     return
 
 
@@ -635,8 +607,7 @@ def _(b, f, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Proper quadratic functions
     Note that $A$ is positive definite if and only if $f$ is **proper**, i.e.
 
@@ -645,15 +616,13 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Hessian Matrix
     Since $\nabla f(x) = 2 \sigma(A) \cdot x + b$, the **Hessian matrix** satisfies:
 
@@ -662,15 +631,13 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Gradient Descent Sequence
 
 
@@ -678,28 +645,29 @@ def _(mo):
     Any real-valued symmetric matrix $S \in \mathbb{R}^{d \times d}$ can be diagonalized in an orthonormal basis:
 
     $$
-    S = 
-        Q \cdot  
+    S =
+        Q \cdot
         \begin{bmatrix}
         \lambda_1 & 0         & \cdots    & 0 \\
         0         & \lambda_2 & \cdots    & 0 \\
         \vdots    & \vdots    & \ddots    & \vdots \\
         0         & 0         & \cdots    & \lambda_d
         \end{bmatrix}
-        \cdot Q^T 
+        \cdot Q^T
         \quad \text{ with } \quad
         \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n
-        \quad \text{ and } \quad    
+        \quad \text{ and } \quad
         Q^T = Q^{-1}.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Applied to $\sigma(A)$, this result allows us to find an orthonormal basis in which the axes of the ellipsoid that level sets of $f$ align with the basis axes.""")
+    mo.md(r"""
+    Applied to $\sigma(A)$, this result allows us to find an orthonormal basis in which the axes of the ellipsoid that level sets of $f$ align with the basis axes.
+    """)
     return
 
 
@@ -725,11 +693,22 @@ def _(Q):
 def _(Q, f, torch):
     def f_diag(y):
         return f(torch.einsum("ij,...j->...i", Q, y))
+
     return (f_diag,)
 
 
 @app.cell
-def _(Q, b, f_diag, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
+def _(
+    Q,
+    b,
+    f_diag,
+    grad_descent,
+    gradient_sequence_plot,
+    mo,
+    plt,
+    sigma_A,
+    torch,
+):
     def _():
         gradient_sequence_plot(
             f=f_diag,
@@ -747,15 +726,14 @@ def _(Q, b, f_diag, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
         y_min = Q @ x_min 
 
         plt.plot(y_min[0], y_min[1], "k+")
-        return plt.gcf()
+        return mo.center(plt.gcf())
     _()
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Gradient Descent Sequence
 
     Let's explicit the expression of the $n$th term of a gradient descent sequencee when
@@ -763,7 +741,7 @@ def _(mo):
 
     $$
     \begin{split}
-    x_{n+1} 
+    x_{n+1}
       & = x_n - \eta \nabla f(x_n) \\
       & = x_n - \eta (2\sigma(A) \cdot x_n + b) \\
       & = (I - 2 \eta \sigma(A)) \cdot x_n -\eta b
@@ -786,15 +764,13 @@ def _(mo):
                    &= (I - 2 \eta \sigma(A)) \cdot e_n
     \end{split}
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Minimisation argument error
 
     Let $f(x) = x \cdot A \cdot x + b \cdot x + c$ and $x_n$ be the gradient descent sequence associated to the learning parameter $\eta > 0$.
@@ -804,7 +780,7 @@ def _(mo):
     e_n := x_n - x_*
     $$
 
-    evolves according to 
+    evolves according to
 
     $$
     e_n = (I - 2 \eta \sigma(A))^n \cdot e_0.
@@ -812,69 +788,63 @@ def _(mo):
 
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Let's consider the diagonalisation of $\sigma(A)$
 
     $$
-    \sigma(A) = 
-        Q \cdot  
+    \sigma(A) =
+        Q \cdot
         \begin{bmatrix}
         \lambda_1 & 0         & \cdots    & 0 \\
         0         & \lambda_2 & \cdots    & 0 \\
         \vdots    & \vdots    & \ddots    & \vdots \\
         0         & 0         & \cdots    & \lambda_d
         \end{bmatrix}
-        \cdot Q^T 
+        \cdot Q^T
         \quad \text{ with } \quad
         \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n
-        \quad \text{ and } \quad    
+        \quad \text{ and } \quad
         Q^T = Q^{-1}.
     $$
 
-    Since $\sigma(A)$ is positive definite, we have 
+    Since $\sigma(A)$ is positive definite, we have
 
     $$
     0 < \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_n.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Condition number
 
-    The **condition number** of $\sigma(A)$ is 
+    The **condition number** of $\sigma(A)$ is
 
     $$
     \kappa := \frac{\lambda_n}{\lambda_1} \geq 1.
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The matrix $1 - 2 \eta \sigma(A)$ satisfies
 
     $$
-    1 - 2 \eta \sigma(A) = Q \cdot 
+    1 - 2 \eta \sigma(A) = Q \cdot
         \begin{bmatrix}
         1 - 2 \eta \lambda_1 & 0         & \cdots    & 0 \\
         0         & 1 - 2 \eta \lambda_2 & \cdots    & 0 \\
@@ -895,27 +865,25 @@ def _(mo):
         \end{bmatrix} \cdot Q^T \cdot e_0,
     $$
 
-    and the error $e_n$ will converge to $0$ for any $e_0$ if and only if every coefficient $1 - 2 \eta_i$ is in $\left]-1, 1\right[$, 
+    and the error $e_n$ will converge to $0$ for any $e_0$ if and only if every coefficient $1 - 2 \eta_i$ is in $\left]-1, 1\right[$,
     which holds true if and only if $-1 < 1 - 2 \eta \lambda_d$, that is
 
     $$
     \eta < \frac{1}{\lambda_d}.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning rate: a good choice
 
     If the learning rate is selected as
 
     $$
-    \eta  = \frac{1}{2\lambda_d}, 
+    \eta  = \frac{1}{2\lambda_d},
     $$
 
     then for any initial error, the minimisation argument error satisfies
@@ -924,8 +892,7 @@ def _(mo):
     \|e_n\| \leq \left(1 - \frac{1}{\kappa} \right)^n \|e_0\|
     \to 0 \quad \text{ when } \quad n \to +\infty.
     $$
-    """
-    )
+    """)
     return
 
 
@@ -958,8 +925,7 @@ def _(b, f, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// hint | Proof
 
     The selection $\eta = 1/2\lambda_d$ obviously satisfies $\eta < 1/\lambda_d$ and
@@ -975,15 +941,13 @@ def _(mo):
     $$
 
     and thus in the worst case $\|e_n\| \leq (1 - \lambda_1/\lambda_n)^n \|e_0\|$.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning rate : the best choice
 
     The best learning rate, which leads to the fastest convergence in the worst-case scenario, is
@@ -999,8 +963,7 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -1033,27 +996,24 @@ def _(b, f, grad_descent, gradient_sequence_plot, plt, sigma_A, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning | Convergence speed and condition number
 
-    Note generally that the higher the condition number $\kappa$, the slower the convergence. 
+    Note generally that the higher the condition number $\kappa$, the slower the convergence.
 
     The best-case scenario is with $\kappa = 1$ which corresponds to $\sigma(A) = \lambda I$ for some $\lambda > 0$; then, the "good" and the "best" choice of learning rate are identical and lead to a convergence in a single step!
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Now, some simple computations provide $f(x_n) - f(x_*) = e_n \cdot S \cdot e_n$, thus
 
     $$
     \begin{split}
-    f(x_{n+1}) - f(x_*) 
+    f(x_{n+1}) - f(x_*)
       & = e_{n+1} \cdot \sigma(A) \cdot e_{n+1} \\
       & = e_n \cdot (I - 2\eta \sigma(A)) \cdot \sigma(A) \cdot (I - 2\eta \sigma(A)) e_n \\
       & = e_n \cdot (I - 2\eta \sigma(A))^2 \cdot \sigma(A) \cdot e_n
@@ -1079,20 +1039,17 @@ def _(mo):
     $$
     \|f(x_n) - f(x_*)\| \leq \left(1-\frac{1}{\kappa}\right)^n \lambda_n \|e_0\|^2
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Examples in Higher dimensions
 
     🚧 *Refactoring needed !*
-    """
-    )
+    """)
     return
 
 
@@ -1142,6 +1099,7 @@ def _(lambda_1, lambda_d):
 def _(A_1):
     def f_3(x):
         return (x @ A_1 @ x).squeeze()
+
     return (f_3,)
 
 
