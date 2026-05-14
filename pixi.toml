@@ -24,6 +24,8 @@ graphviz = ">=14.1.2,<15"
 seaborn = ">=0.13.2,<0.14"
 tensorboard = ">=2.20.0,<3"
 pyarrow = ">=24.0.0,<25"
+array-api-compat = ">=1.14.0,<2"
+ruff = ">=0.15.12,<0.16"
 
 [pypi-dependencies]
 torchviz = ">=0.0.3, <0.0.4"
