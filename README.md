@@ -3,7 +3,7 @@
 
 A collection of [marimo](https://marimo.io) notebooks, by [Sébastien Boisgérault](mailto:Sebastien.Boisgerault@minesparis.psl.eu).
 
-![Neural Network](images/neural-network.png)
+![Neural Network](images/neural-network.svg)
 
 ## Quickstart
 

@@ -1,0 +1,73 @@
+<svg width="100%" viewBox="0 0 680 480" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Neural network diagram – three-color</title>
+  <desc>A three-layer neural network. Input nodes are amber/orange, hidden nodes are coral red, output nodes are teal, fully connected with straight lines on a blue background.</desc>
+
+  <defs>
+    <clipPath id="frame">
+      <rect x="0" y="0" width="680" height="480" rx="16"/>
+    </clipPath>
+  </defs>
+
+  <rect x="0" y="0" width="680" height="480" fill="#2B5BBF" rx="16"/>
+
+  <!-- Background decorative circles, clipped to frame -->
+  <g clip-path="url(#frame)">
+    <circle cx="60"  cy="60"  r="70" fill="#3468CC" opacity="0.5"/>
+    <circle cx="30"  cy="280" r="35" fill="#3468CC" opacity="0.4"/>
+    <circle cx="30"  cy="380" r="15" fill="#3468CC" opacity="0.3"/>
+    <circle cx="620" cy="60"  r="50" fill="#3468CC" opacity="0.4"/>
+    <circle cx="650" cy="140" r="18" fill="#3468CC" opacity="0.3"/>
+    <circle cx="640" cy="340" r="75" fill="#3468CC" opacity="0.4"/>
+    <circle cx="300" cy="30"  r="14" fill="#3468CC" opacity="0.3"/>
+    <circle cx="380" cy="450" r="12" fill="#3468CC" opacity="0.3"/>
+  </g>
+
+  <!-- Connections: Input → Hidden -->
+  <line x1="170" y1="130" x2="340" y2="90"  stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="130" x2="340" y2="190" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="130" x2="340" y2="290" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="130" x2="340" y2="390" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <line x1="170" y1="240" x2="340" y2="90"  stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="240" x2="340" y2="190" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="240" x2="340" y2="290" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="240" x2="340" y2="390" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <line x1="170" y1="350" x2="340" y2="90"  stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="350" x2="340" y2="190" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="350" x2="340" y2="290" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="170" y1="350" x2="340" y2="390" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <!-- Connections: Hidden → Output -->
+  <line x1="340" y1="90"  x2="510" y2="130" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="90"  x2="510" y2="240" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="90"  x2="510" y2="350" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <line x1="340" y1="190" x2="510" y2="130" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="190" x2="510" y2="240" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="190" x2="510" y2="350" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <line x1="340" y1="290" x2="510" y2="130" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="290" x2="510" y2="240" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="290" x2="510" y2="350" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <line x1="340" y1="390" x2="510" y2="130" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="390" x2="510" y2="240" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+  <line x1="340" y1="390" x2="510" y2="350" stroke="#E8E0D0" stroke-width="1.8" opacity="0.85"/>
+
+  <!-- Input layer nodes (amber) -->
+  <circle cx="170" cy="130" r="34" fill="#F5A623"/>
+  <circle cx="170" cy="240" r="34" fill="#F5A623"/>
+  <circle cx="170" cy="350" r="34" fill="#F5A623"/>
+
+  <!-- Hidden layer nodes (coral) -->
+  <circle cx="340" cy="90"  r="34" fill="#E8614E"/>
+  <circle cx="340" cy="190" r="34" fill="#E8614E"/>
+  <circle cx="340" cy="290" r="34" fill="#E8614E"/>
+  <circle cx="340" cy="390" r="34" fill="#E8614E"/>
+
+  <!-- Output layer nodes (teal) -->
+  <circle cx="510" cy="130" r="34" fill="#1D9E75"/>
+  <circle cx="510" cy="240" r="34" fill="#1D9E75"/>
+  <circle cx="510" cy="350" r="34" fill="#1D9E75"/>
+</svg>
