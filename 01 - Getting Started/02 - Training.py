@@ -1,19 +1,19 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Training
 
     [Sébastien Boisgérault], Mines Paris - PSL University
@@ -21,15 +21,13 @@ def _(mo):
     Source: [Pytorch tutorials](https://docs.pytorch.org/tutorials/)
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// Note | Learning Objectives
 
     **Everything is a Tensor**
@@ -54,8 +52,7 @@ def _(mo):
     - [ ] Learn how to estimate model accuracy,
     - [ ] Learn how to read and save the model parameters,
     ///
-    """
-    )
+    """)
     return
 
 
@@ -63,6 +60,7 @@ def _(mo):
 def _():
     import torch
     import torchvision
+
     return torch, torchvision
 
 
@@ -70,12 +68,15 @@ def _():
 def _():
     import matplotlib.pyplot as plt
     import pandas as pd
-    return (plt,)
+
+    return pd, plt
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## The FashionMNIST Dataset""")
+    mo.md(r"""
+    ## The FashionMNIST Dataset
+    """)
     return
 
 
@@ -101,7 +102,9 @@ def _(torchvision):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Model Architecture""")
+    mo.md(r"""
+    ## Model Architecture
+    """)
     return
 
 
@@ -109,7 +112,7 @@ def _(mo):
 def _(torch):
     model = torch.nn.Sequential(
         torch.nn.Flatten(),
-        torch.nn.Linear(28*28, 512),
+        torch.nn.Linear(28 * 28, 512),
         torch.nn.ReLU(),
         torch.nn.Linear(512, 512),
         torch.nn.ReLU(),
@@ -122,8 +125,7 @@ def _(torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The model architecture is going to assign to each image input the vector of probability $p_i$ that the item belongs to the $i$th class.
     The class prediction is simply the class with the highest probability, but the fact that all $p_i$ are known allows us to evaluate the trust that we should have in the prediction.
 
@@ -143,8 +145,7 @@ def _(mo):
     $$
 
     The pytorch [`softmax`](https://pytorch.org/docs/stable/generated/torch.nn.functional.softmax.html) function implements this operation.
-    """
-    )
+    """)
     return
 
 
@@ -155,7 +156,6 @@ def _(plt, training_data):
     plt.grid(False)
     plt.colorbar()
     plt.gcf()
-
     return (image_tensor,)
 
 
@@ -176,14 +176,18 @@ def _(logits, torch):
 
 @app.cell
 def _(probas, training_data):
-    probas_dict = {training_data.classes[i]: _p.item() for i, _p in enumerate(probas)}
+    probas_dict = {
+        training_data.classes[i]: _p.item() for i, _p in enumerate(probas)
+    }
     probas_dict
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Model State (Parameters)""")
+    mo.md(r"""
+    ### Model State (Parameters)
+    """)
     return
 
 
@@ -202,19 +206,19 @@ def _(model):
 @app.cell
 def _(model):
     for _p in model.parameters():
-        print(f'type: {type(_p.data).__name__}, shape: {tuple(_p.shape)!s:<10}, data type: {_p.dtype}')
+        print(
+            f"type: {type(_p.data).__name__}, shape: {tuple(_p.shape)!s:<10}, data type: {_p.dtype}"
+        )
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Model Size
     How many scalar parameters describe the model? What is the corresponding model size in MB?
     ///
-    """
-    )
+    """)
     return
 
 
@@ -223,7 +227,7 @@ def _(mo, model, torch):
     num_params = 0
     for _p in model.parameters():
         num_params = num_params + torch.prod(torch.tensor(_p.shape)).item()
-    
+
     mo.md(
         rf"""
     /// hint | Solution
@@ -238,13 +242,17 @@ def _(mo, model, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Components""")
+    mo.md(r"""
+    ### Components
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""#### Flatten""")
+    mo.md(r"""
+    #### Flatten
+    """)
     return
 
 
@@ -277,7 +285,9 @@ def _(image_tensor, image_vector):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""#### Linear (Affine) Operator""")
+    mo.md(r"""
+    #### Linear (Affine) Operator
+    """)
     return
 
 
@@ -333,7 +343,9 @@ def _(image_vector, linear_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Rectified Linear Unit""")
+    mo.md(r"""
+    ### Rectified Linear Unit
+    """)
     return
 
 
@@ -370,25 +382,33 @@ def _(plt, torch):
         plt.plot(input_1, relu(input_1))
         plt.axis("equal")
         return plt.gcf()
+
+
     _()
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Training""")
+    mo.md(r"""
+    ## Training
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Loss Function""")
+    mo.md(r"""
+    ### Loss Function
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""The loss function is a measure of the model prediction error: the mismatch between the output predicted by the model and the "real" output. Here, in the context of category identification, we use the cross-entropy loss function.""")
+    mo.md(r"""
+    The loss function is a measure of the model prediction error: the mismatch between the output predicted by the model and the "real" output. Here, in the context of category identification, we use the cross-entropy loss function.
+    """)
     return
 
 
@@ -400,8 +420,7 @@ def _(torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     It measures the difference between two probability distributions: here a computed probability distribution $p=(p_0, \dots, p_{n-1})$ and the "deterministic" distribution $e_i$ that states that the $i$ event is certain: every entry of $e_i$ is null but the $i$th which is equal to 1:
 
     $$
@@ -411,38 +430,35 @@ def _(mo):
     The difference is measured with:
 
     $$
-    \mathrm{loss}(p, e_i) = - \sum_{j} e_{ij} \log p_j = - \log p_i. 
+    \mathrm{loss}(p, e_i) = - \sum_{j} e_{ij} \log p_j = - \log p_i.
     $$
 
     The loss is zero when $p_i = 1$ (perfect match) and $-\infty$ when $p_i = 0$. It does not depend on the distribution of the $p_j$ for $j \neq i$.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning
 
-    The pytorch cross entropy function works directly with unnormalized log probabilities 
+    The pytorch cross entropy function works directly with unnormalized log probabilities
 
     $$
     \ell_i := \log p_i + c
     $$
 
-    (the log probabilities up to a shared constant $c$) instead of the probabilites $p$. 
+    (the log probabilities up to a shared constant $c$) instead of the probabilites $p$.
     The deterministic distribution is also specified by the index $i$ instead of the vector $q=e_i$.
     Hence, it actually computes
 
     $$
-    \mathrm{loss}(\ell, i) := -\ell_i  + \log \left( \sum_je^{\ell_j} \right). 
+    \mathrm{loss}(\ell, i) := -\ell_i  + \log \left( \sum_je^{\ell_j} \right).
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -454,58 +470,45 @@ def _(torch):
 
 @app.cell
 def _(cross_entropy, torch):
-    cross_entropy(
-        input=torch.tensor([1.0, 0.0]).log(), 
-        target=torch.tensor(0)
-    )
+    cross_entropy(input=torch.tensor([1.0, 0.0]).log(), target=torch.tensor(0))
     return
 
 
 @app.cell
 def _(cross_entropy, torch):
-    cross_entropy(
-        input=torch.tensor([0.0, 1.0]).log(), 
-        target=torch.tensor(0)
-    )
+    cross_entropy(input=torch.tensor([0.0, 1.0]).log(), target=torch.tensor(0))
     return
 
 
 @app.cell
 def _(cross_entropy, torch):
-    cross_entropy(
-        input=torch.tensor([0.5, 0.5]).log(), 
-        target=torch.tensor(0)
-    )
+    cross_entropy(input=torch.tensor([0.5, 0.5]).log(), target=torch.tensor(0))
     return
 
 
 @app.cell
 def _(torch):
-    - torch.tensor(0.5).log()
+    -torch.tensor(0.5).log()
     return
 
 
 @app.cell
 def _(cross_entropy, torch):
-    cross_entropy(
-        input=torch.tensor([2/3, 1/3]).log(), 
-        target=torch.tensor(0)
-    )
+    cross_entropy(input=torch.tensor([2 / 3, 1 / 3]).log(), target=torch.tensor(0))
     return
 
 
 @app.cell
 def _(cross_entropy, torch):
-    cross_entropy(
-        input=torch.tensor([200.0, 100.0]).log(), 
-        target=torch.tensor(0)
-    )
+    cross_entropy(input=torch.tensor([200.0, 100.0]).log(), target=torch.tensor(0))
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Data Loader""")
+    mo.md(r"""
+    ### Data Loader
+    """)
     return
 
 
@@ -514,7 +517,9 @@ def _(test_data, torch, training_data):
     batch_size = 64
 
     # Create data loaders.
-    train_dataloader = torch.utils.data.DataLoader(training_data, batch_size=batch_size)
+    train_dataloader = torch.utils.data.DataLoader(
+        training_data, batch_size=batch_size
+    )
     test_dataloader = torch.utils.data.DataLoader(test_data, batch_size=batch_size)
 
     for X, y in test_dataloader:
@@ -526,7 +531,9 @@ def _(test_data, torch, training_data):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Training""")
+    mo.md(r"""
+    ### Training
+    """)
     return
 
 
@@ -564,11 +571,16 @@ def _(torch):
             for X, y in dataloader:
                 pred = model(X)
                 test_loss = test_loss + loss_fn(pred, y).item()
-                correct = correct + (pred.argmax(1) == y).type(torch.float).sum().item()
+                correct = (
+                    correct + (pred.argmax(1) == y).type(torch.float).sum().item()
+                )
         test_loss = test_loss / num_batches
         correct = correct / size
-        print(f'Test Error: \n Accuracy: {100 * correct:>0.2f}%, Avg loss: {test_loss:>8f} \n')
+        print(
+            f"Test Error: \n Accuracy: {100 * correct:>0.2f}%, Avg loss: {test_loss:>8f} \n"
+        )
         return correct
+
     return (test,)
 
 
@@ -588,10 +600,11 @@ def _(model, test, test_dataloader, torch, train_dataloader):
                 break
             epoch = epoch + 1
             score = new_score
-            print(f'Epoch {epoch}\n-------------------------------')
+            print(f"Epoch {epoch}\n-------------------------------")
             train(train_dataloader, model, loss_function, optimizer)
             new_score = test(test_dataloader, model, loss_function)
         print("Done!")
+
 
     learn(lr=1e-2)
     return
@@ -599,7 +612,75 @@ def _(model, test, test_dataloader, torch, train_dataloader):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Saving the Model""")
+    mo.md(r"""
+    ## Saving the Model
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    /// admonition | TODO
+        type: warning
+
+    - document the shortcomings of ".pth" format
+    - safetensor export
+    - ONNX export
+    ///
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The model’s `parameters` method returns an iterator over the model parameters as PyTorch tensors.
+    """)
+    return
+
+
+@app.cell
+def _(model):
+    model.parameters()  # "lazy" list
+    return
+
+
+@app.cell
+def _(model):
+    list(model.parameters())  # true list
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The model also has a `state_dict` method that name the same parameters:
+    """)
+    return
+
+
+@app.cell
+def _(model, pd):
+    pd.DataFrame(
+        [
+            {
+                "name": name,
+                "shape": tuple(tensor.shape),
+                "data type": str(tensor.dtype),
+                "value": str(tensor),
+            }
+            for name, tensor in model.state_dict().items()
+        ]
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    The simplest way to save the models parameters is with `torch.save`:
+    """)
     return
 
 
@@ -607,6 +688,56 @@ def _(mo):
 def _(model, torch):
     torch.save(model.state_dict(), "models/model.pth")
     print("Saved PyTorch Model State to 'models/model.pth'")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    However, this method relies on the `pickle` module from the Python standard library which can vary from one Python version to another. It is also tied to Pytorch.
+
+    For more robustness and portability, you can use the [safetensors] library instead.
+
+    [safetensors]: https://huggingface.co/docs/safetensors/index
+    """)
+    return
+
+
+@app.cell
+def _(model):
+    import safetensors.torch
+
+    safetensors.torch.save_file(model.state_dict(), "models/model.safetensors")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    In both cases, only the model parameters are saved. To use the model to perform inference, you will need to provide the model architecture definition.
+
+    With the [ONNX] (Open Neural Network Exchange format, both the model parameters and architecture are saved and you case use the model with any ONNX runtime, without Pytorch.
+
+    [ONNX]: https://onnx.ai/
+    """)
+    return
+
+
+@app.cell
+def _(model, torch, train_dataloader):
+    (example_input, example_output) = next(iter(train_dataloader))
+    assert example_input.shape == torch.Size([64, 1, 28, 28])
+
+    torch.onnx.export(
+        model,
+        example_input,
+        "models/model.onnx",
+        input_names=["input"],
+        output_names=["output"],
+        dynamic_shapes={
+            "input": {0: "batch_size"},
+        },
+    )
     return
 
 

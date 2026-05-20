@@ -1,46 +1,44 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Dataset
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning Objectives
 
      - [ ] **Fetch a Dataset**. Load the FashionMNIST dataset,
      - [ ] **Explore a Dataset.** Determine its main characteristics (contents, size, etc.),
      - [ ] **Data Preprocessing.** Get familiar with the image processing required to make such a dataset.
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
     import torchvision
+
     return (torchvision,)
 
 
@@ -52,12 +50,15 @@ def _():
     import PIL.ImageDraw
     import PIL.ImageEnhance
     import scipy.ndimage
+
     return PIL, np, pd, scipy
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""## The FashionMNIST Dataset""")
+    mo.md(r"""
+    ## The FashionMNIST Dataset
+    """)
     return
 
 
@@ -90,13 +91,11 @@ def _(dataset):
 
 @app.cell(hide_code=True)
 def _(image_0001, mo):
-    mo.md(
-        rf"""
+    mo.md(rf"""
     In this dataset, images are {image_0001.width}$\times${image_0001.height} thumbnails. They are also greyscale with the intensity coded on 8 bits (mode "L", see [Pillow Modes]).
 
     [Pillow Modes]: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#modes
-    """
-    )
+    """)
     return
 
 
@@ -108,34 +107,32 @@ def _(PIL, image_0001):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Dataset Size
 
     What is the size of such a greyscale thumbnail (uncompressed)? What is the size of the dataset?
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// hint | Solution
 
-      - The size of a single image is 28 $\times$ 28 $\times$ 8 = 6272 bits (b) or 784 bytes (B). 
+    - The size of a single image is 28 $\times$ 28 $\times$ 8 = 6272 bits (b) or 784 bytes (B).
 
-      - The dataset has 60000 samples, thus it size is 47040000 B or around 47 MB.
+    - The dataset has 60000 samples, thus it size is 47040000 B or around 47 MB.
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Extending the Dataset""")
+    mo.md(r"""
+    ## Extending the Dataset
+    """)
     return
 
 
@@ -166,7 +163,9 @@ def _(image):
 
 @app.cell(hide_code=True)
 def _(error, mo):
-    mo.md(rf"""The difference between the aspect ratio of the original image and 4/3 is approximately {100.0 * error:.1}%.""")
+    mo.md(rf"""
+    The difference between the aspect ratio of the original image and 4/3 is approximately {100.0 * error:.1}%.
+    """)
     return
 
 

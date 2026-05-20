@@ -1,19 +1,19 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Inference
 
     [Sébastien Boisgérault], Mines Paris - PSL University
@@ -22,15 +22,13 @@ def _(mo):
 
 
     [Sébastien Boisgérault]: mailto://Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning Objectives
     - [ ] Load a pre-trained neural network model,
     - [ ] Understand its output,
@@ -39,8 +37,7 @@ def _(mo):
     - [ ] Evaluate the confidence in its answers.
 
     ///
-    """
-    )
+    """)
     return
 
 
@@ -48,6 +45,7 @@ def _(mo):
 def _():
     import torch
     import torchvision
+
     return torch, torchvision
 
 
@@ -62,7 +60,9 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""We download the subset of the FashionMNIST dataset that has *not* been used to train our model and put it in the `cache` directory.""")
+    mo.md(r"""
+    We download the subset of the FashionMNIST dataset that has *not* been used to train our model and put it in the `cache` directory.
+    """)
     return
 
 
@@ -95,7 +95,9 @@ def _(image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Model Architecture""")
+    mo.md(r"""
+    ## Model Architecture
+    """)
     return
 
 
@@ -130,7 +132,9 @@ def _(model, state_dict):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Data Transformation""")
+    mo.md(r"""
+    ## Data Transformation
+    """)
     return
 
 
@@ -186,7 +190,9 @@ def _(input):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Inference""")
+    mo.md(r"""
+    ## Inference
+    """)
     return
 
 
@@ -222,13 +228,12 @@ def _(best_score_index, dataset):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Uncertainty: Logits and Probabilities
 
     For a more subtle understanding of the results, the neural network outputs (or scores) can be interpreted as unnormalized log-probabilities or **logits**.
 
-    Since a score $s$ can take any value in $[-\infty, +\infty]$, we could define a corresponding probability $p \in [0, 1]$ with 
+    Since a score $s$ can take any value in $[-\infty, +\infty]$, we could define a corresponding probability $p \in [0, 1]$ with
 
     $$
     \log p := s
@@ -241,15 +246,13 @@ def _(mo):
     $$
 
     while in reality, the output of the neural network satisfies this constraint.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     So instead, we can use **logits**, or unnormalized log-probabilities, as score, that is
 
     $$
@@ -259,7 +262,7 @@ def _(mo):
     where the constant $c$ is determined by the score vector. Indeed, we have
 
     $$
-    \sum_{i=0}^9 e^{s_i} = \sum_{i=0}^9 e^{\log p_i + c} = \left(\sum_{i=0}^9 p_i\right)e^{c} = e^c. 
+    \sum_{i=0}^9 e^{s_i} = \sum_{i=0}^9 e^{\log p_i + c} = \left(\sum_{i=0}^9 p_i\right)e^{c} = e^c.
     $$
 
     With this convention, we have:
@@ -277,8 +280,7 @@ def _(mo):
     (p_0, \dots, p_9) = \mathrm{softmax}((s_0, \dots, s_9))
     }
     $$
-    """
-    )
+    """)
     return
 
 
@@ -319,13 +321,17 @@ def _(df, plt, sns):
 
 @app.cell(hide_code=True)
 def _(best_score_index, cls, dataset, mo, p):
-    mo.md(rf"""The real category **{dataset.classes[cls]}** and the neural networked inferred **{dataset.classes[best_score_index]}** with a confidence of **{p[best_score_index]*100:.0f} %**.""")
+    mo.md(rf"""
+    The real category **{dataset.classes[cls]}** and the neural networked inferred **{dataset.classes[best_score_index]}** with a confidence of **{p[best_score_index]*100:.0f} %**.
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Consolidation""")
+    mo.md(r"""
+    ## Consolidation
+    """)
     return
 
 
@@ -336,6 +342,7 @@ def _(model, pil_to_tensor, softmax, torch):
         with torch.no_grad():
             logits = model(input)
         return softmax(logits).squeeze()
+
     return (classify,)
 
 
@@ -348,6 +355,7 @@ def _(dataset, pd, plt, sns):
         plt.grid(True)
         sns.barplot(x="Category", y="Probability", data=df)
         return plt.gcf()
+
     return (visualize,)
 
 
@@ -359,7 +367,9 @@ def _(classify, image, visualize):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Batched Prediction""")
+    mo.md(r"""
+    ## Batched Prediction
+    """)
     return
 
 
@@ -391,7 +401,9 @@ def _(images_tensor, model, torch):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Out-of-dataset samples""")
+    mo.md(r"""
+    ## Out-of-dataset samples
+    """)
     return
 
 
