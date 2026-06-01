@@ -1,26 +1,25 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Rosenbrock "Banana" Function
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
@@ -29,6 +28,7 @@ def _():
     import torch
     from torch import tensor
     import torch.optim
+
     return tensor, torch
 
 
@@ -36,6 +36,7 @@ def _():
 def _():
     import numpy as np
     import matplotlib.pyplot as plt
+
     return (plt,)
 
 
