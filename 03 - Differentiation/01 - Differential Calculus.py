@@ -1,42 +1,42 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App(layout_file="layouts/01 - Differential Calculus.slides.json")
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Differential Calculus
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Derivative""")
+    mo.md(r"""
+    ## Derivative
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Derivative of Scalar-Valued Functions
 
-    Let 
+    Let
 
     $$
     x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}.
@@ -49,18 +49,16 @@ def _(mo):
     $$
 
     whenever the limit exists.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Derivative of Vector-Valued Functions
 
-    Let 
+    Let
 
     $$
     x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}^m.
@@ -73,32 +71,28 @@ def _(mo):
     $$
 
     whenever the limit exists.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning
 
     The concept of derivative can also be defined for matrix-valued function or even for generally for arbitrary tensor-valued functions. However, it is only applicable for functions of a single scalar variable.
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Derivatives of Vector-Valued Functions
 
-    The derivative of the function 
+    The derivative of the function
 
     $$
     x \in \mathbb{R} \mapsto f(x) \in \mathbb{R}^m
@@ -118,19 +112,17 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     There is an alternate presentation of the concept that will be useful later. If $f$ has a derivative at $x \in \mathbb{R}$, then the function
 
     $$
-    \varepsilon_x(\Delta x) := \left(\frac{f(x+\Delta x)-f(x)}{\Delta x} - f'(x)\right) \frac{\Delta x}{|\Delta x|} 
+    \varepsilon_x(\Delta x) := \left(\frac{f(x+\Delta x)-f(x)}{\Delta x} - f'(x)\right) \frac{\Delta x}{|\Delta x|}
     $$
 
     satisfies
@@ -138,37 +130,33 @@ def _(mo):
     $$
     \lim_{\Delta x \to 0} \varepsilon_x(\Delta x) = 0.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Given the definition of $\varepsilon$, that means that $f'(x)$ is uniquely characterized as the scalar/vector such that
 
     $$
     f(x + \Delta x) = f(x) + f'(x) \Delta x + \varepsilon_x(\Delta x) |\Delta x|
     $$
 
-    where 
+    where
 
     $$
     \lim_{\Delta x \to 0} \varepsilon_x(\Delta x) = 0.
     $$
 
     (If no such vector exists, the derivative $f'(x)$ is undefined.)
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     This is usually written with the [Landau] notation:
 
     $$
@@ -176,15 +164,13 @@ def _(mo):
     $$
 
     [Landau]: https://en.wikipedia.org/wiki/Edmund_Landau
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Partial Derivative
 
 
@@ -196,7 +182,7 @@ def _(mo):
     x \in \mathbb{R}^n \to f(x) \in \mathbb{R} \; (\text{or } \mathbb{R}^{m})
     $$
 
-    The partial derivative of $f$ with respect to the $i$th variable $x_i$ at 
+    The partial derivative of $f$ with respect to the $i$th variable $x_i$ at
 
     $$
     x=(x_1, \dots, x_n)
@@ -205,19 +191,17 @@ def _(mo):
     is defined by:
 
     $$
-    \partial_i f(x) = \frac{\partial f}{\partial x_i}(x) 
-    := 
+    \partial_i f(x) = \frac{\partial f}{\partial x_i}(x)
+    :=
     \lim_{\Delta x_i \to 0} \frac{f(x_1, \dots, x_{i-1}, x_i + \Delta x_i, x_{i+1}, \dots)-f(x)}{\Delta x_i} \in \mathbb{R}  \; (\text{or } \mathbb{R}^{m}).
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | The partial derivative is a derivative
 
     Note that if we consider the $i$th partial function $\phi_i$ of $f$ at $x$:
@@ -232,27 +216,21 @@ def _(mo):
     \partial_i f(x) = \phi_i'(x_i).
     $$
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r""" """)
+    mo.md(r"""
+    ## Scalar-Valued Functions
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Scalar-Valued Functions""")
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Gradient
 
     For scalar-valued functions of several variables:
@@ -270,53 +248,49 @@ def _(mo):
     whenever it exists.
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Exercise
 
     Compute the gradient of:
 
     $$
     f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
-    $$ 
+    $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// hint | Solution
 
     Both partial functions of
 
     $$
     f:(x_1,x_2) \in \R^2 \mapsto (x_2^2 - x_1)^2 + (x_1 - 1)^2 \in \R
-    $$ 
+    $$
 
-    have a derivative ; 
-    they satisfy 
+    have a derivative ;
+    they satisfy
 
     $$
     \partial_1 f(x_1, x_2) = -2(x_2^2 - x_1) + 2 (x_1 - 1)
-    $$ 
+    $$
 
-    and 
+    and
 
     $$
     \partial_2 f(x_1, x_2) = 4 (x_2^2 - x_1)x_2.
-    $$ 
+    $$
 
     Therefore its gradient is given by
 
@@ -327,24 +301,24 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Vector-Valued Functions""")
+    mo.md(r"""
+    ## Vector-Valued Functions
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Jacobian matrix
 
-    Let 
+    Let
 
     $$
     x \in \mathbb{R}^n \to f(x) \in \mathbb{R}^m.
@@ -363,15 +337,13 @@ def _(mo):
     \right] \in \mathbb{R}^{m\times n}.
     $$
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Alternate definition
 
     If $f$ is decomposed into scalar-valued components
@@ -401,15 +373,13 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note
     In the special case where $f(x)$ is a vector of dimension 1
 
@@ -420,8 +390,8 @@ def _(mo):
     we can identify $f(x)$ as its only scalar component, compute its gradient $\nabla f(x) \in \mathbb{R}$ and finally identify this gradient with a row vector of $\mathbb{R}^{1 \times n}$. If we do this, then we have:
 
     $$
-    J_f(x) = \nabla f(x) = 
-    \left[ 
+    J_f(x) = \nabla f(x) =
+    \left[
     \begin{array}{c}
     \partial_1 f(x) &
     \partial_2 f(x) &
@@ -432,15 +402,13 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Exercise
     Show that for every $x=(x_1, x_2)$ de $\R^2$, the jacobian matrix of the function
 
@@ -451,8 +419,8 @@ def _(mo):
     is defined and satisfies
 
     $$
-    J_f(x_1, x_2) = 
-    \left[ 
+    J_f(x_1, x_2) =
+    \left[
       \begin{array}{cc}
       4 & -4x_2 \\
       -4x_2 & 12 x_2^2
@@ -460,36 +428,34 @@ def _(mo):
       \right]\in \R^{2 \times 2}.
     $$
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// hint | Solution
-    We have $f(x) = (f_1(x), f_2(x))$ with 
+    We have $f(x) = (f_1(x), f_2(x))$ with
 
     $$
     f_1(x) := -2(x_2^2 - x_1) + 2 (x_1 - 1)
     \;\;\;
-    \text{ and } 
-    \;\;\; 
+    \text{ and }
+    \;\;\;
     f_2(x) = 4 (x_2^2 - x_1)x_2.
     $$
 
     Both functions have partial derivatives with respect to their two arguments:
 
     $$
-    \partial_1 f_1(x) = 4, 
+    \partial_1 f_1(x) = 4,
     \; \; \;
     \partial_2 f_1(x) = -4 x_2,
     $$
 
     $$
-    \partial_1 f_2(x) = -4x_2, 
+    \partial_1 f_2(x) = -4x_2,
     \; \; \;
     \partial_2 f_2(x) = 12 x_2^2
     $$
@@ -497,8 +463,8 @@ def _(mo):
     Finally,
 
     $$
-    J_f(x_1, x_2) = 
-    \left[ 
+    J_f(x_1, x_2) =
+    \left[
       \begin{array}{cc}
       4 & -4x_2 \\
       -4x_2 & 12 x_2^2
@@ -507,21 +473,21 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Differential""")
+    mo.md(r"""
+    ## Differential
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Differentiable Scalar-Valued Function
 
     Let
@@ -539,7 +505,7 @@ def _(mo):
     that is, if
 
     $$
-    \frac{f(x + \Delta x) - f(x) - \nabla f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \; 
+    \frac{f(x + \Delta x) - f(x) - \nabla f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \;
     \text{ when } \; \Delta x  \to 0.
     $$
 
@@ -548,15 +514,13 @@ def _(mo):
     $$
     \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) := \nabla f(x) \cdot \Delta x\in \mathbb{R}.
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Differentiable Vector-Valued Function
 
     Let
@@ -574,7 +538,7 @@ def _(mo):
     that is, if
 
     $$
-    \frac{f(x + \Delta x) - f(x) - J_f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \; 
+    \frac{f(x + \Delta x) - f(x) - J_f(x) \cdot \Delta x}{\|\Delta x\|} \to 0 \;
     \text{ when } \; \Delta x  \to 0.
     $$
 
@@ -583,25 +547,23 @@ def _(mo):
 
     $$
     \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) := J_f(x) \cdot \Delta x\in \mathbb{R}^m.
-    $$ 
+    $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Differential
 
     If $f$ is differentiable at $x$, its differential $df(x)$ at $x$ is the function
 
     $$
     \Delta x \in \mathbb{R}^m \to df(x)(\Delta x) \in \mathbb{R}^p
-    $$ 
+    $$
 
     that associates to a vector $\Delta x$ the corresponding jacobian-vector product:
 
@@ -610,33 +572,19 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r""" """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r""" """)
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Chain Rule
 
     /// note | Chain Rule
-    If 
+    If
     $f: \mathbb{R}^p \to \mathbb{R}^{n}$ and
-    $g: \mathbb{R}^n \to \mathbb{R}^{m}$ 
+    $g: \mathbb{R}^n \to \mathbb{R}^{m}$
     are both differentiable, the composite function $g \circ f$ is differentiable and
 
     $$
@@ -650,15 +598,13 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Implementation
     Concretely, if there are three vector variables $x$, $y$ and $z$, such that
 
@@ -683,8 +629,7 @@ def _(mo):
     $$
 
     ///
-    """
-    )
+    """)
     return
 
 
