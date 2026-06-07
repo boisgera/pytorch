@@ -93,10 +93,18 @@ def _(image):
     return
 
 
+@app.cell
+def _(PIL, image):
+    image.resize((500, 500), PIL.Image.NEAREST)
+    return
+
+
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Model Architecture
+
+    We define a instance of the prediction model architecture (a classic multi-layer perceptron). Initially, this model has random weights.
     """)
     return
 
@@ -116,6 +124,14 @@ def _(torch):
     return (model,)
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Then we set its weights to the values that result from the training phase.
+    """)
+    return
+
+
 @app.cell
 def _(torch):
     state_dict = torch.load("models/model.pth")
@@ -130,7 +146,7 @@ def _(model, state_dict):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Data Transformation
@@ -188,7 +204,7 @@ def _(input):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Inference
@@ -253,7 +269,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    So instead, we can use **logits**, or unnormalized log-probabilities, as score, that is
+    So instead, we can use **logits**, or unnormalized log-probabilities, as scores, that is
 
     $$
     \log p + c := s
@@ -365,7 +381,7 @@ def _(classify, image, visualize):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Batched Prediction
@@ -399,7 +415,7 @@ def _(images_tensor, model, torch):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
     ## Out-of-dataset samples

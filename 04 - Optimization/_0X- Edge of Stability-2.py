@@ -1,7 +1,7 @@
 import marimo
 
-__generated_with = "0.23.8"
-app = marimo.App(width="medium", layout_file="layouts/notebook.slides.json")
+__generated_with = "0.23.5"
+app = marimo.App(width="medium")
 
 with app.setup:
     import marimo as mo
@@ -11,7 +11,21 @@ with app.setup:
     sh  = 1.0     # Sharpness (of the quadratic function)
     lr  = 2 / sh  # Learning rate at the edge of stability
     x0  = 1.0     # Starting point
-    eps = 1e-1    # Extra cubic term coeff
+    eps = 1e-1
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    /// Warning | TODO
+
+    - [ ] Automate the state + value + sharpness drawing
+    - [ ] Explain/test that negative values of `eps` "work" too.
+    - [ ] Comment, document
+    - [ ] Test Fourth-Order with `eps = 0` ?
+    ///
+    """)
+    return
 
 
 @app.cell(hide_code=True)

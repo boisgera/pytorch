@@ -2,14 +2,14 @@
 authors = ["Sébastien Boisgérault <Sebastien.Boisgerault@gmail.com>"]
 channels = ["conda-forge"]
 name = "pytorch"
-platforms = ["linux-64", "win-64", "osx-64", "osx-arm64"]
+platforms = ["linux-64", "win-64"]
 version = "0.1.0"
 
-[tasks]
+[system-requirements]
+cuda = "13.0"
 
 [dependencies]
 python = ">=3.14.4,<3.15"
-pytorch = ">=2.10.0,<3"
 torchvision = ">=0.26.0,<0.27"
 numpy = ">=2.4.3,<3"
 scipy = ">=1.17.1,<2"
@@ -27,6 +27,7 @@ pyarrow = ">=24.0.0,<25"
 array-api-compat = ">=1.14.0,<2"
 ruff = ">=0.15.12,<0.16"
 safetensors = ">=0.7.0,<0.8"
+pytorch-gpu = ">=2.10.0,<3"
 
 [pypi-dependencies]
 torchviz = ">=0.0.3, <0.0.4"

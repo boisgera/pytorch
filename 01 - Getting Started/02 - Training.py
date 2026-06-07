@@ -104,6 +104,8 @@ def _(torchvision):
 def _(mo):
     mo.md(r"""
     ## Model Architecture
+
+    We use the classic Multi-Layer Perceptron (MLP) structure:
     """)
     return
 
@@ -558,55 +560,83 @@ def train(dataloader, model, loss_fn, optimizer):
 
 @app.cell
 def _(torch):
-    def test(dataloader, model, loss_fn):
+    def measure(dataloader, model, loss_fn):
         """
         Returns:
-          - score, the probability of a correct inference on the test dataset
+          - loss, the value of the loss function,
+          - score, the probability of a correct inference on the test dataset.
         """
         size = len(dataloader.dataset)
         num_batches = len(dataloader)
         model.eval()
-        test_loss, correct = (0, 0)
+        loss, score = 0.0, 0.0
         with torch.no_grad():
             for X, y in dataloader:
                 pred = model(X)
-                test_loss = test_loss + loss_fn(pred, y).item()
-                correct = (
-                    correct + (pred.argmax(1) == y).type(torch.float).sum().item()
+                loss = loss + loss_fn(pred, y).item()
+                score = (
+                    score + (pred.argmax(1) == y).type(torch.float).sum().item()
                 )
-        test_loss = test_loss / num_batches
-        correct = correct / size
+        loss = loss / num_batches
+        score = score / size
         print(
-            f"Test Error: \n Accuracy: {100 * correct:>0.2f}%, Avg loss: {test_loss:>8f} \n"
+            f"Test Error: \n Accuracy: {100 * score:>0.2f}%, Avg loss: {loss:>8f} \n"
         )
-        return correct
+        return loss, score
 
-    return (test,)
+    return (measure,)
 
 
 @app.cell
-def _(model, test, test_dataloader, torch, train_dataloader):
-    def learn(max_epoch=10, lr=1e-3):
+def _(measure, model, test_dataloader, torch, train_dataloader):
+    def learn(max_epoch=100, auto_stop=True, lr=1e-3):
         model.train()
         optimizer = torch.optim.SGD(model.parameters(), lr=lr)
         loss_function = torch.nn.CrossEntropyLoss()
-
-        score = 0.0
-        new_score = test(test_dataloader, model, loss_function)
+        losses, scores = [], []
+        loss, score = measure(test_dataloader, model, loss_function)
+        losses.append(loss)
+        scores.append(score)
         epoch = 0
 
         while True:
-            if epoch >= max_epoch or new_score <= score:
+            if epoch >= max_epoch:
                 break
             epoch = epoch + 1
-            score = new_score
             print(f"Epoch {epoch}\n-------------------------------")
             train(train_dataloader, model, loss_function, optimizer)
-            new_score = test(test_dataloader, model, loss_function)
+            loss, score = measure(test_dataloader, model, loss_function)
+            losses.append(loss)
+            scores.append(score)
+            if auto_stop and score <= scores[-2]:
+                break
+
         print("Done!")
+        return losses, scores
+
+    losses, scores = learn()
+    return (scores,)
 
 
-    learn(lr=1e-2)
+@app.cell
+def _(plt, scores):
+    def plot_accuracy():
+        epochs = range(len(scores))
+        accuracy = [100 * s for s in scores]
+        plt.plot(epochs, accuracy)
+        plt.xlabel("epoch")
+        plt.ylabel("accuracy (%)")
+        plt.grid(True)
+        plt.xlim(epochs[0], epochs[-1])
+        plt.ylim(min(accuracy), 100.0)
+
+        ticks = list(plt.gca().get_yticks())
+        ticks.append(accuracy[-1])
+        plt.gca().set_yticks(sorted(ticks))
+
+        return plt.gcf()
+
+    plot_accuracy()
     return
 
 
@@ -635,27 +665,7 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""
-    The model’s `parameters` method returns an iterator over the model parameters as PyTorch tensors.
-    """)
-    return
-
-
-@app.cell
-def _(model):
-    model.parameters()  # "lazy" list
-    return
-
-
-@app.cell
-def _(model):
-    list(model.parameters())  # true list
-    return
-
-
-@app.cell(hide_code=True)
-def _(mo):
-    mo.md(r"""
-    The model also has a `state_dict` method that name the same parameters:
+    Every Pytorch model has a `state_dict` method that returns all model parameters as plain tensors:
     """)
     return
 

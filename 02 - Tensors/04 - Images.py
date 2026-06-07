@@ -1,26 +1,25 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Images
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
@@ -28,6 +27,7 @@ def _(mo):
 def _():
     import torch
     import torchvision
+
     return torch, torchvision
 
 
@@ -40,6 +40,7 @@ def _():
     import requests
     import sklearn
     import seaborn as sns
+
     return PIL, matplotlib, pd, requests, sklearn, sns
 
 
@@ -93,7 +94,9 @@ def _(t, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Cropping""")
+    mo.md(r"""
+    ## Cropping
+    """)
     return
 
 
@@ -111,7 +114,9 @@ def _(t_crop, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Color Components""")
+    mo.md(r"""
+    ## Color Components
+    """)
     return
 
 
@@ -177,7 +182,9 @@ def _(t, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Images as Floating-Point Data""")
+    mo.md(r"""
+    ## Images as Floating-Point Data
+    """)
     return
 
 
@@ -209,13 +216,11 @@ def _(tensor_to_image, tf):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Luminance
 
     Source: <https://en.wikipedia.org/wiki/Relative_luminance>
-    """
-    )
+    """)
     return
 
 
@@ -228,13 +233,17 @@ def _(Bf, Gf, Rf, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Hue, Saturation, Value (HSV)""")
+    mo.md(r"""
+    ## Hue, Saturation, Value (HSV)
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Source: <https://en.wikipedia.org/wiki/HSL_and_HSV>""")
+    mo.md(r"""
+    Source: <https://en.wikipedia.org/wiki/HSL_and_HSV>
+    """)
     return
 
 
@@ -244,6 +253,7 @@ def _(matplotlib, torch):
         rgb = tf.permute((1, 2, 0)) # matplotlib.colors wants the channels in 3rd dim.
         hsv = torch.tensor(matplotlib.colors.rgb_to_hsv(rgb)).permute((2, 0, 1))
         return hsv # Hue, Saturation and Value in [0, 1]
+
     return (rgb_to_hsv,)
 
 
@@ -259,6 +269,7 @@ def _(matplotlib, torch):
         hsv = hsv.permute((1, 2, 0)) # matplotlib.colors wants the channels in 3rd dim.
         tf = torch.tensor(matplotlib.colors.hsv_to_rgb(hsv)).permute((2, 0, 1))
         return tf # RGB in [0, 1]
+
     return (hsv_to_rgb,)
 
 
@@ -270,7 +281,9 @@ def _(hsv, hsv_to_rgb, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Hue Shift""")
+    mo.md(r"""
+    ### Hue Shift
+    """)
     return
 
 
@@ -286,7 +299,9 @@ def _(h, hsv, hsv_to_rgb, tensor_to_image):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(rf"""### Saturate & Desaturate""")
+    mo.md(rf"""
+    ### Saturate & Desaturate
+    """)
     return
 
 
@@ -302,7 +317,9 @@ def _(hsv, hsv_to_rgb, s, tensor_to_image, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Adjust Brightness""")
+    mo.md(r"""
+    ### Adjust Brightness
+    """)
     return
 
 
@@ -318,7 +335,9 @@ def _(hsv, hsv_to_rgb, tensor_to_image, torch, v):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Color Statistics""")
+    mo.md(r"""
+    ## Color Statistics
+    """)
     return
 
 
@@ -379,8 +398,7 @@ def _(df, sns):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Segmentation
 
     /// note
@@ -390,8 +408,7 @@ def _(mo):
     Could you replicate the method to segment the image based on the hue only?
 
     ///
-    """
-    )
+    """)
     return
 
 

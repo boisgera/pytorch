@@ -1,41 +1,38 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Linear Algebra
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note | Learning Objectives
     - [ ] Do basic linear algebra with the "vectors are matrices" mindset,
     - [ ] Understand the more idiomatic "vectors are 1d-tensors" approach,
     - [ ] Understand what tensor contraction does and how to use it,
     - [ ] Practice extra linear algebra tools: norms, inversion, eigenvalues/vectors, svd, lstsqr, etc..
     ///
-    """
-    )
+    """)
     return
 
 
@@ -43,12 +40,15 @@ def _(mo):
 def _():
     import torch
     from torch import tensor
+
     return tensor, torch
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Vectors""")
+    mo.md(r"""
+    ## Vectors
+    """)
     return
 
 
@@ -83,7 +83,9 @@ def _(u, v):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Matrix-Vector Product""")
+    mo.md(r"""
+    ## Matrix-Vector Product
+    """)
     return
 
 
@@ -117,7 +119,9 @@ def _(A, x):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Matrix Product""")
+    mo.md(r"""
+    ## Matrix Product
+    """)
     return
 
 
@@ -137,17 +141,15 @@ def _(A, B):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning
-    `A * B` does **not** compute a the matrix product of `A` and `B`. 
+    `A * B` does **not** compute a the matrix product of `A` and `B`.
 
-    Instead it provides but the [Hadamard (or elementwise) product](https://en.wikipedia.org/wiki/Hadamard_product_(matrices)) of `A` and `B`. 
+    Instead it provides but the [Hadamard (or elementwise) product](https://en.wikipedia.org/wiki/Hadamard_product_(matrices)) of `A` and `B`.
 
     Use `A @ B` instead to to compute the matrix product of `A` and `B`.
     ///
-    """
-    )
+    """)
     return
 
 
@@ -185,7 +187,9 @@ def _(E):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Transposition""")
+    mo.md(r"""
+    ## Transposition
+    """)
     return
 
 
@@ -269,21 +273,21 @@ def _(x):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Tensorisation""")
+    mo.md(r"""
+    ## Tensorisation
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// note
 
     The previous "describe vectors as matrices" trope works but is not idiomatic.
     They may described more easily as as 1-d tensors and basic linear algebra operations can still be carried out.
     ///
-    """
-    )
+    """)
     return
 
 
@@ -326,12 +330,10 @@ def _(A, B):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning
     Transposition of a 1d vector is meaningless!
-    """
-    )
+    """)
     return
 
 
@@ -349,7 +351,9 @@ def _(A, x_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""The operator `@` has a bunch of special cases in its [definition](https://pytorch.org/docs/stable/generated/torch.matmul.html). The situation is simpler when you consider `torch.tensordot` (the tensor contraction) instead.""")
+    mo.md(r"""
+    The operator `@` has a bunch of special cases in its [definition](https://pytorch.org/docs/stable/generated/torch.matmul.html). The situation is simpler when you consider [`torch.tensordot`](https://docs.pytorch.org/docs/main/generated/torch.tensordot.html) (the tensor contraction) instead.
+    """)
     return
 
 
@@ -379,7 +383,7 @@ def _(td, x_1, y_2):
 
 @app.cell
 def _(td, x_1):
-    td(x_1, x_1, dims=0)
+    td(x_1, x_1, dims=0) # tensor product, no contraction!
     return
 
 
@@ -391,7 +395,7 @@ def _(td, x_1):
 
 @app.cell
 def _(A, B, td):
-    td(A, B, dims=0) # Contract 0 dimensions
+    td(A, B, dims=0) # tensor product, no contraction!
     return
 
 
@@ -409,19 +413,24 @@ def _(A, B, td):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Linear Algebra Operations""")
+    mo.md(r"""
+    ## Linear Algebra Operations
+    """)
     return
 
 
 @app.cell
 def _():
     import torch.linalg as la
+
     return (la,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Norms""")
+    mo.md(r"""
+    ### Norms
+    """)
     return
 
 
@@ -457,15 +466,13 @@ def _(A, la):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     See also: [vector_norm]  and [matrix_norm].
 
     [vector_norm]: https://pytorch.org/docs/stable/generated/torch.linalg.vector_norm.html#torch.linalg.vector_norm
 
     [matrix_norm]: https://pytorch.org/docs/stable/generated/torch.linalg.matrix_norm.html#torch.linalg.matrix_norm
-    """
-    )
+    """)
     return
 
 
@@ -475,9 +482,11 @@ def _(A, la):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Inversions""")
+    mo.md(r"""
+    ### Inversions
+    """)
     return
 
 
@@ -493,9 +502,11 @@ def _(A, la, x_1):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Eigenvectors and Eigenvalues""")
+    mo.md(r"""
+    ### Eigenvectors and Eigenvalues
+    """)
     return
 
 
@@ -537,7 +548,9 @@ def _(la, torch, vals_1, vects):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""There is a better function if the matrix is symmetric.""")
+    mo.md(r"""
+    There is a better function if the matrix is symmetric.
+    """)
     return
 
 
@@ -563,7 +576,9 @@ def _(S_1, la, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Singular Value Decomposition""")
+    mo.md(r"""
+    ### Singular Value Decomposition
+    """)
     return
 
 
