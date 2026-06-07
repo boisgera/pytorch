@@ -1,32 +1,32 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Tensors
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
     import torch
+
     return (torch,)
 
 
@@ -34,12 +34,15 @@ def _():
 def _():
     import numpy as np
     import pandas as pd
-    return (pd,)
+
+    return np, pd
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Getting Started""")
+    mo.md(r"""
+    ## Getting Started
+    """)
     return
 
 
@@ -98,7 +101,25 @@ def _(t):
 
 @app.cell
 def _(t):
+    t.numel()
+    return
+
+
+@app.cell
+def _(t):
     t.shape
+    return
+
+
+@app.cell
+def _(t):
+    len(t.shape)
+    return
+
+
+@app.cell
+def _(np, t):
+    np.prod(t.shape)
     return
 
 
@@ -110,13 +131,21 @@ def _(t):
 
 @app.cell
 def _(t):
+    bytes(t.untyped_storage())
+    return
+
+
+@app.cell
+def _(t):
     bytes(t.numpy())
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""-----""")
+    mo.md(r"""
+    -----
+    """)
     return
 
 
@@ -181,7 +210,9 @@ def _(pd, t0, t1, t2, t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Tensor Creation""")
+    mo.md(r"""
+    ## Tensor Creation
+    """)
     return
 
 
@@ -249,7 +280,9 @@ def _(torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Indexing""")
+    mo.md(r"""
+    ## Indexing
+    """)
     return
 
 
@@ -339,7 +372,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Vectorization""")
+    mo.md(r"""
+    ## Vectorization
+    """)
     return
 
 
@@ -459,31 +494,35 @@ def _(t2):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Reshaping""")
+    mo.md(r"""
+    ## Reshaping
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Flatten, squeeze and reshape""")
+    mo.md(r"""
+    ### Flatten, squeeze and reshape
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip
     The following operations on do not change the elements in a tensor or their order.
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""`flatten` makes a tensor 1-dimensional""")
+    mo.md(r"""
+    `flatten` makes a tensor 1-dimensional
+    """)
     return
 
 
@@ -513,7 +552,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""You can also selectively flatten a tensor along *some* of its dimensions:""")
+    mo.md(r"""
+    You can also selectively flatten a tensor along *some* of its dimensions:
+    """)
     return
 
 
@@ -531,7 +572,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""`squeeze` remove the dimensions with only one element.""")
+    mo.md(r"""
+    `squeeze` remove the dimensions with only one element.
+    """)
     return
 
 
@@ -566,7 +609,9 @@ def _(t_2):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""You can also select only some (trivial) dimensions to be removed:""")
+    mo.md(r"""
+    You can also select only some (trivial) dimensions to be removed:
+    """)
     return
 
 
@@ -608,7 +653,9 @@ def _(t_2):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""`flatten` and `squeeze` are special cases of `reshape`.""")
+    mo.md(r"""
+    `flatten` and `squeeze` are special cases of `reshape`.
+    """)
     return
 
 
@@ -663,7 +710,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Since the product of all shape coefficients is the number of elements and should be preserved, one of the coefficients can always be automatically deduced; use `-1` to let pytorch compute it.""")
+    mo.md(r"""
+    Since the product of all shape coefficients is the number of elements and should be preserved, one of the coefficients can always be automatically deduced; use `-1` to let pytorch compute it.
+    """)
     return
 
 
@@ -681,7 +730,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Transposition and Permutation""")
+    mo.md(r"""
+    ### Transposition and Permutation
+    """)
     return
 
 
@@ -759,7 +810,9 @@ def _(t3):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Concatenation and Stacking""")
+    mo.md(r"""
+    ### Concatenation and Stacking
+    """)
     return
 
 
@@ -852,7 +905,9 @@ def _(A_2, B_2, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Expansion and Broadcasting""")
+    mo.md(r"""
+    ### Expansion and Broadcasting
+    """)
     return
 
 
@@ -879,7 +934,9 @@ def _(t_4):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Duplicate the elements along (some of)  the dimensions with a depth of 1:""")
+    mo.md(r"""
+    Duplicate the elements along (some of)  the dimensions with a depth of 1:
+    """)
     return
 
 
@@ -909,7 +966,9 @@ def _(t_4):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""You can also prepend new dimensions:""")
+    mo.md(r"""
+    You can also prepend new dimensions:
+    """)
     return
 
 
@@ -927,26 +986,25 @@ def _(t_4):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    Some binary operations automatically perform the appropriate expansions on their arguments if their shapes are somehow consistent or *broadcastable*; [the rules are](https://pytorch.org/docs/stable/notes/broadcasting.html#general-semantics):
+    mo.md(r"""
+    Some binary operations automatically perform the appropriate expansions on their arguments if their shapes are somehow consistent or *broadcastable*. [The rule is](https://pytorch.org/docs/stable/notes/broadcasting.html#general-semantics):
 
 
     /// note | Broadcasting Rules
-    Two tensors are *broadcastable* if the following rules hold:
-
-    - Each tensor has at least one dimension.
+    Two tensors are *broadcastable* if the following rule holds:
 
     - When iterating over the dimension sizes, starting at the trailing dimension, the dimension sizes must either be equal, one of them is 1, or one of them does not exist.
+
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Example with the addition:""")
+    mo.md(r"""
+    Example with the addition:
+    """)
     return
 
 
