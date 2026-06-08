@@ -633,5 +633,65 @@ def _(mo):
     return
 
 
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Hessian
+
+    /// note | Hessian
+    Assume that
+    $f: \mathbb{R}^n \mapsto \mathbb{R}$ is **twice differentiable**: $f$ and $\nabla f$ are differentiable.
+
+    The **Hessian** of $f$ at $x$, denoted $H_f(x)$ or $\nabla^2 f(x)$ is defined as
+
+    $$
+    H_f(x) := J_{\nabla f}(x)
+    $$
+
+    or equivalently
+
+    $$
+    [H_{\nabla f}(x)]_{ij} = \frac{\partial^2 f(x)}{\partial x_i \partial x_j}
+    $$
+
+    is a symmetric matrix.
+
+    ///
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    ## Sharpness
+
+    /// note | Sharpness
+
+    If $f$ is twice differentiable, its hessian at $x$ can be factored out as
+
+    $$
+    H_f(x) = P \times \mathrm{diag}(\lambda_1, \lambda_2, \dots, \lambda_n) \times P^T.
+    $$
+
+    where $P$ is orthogonal
+
+    $$
+    P \times P^T = I
+    $$
+
+    and the **eigenvalues** $\lambda_i$ of the hessian are real and sorted:
+
+    $$
+    \lambda_1 \ge \lambda_2 \geq ... \geq \lambda_n.
+    $$
+
+    The largest eigenvalue $\lambda_1$ is the **sharpness** of $f$ at $x$.
+
+    ///
+    """)
+    return
+
+
 if __name__ == "__main__":
     app.run()
