@@ -169,7 +169,7 @@ def _(mo):
     mo.md(r"""
     /// tip | Quadratic Functions in $\mathbb{R}^2$
 
-    1.  Pick a random matrices $A \in \mathbb{R}^{2\times2}$, vector $b \in \mathbb{\R}^2$ and scalar $c \in \mathbb{R}$. Define in a PyTorch function $f$ that given $x \in \mathbb{R}^2$ returns the scalar
+    1.  Pick a random matrix $A \in \mathbb{R}^{2\times2}$, vector $b \in \mathbb{\R}^2$ and scalar $c \in \mathbb{R}$. Define in a PyTorch function $f$ that given $x \in \mathbb{R}^2$ returns the scalar
 
         $$
         f(x) = x \cdot A \cdot x + b \cdot x + c \in \mathbb{R}.
@@ -302,15 +302,16 @@ def _(mo):
 @app.cell
 def _(f, torch):
     def grad_descent(f, x_0, lr=1e-3, n=100):
-        xs = []
+        xs = [x_0]
         x = x_0
-        for _ in range(n):
-            xs.append(x.clone())
+        for _ in range(n): 
+            x = x.clone()
             x.requires_grad = True
             y = f(x)
             y.backward()
             grad_f_x = x.grad
             x = x.detach() - lr * grad_f_x
+            xs.append(x)
         return xs
 
     grad_descent(f, x_0=torch.tensor([-4.0, -4.0]))
@@ -830,7 +831,7 @@ def _(mo):
     The **condition number** of $\sigma(A)$ is
 
     $$
-    \kappa := \frac{\lambda_n}{\lambda_1} \geq 1.
+    \kappa := \frac{\lambda_d}{\lambda_1} \geq 1.
     $$
 
     ///
