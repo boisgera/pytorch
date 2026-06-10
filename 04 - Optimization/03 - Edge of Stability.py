@@ -8,24 +8,14 @@ with app.setup:
     import numpy as np
     import matplotlib.pyplot as plt
 
-    sh  = 1.0     # Sharpness (of the quadratic function)
-    lr  = 2 / sh  # Learning rate at the edge of stability
-    x0  = 1.0     # Starting point
-    eps = 1e-1    # Cubic term
 
-
-@app.cell(hide_code=True)
+@app.cell
 def _():
-    mo.md(r"""
-    /// Warning | TODO
-
-    - [ ] Automate the state + value + sharpness drawing
-    - [ ] Explain/test that negative values of `eps` "work" too.
-    - [ ] Comment, document
-    - [ ] Test Fourth-Order with `eps = 0` ?
-    ///
-    """)
-    return
+    sh      = 1.0      # Sharpness (of the quadratic function)
+    lr_eos  = (2 / sh) # Learning rate at the edge of stability
+    x0      = 1.0      # Starting point
+    eps     = 1e-1
+    return eps, lr_eos, sh, x0
 
 
 @app.cell(hide_code=True)
@@ -49,7 +39,7 @@ def _():
 
 
 @app.cell
-def _():
+def _(sh):
     def f2(x):
         return 0.5 * sh * x * x
 
@@ -78,22 +68,25 @@ def _(f2):
     return
 
 
-@app.function
-def gd(d_f, lr=lr, n=100, x0=x0):
-    "Gradient Descent"
-    x = x0
-    xs = [x]
-    for i in range(n):
-        x = x - lr * d_f(x)
-        xs.append(x)
-    return np.array(xs)
+@app.cell
+def _(lr_eos, x0):
+    def gd(d_f, lr=lr_eos, n=100, x0=x0):
+        "Gradient Descent"
+        x = x0
+        xs = [x]
+        for i in range(n):
+            x = x - lr * d_f(x)
+            xs.append(x)
+        return np.array(xs)
+
+    return (gd,)
 
 
 @app.cell
-def _(d2_f2, d_f2, f2):
+def _(d2_f2, d_f2, f2, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f2, lr=lr/4)
+        xs = gd(d_f2, lr=lr_eos/4)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f2(xs))
@@ -107,10 +100,10 @@ def _(d2_f2, d_f2, f2):
 
 
 @app.cell
-def _(d2_f2, d_f2, f2):
+def _(d2_f2, d_f2, f2, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f2, lr=lr/2)
+        xs = gd(d_f2, lr=lr_eos/2)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f2(xs))
@@ -124,10 +117,10 @@ def _(d2_f2, d_f2, f2):
 
 
 @app.cell
-def _(d2_f2, d_f2, f2):
+def _(d2_f2, d_f2, f2, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f2, lr=lr)
+        xs = gd(d_f2, lr=lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f2(xs))
@@ -141,10 +134,10 @@ def _(d2_f2, d_f2, f2):
 
 
 @app.cell
-def _(d2_f2, d_f2, f2):
+def _(d2_f2, d_f2, f2, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f2, lr=1.1*lr)
+        xs = gd(d_f2, lr=1.1*lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f2(xs))
@@ -172,7 +165,7 @@ def _():
 
 
 @app.cell
-def _():
+def _(eps, sh):
     def f3(x):
         return 0.5 * sh * x * x + (eps / 6) * x * x * x
 
@@ -216,10 +209,10 @@ def _(f3):
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=lr/4)
+        xs = gd(d_f3, lr=lr_eos/4)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -233,10 +226,10 @@ def _(d2_f3, d_f3, f3):
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=lr/2)
+        xs = gd(d_f3, lr=lr_eos/2)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -258,10 +251,10 @@ def _():
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=lr, n=100)
+        xs = gd(d_f3, lr=lr_eos, n=100)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -283,10 +276,10 @@ def _():
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=1.1*lr)
+        xs = gd(d_f3, lr=1.1*lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -308,10 +301,10 @@ def _():
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=1.1*lr, x0=1e-3)
+        xs = gd(d_f3, lr=1.1*lr_eos, x0=1e-3)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -341,10 +334,10 @@ def _():
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=1.2*lr)
+        xs = gd(d_f3, lr=1.2*lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -358,10 +351,10 @@ def _(d2_f3, d_f3, f3):
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=1.5*lr)
+        xs = gd(d_f3, lr=1.5*lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -383,10 +376,10 @@ def _():
 
 
 @app.cell
-def _(d2_f3, d_f3, f3):
+def _(d2_f3, d_f3, f3, gd, lr_eos):
     def _():
         fig, axes = plt.subplots(3, 1, sharex=True)
-        xs = gd(d_f3, lr=1.501*lr)
+        xs = gd(d_f3, lr=1.501*lr_eos)
         axes[0].plot(xs)
         axes[0].set_ylabel("$x_n$")
         axes[1].plot(f3(xs))
@@ -395,6 +388,44 @@ def _(d2_f3, d_f3, f3):
         axes[2].set_ylabel("$f_3''(x_n)$")
         axes[2].set_xlabel("gradient descent iteration $n$")
         return mo.center(fig)
+    _()
+    return
+
+
+@app.cell(hide_code=True)
+def _():
+    mo.md(r"""
+    # Cobweb Analysis
+    """)
+    return
+
+
+@app.function
+def cobweb(f, x0, n=100, xlim=(0, 1)):
+    xs = np.linspace(*xlim, 400)
+    fig, ax = plt.subplots()
+    ax.plot(xs, f(xs), "C0", lw=2)
+    ax.plot(xs, xs, "--", color="gray")
+
+    x, px, py = x0, [x0], [0.0]
+    for _ in range(n):
+        y = f(x)
+        px += [x, x, x, y]
+        py += [x, y, y, y]
+        x = y
+
+    ax.plot(px, py, "C1")
+    ax.set(xlim=xlim, ylim=xlim, xlabel="$x_n$", ylabel="$x_{n+1}$", aspect="equal")
+    return ax
+
+
+@app.cell
+def _(d_f3, lr_eos, x0):
+    def _():
+        lr = lr_eos * 1.1
+        def gd_step(x):
+            return x - lr * d_f3(x)
+        return mo.center(cobweb(gd_step, x0=x0, xlim=(-20, 20)))
     _()
     return
 
