@@ -1,33 +1,31 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # MPG Dataset
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Learning Objectives
     - [ ] Fetch the data set (use API and CSV to learn both ways),
     - [ ] Explore the metadata, interpret the info,
@@ -35,8 +33,7 @@ def _(mo):
     - [ ] Make a seaborn pairplot with the suitable hue,
     - [ ] Clean-up: manage NaNs, fix errors, fix data types, get the brands, etc.
     - [ ] Save your result in a suitable format.
-    """
-    )
+    """)
     return
 
 
@@ -44,6 +41,7 @@ def _(mo):
 def _():
     import csv
     import pathlib
+
     return (pathlib,)
 
 
@@ -54,19 +52,21 @@ def _():
     import requests
     import seaborn as sns; sns.set_theme()
     import ucimlrepo
+
     return pd, requests, sns, ucimlrepo
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Dataset""")
+    mo.md(r"""
+    ## Dataset
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ℹ️ Repository: [Auto MPG - UCI Machine Learning Repository]
 
     ℹ️ Data URL: <https://archive.ics.uci.edu/static/public/9/data.csv>
@@ -74,14 +74,15 @@ def _(mo):
     🇺🇸 MPG stands for means "Miles Per Gallon"
 
     [Auto MPG - UCI Machine Learning Repository]: https://archive.ics.uci.edu/dataset/9/auto+mpg
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### With `ucimlrepo` and `pandas`""")
+    mo.md(r"""
+    ### With `ucimlrepo` and `pandas`
+    """)
     return
 
 
@@ -148,7 +149,9 @@ def _(data):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Alternative: From the CSV file (with pandas)""")
+    mo.md(r"""
+    ### Alternative: From the CSV file (with pandas)
+    """)
     return
 
 
@@ -168,7 +171,9 @@ def _(df, pathlib, pd, requests):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Data Cleanup""")
+    mo.md(r"""
+    ## Data Cleanup
+    """)
     return
 
 

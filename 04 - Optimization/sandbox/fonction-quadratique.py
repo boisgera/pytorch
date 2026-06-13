@@ -1,12 +1,14 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# Descente de Gradient et Fonction Quadratique""")
+    mo.md(r"""
+    # Descente de Gradient et Fonction Quadratique
+    """)
     return
 
 
@@ -14,6 +16,7 @@ def _(mo):
 def _():
     import torch 
     import matplotlib.pyplot as plt
+
     return plt, torch
 
 
@@ -50,6 +53,7 @@ def _(torch):
         xAx = torch.einsum("...i,ij,...j->...", x, A, x)
         bx = torch.einsum("i,...i->...", b, x)
         return xAx + bx + c
+
     return (f_alt,)
 
 
@@ -195,31 +199,31 @@ def _(X_1, Y_1, Z_1, f_alt, plt, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Fonction de Rosenbrock""")
+    mo.md(r"""
+    ## Fonction de Rosenbrock
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     $$
     f(x, y)  = (1-x)^2  + 100 (y - x^2)^2
     $$
 
-    Le minimum est en 
+    Le minimum est en
 
     $$
     (x^*, y^*) = (1.0, 1.0)
     $$
 
-    et 
+    et
 
     $$
     f(x^*, y^*) = 0.0
     $$
-    """
-    )
+    """)
     return
 
 
@@ -302,6 +306,7 @@ def _(xs_3):
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 

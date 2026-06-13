@@ -1,25 +1,25 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# Prédiction Linéaire de w en fonction de x, y et z""")
+    mo.md(r"""
+    # Prédiction Linéaire de w en fonction de x, y et z
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Obtenir les tenseurs de données
     -------------------------------
 
     "A la main" tout d'abord:
-    """
-    )
+    """)
     return
 
 
@@ -59,7 +59,9 @@ def _(w_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""... ou avec pandas""")
+    mo.md(r"""
+    ... ou avec pandas
+    """)
     return
 
 
@@ -84,7 +86,9 @@ def _(df, torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Recherche de p = [alpha, beta, gamma] optimal""")
+    mo.md(r"""
+    ## Recherche de p = [alpha, beta, gamma] optimal
+    """)
     return
 
 
@@ -96,13 +100,11 @@ def _(xyz_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     $$
     e = \frac{1}{n} \sum_{i=1}^n (w_i - \hat{w}_i)^2
     $$
-    """
-    )
+    """)
     return
 
 
@@ -116,6 +118,7 @@ def _():
 
     def RMS(w, w_pred):
         return ((w-w_pred)**2).mean().sqrt()
+
     return RMS, error_mean
 
 
@@ -203,6 +206,7 @@ def _(df_1):
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 

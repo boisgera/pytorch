@@ -1,38 +1,39 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App(width="medium")
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Automatic Differentiation in Pytorch
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
     import torch
+
     return (torch,)
 
 
 @app.cell
 def _():
     import matplotlib.pyplot as plt
+
     return (plt,)
 
 
@@ -96,29 +97,25 @@ def _(torch):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    /// warning 
-    By default, Pytorch accumulates gradients: the newly computed `grad` attributes are added to the stored value. 
+    mo.md(r"""
+    /// warning
+    By default, Pytorch accumulates gradients: the newly computed `grad` attributes are added to the stored value.
 
     Zero out these attributes between computations if this is not the behavior that you want!
 
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// warning
-    Any tensor operation done on a tensor with `requires_grad=True` belongs to the computation graph. 
+    Any tensor operation done on a tensor with `requires_grad=True` belongs to the computation graph.
     To get only the value of such a tensor, detach it from the computation graph, then clone it:
     ///
-    """
-    )
+    """)
     return
 
 
@@ -131,9 +128,11 @@ def _(torch):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Application""")
+    mo.md(r"""
+    ## Application
+    """)
     return
 
 
@@ -192,8 +191,7 @@ def _(a, x, y):
 
 @app.cell(hide_code=True)
 def _(a, loss, mo):
-    mo.md(
-        rf"""
+    mo.md(rf"""
     Loss function: $a \in \mathbb{{R}} \mapsto \ell(a) \in \mathbb{{R}}$.
 
     $$
@@ -203,8 +201,7 @@ def _(a, loss, mo):
     $$
     \ell'({a}) = {a.grad}
     $$
-    """
-    )
+    """)
     return
 
 

@@ -1,46 +1,43 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     # Automatic Differentiation from Scratch
 
     [Sébastien Boisgérault], Mines Paris - PSL University
 
     [Sébastien Boisgérault]: mailto:Sebastien.Boisgerault@minesparis.psl.eu
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Introduction
 
     Automatic differentiation refers to a family of numerical methods used to compute derivatives, gradients, and Jacobian matrices of numerical functions. These methods have the major advantage of eliminating a significant portion of rounding errors typically associated with classical methods such as finite differences. The error is in fact as low as in a "manual" symbolic differentiation of functions without the need for delicate parameter tuning.
 
-    In practice, if you were to implement manually the derivative of the function 
+    In practice, if you were to implement manually the derivative of the function
 
     $$
     f: x \in \R \mapsto \frac{1-e^{-2x}}{1+e^{-2x}} \in \R,
     $$
 
     you would probably start with the implementation of the function $f$, for example as:
-    """
-    )
+    """)
     return
 
 
@@ -52,12 +49,15 @@ def _(exp):
         v = 1.0 + y
         w = u / v
         return w
+
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""and then proceed to implement its derivative $g:= f'$, typically as""")
+    mo.md(r"""
+    and then proceed to implement its derivative $g:= f'$, typically as
+    """)
     return
 
 
@@ -74,24 +74,31 @@ def _(exp):
         dv = 0.0 + dy
         dw = du / v + u * (- dv) / (v * v)  
         return dw
+
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Here, automatic differentiation would typically automate the generation of the function $g$ given the function $f$, giving you exactly the same results but avoiding all the tedious work (and the corresponding risks of manual computation errors).""")
+    mo.md(r"""
+    Here, automatic differentiation would typically automate the generation of the function $g$ given the function $f$, giving you exactly the same results but avoiding all the tedious work (and the corresponding risks of manual computation errors).
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Computation Graph""")
+    mo.md(r"""
+    ## Computation Graph
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Python being dynamically typed does not assign types to function arguments during their definition. Thus, the addition function,""")
+    mo.md(r"""
+    Python being dynamically typed does not assign types to function arguments during their definition. Thus, the addition function,
+    """)
     return
 
 
@@ -102,7 +109,9 @@ def add_0(x, y):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""allows of course adding floating-point numbers:""")
+    mo.md(r"""
+    allows of course adding floating-point numbers:
+    """)
     return
 
 
@@ -114,7 +123,9 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""but it will also work perfectly fine with integers or NumPy arrays or even non-numeric types like strings:""")
+    mo.md(r"""
+    but it will also work perfectly fine with integers or NumPy arrays or even non-numeric types like strings:
+    """)
     return
 
 
@@ -132,13 +143,11 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     The key is that during execution, the objects `x` and `y` support the addition operation — otherwise, an exception will be raised. Thus, our add function is implicitly defined for addable objects.
 
     This is also confirmed by examining the bytecode of the add function, which makes no reference to the type of the arguments `x` and `y`:
-    """
-    )
+    """)
     return
 
 
@@ -151,7 +160,9 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""In the case of addition, the operation `x + y` is delegated to the `__add__` method of the `x` object. To intercept this call, it is necessary to modify the type of floating-point numbers we are going to use and override the definition of this method:""")
+    mo.md(r"""
+    In the case of addition, the operation `x + y` is delegated to the `__add__` method of the `x` object. To intercept this call, it is necessary to modify the type of floating-point numbers we are going to use and override the definition of this method:
+    """)
     return
 
 
@@ -164,13 +175,11 @@ class Float_0(float):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     As our class inherits from the standard type float, operations we haven't explicitly redefined will be handled as usual. So, we've just modified addition for instances of `Float`, and in a very limited way since we've delegated the result calculation to the parent class float.
 
     Once this effort is made, we can indeed trace the additions made:
-    """
-    )
+    """)
     return
 
 
@@ -183,13 +192,11 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    provided, of course, that we work with instances of `Float` and not `float`! 
-    To start generalizing this usage, 
+    mo.md(r"""
+    provided, of course, that we work with instances of `Float` and not `float`!
+    To start generalizing this usage,
     we will ensure that operations on our floats return our own float type as much as possible:
-    """
-    )
+    """)
     return
 
 
@@ -203,24 +210,25 @@ class Float(float):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    But this is not enough: Python's math library functions will return regular floats, 
+    mo.md(r"""
+    But this is not enough: Python's math library functions will return regular floats,
     so we need to adapt them again; first, let's import the math module:
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
     import math
+
     return (math,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""then define our own `cos` function:""")
+    mo.md(r"""
+    then define our own `cos` function:
+    """)
     return
 
 
@@ -229,12 +237,15 @@ def _(math):
     def cos_0(x):
         print(f'trace: cos({x})')
         return Float(math.cos(x))
+
     return (cos_0,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Let's check the result:""")
+    mo.md(r"""
+    Let's check the result:
+    """)
     return
 
 
@@ -247,7 +258,9 @@ def _(cos_0):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Unfortunately, we still cannot correctly trace the very similar expression `1.0 + cos(pi)`:""")
+    mo.md(r"""
+    Unfortunately, we still cannot correctly trace the very similar expression `1.0 + cos(pi)`:
+    """)
     return
 
 
@@ -259,21 +272,21 @@ def _(cos_0, pi):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    Indeed, it is the `__add__` method of `1.0`, an instance of `float`, that is called; thus, this call is not traced. 
-    To successfully handle this type of call, we need to ... make it fail! 
-    The method called to perform the sum so far entrusts the operation to the `__add__` method of 1.0 
-    because this object knows how to handle the operation, as it's 
+    mo.md(r"""
+    Indeed, it is the `__add__` method of `1.0`, an instance of `float`, that is called; thus, this call is not traced.
+    To successfully handle this type of call, we need to ... make it fail!
+    The method called to perform the sum so far entrusts the operation to the `__add__` method of 1.0
+    because this object knows how to handle the operation, as it's
     about adding itself with another instance (deriving) of float.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""If we ensure that the left operand is unable to handle this operation, it will be delegated to the right operand and the `__radd__` method; for this purpose, we simply replace `Float`, a numeric type, with `Node`, a class that contains (encapsulates) a numerical value:""")
+    mo.md(r"""
+    If we ensure that the left operand is unable to handle this operation, it will be delegated to the right operand and the `__radd__` method; for this purpose, we simply replace `Float`, a numeric type, with `Node`, a class that contains (encapsulates) a numerical value:
+    """)
     return
 
 
@@ -285,7 +298,9 @@ class Node_0:
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""We won't dwell on this first version of `Node`. It's named like that because it will represent a node in a computation graph. Instead of displaying the operations performed on the standard output, we will record the operations each variable undergoes and how they are organized; each node resulting from an operation must remember which operation was applied and what the operation's arguments were (themselves nodes). To support this approach, `Node` becomes:""")
+    mo.md(r"""
+    We won't dwell on this first version of `Node`. It's named like that because it will represent a node in a computation graph. Instead of displaying the operations performed on the standard output, we will record the operations each variable undergoes and how they are organized; each node resulting from an operation must remember which operation was applied and what the operation's arguments were (themselves nodes). To support this approach, `Node` becomes:
+    """)
     return
 
 
@@ -299,14 +314,12 @@ class Node:
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    We then need to make the usual operations compatible with node creation; 
-    by examining the function's arguments, we must decide if it's in "normal" mode 
-    (receiving numerical values, producing numerical values) or tracing calculations. 
+    mo.md(r"""
+    We then need to make the usual operations compatible with node creation;
+    by examining the function's arguments, we must decide if it's in "normal" mode
+    (receiving numerical values, producing numerical values) or tracing calculations.
     For example:
-    """
-    )
+    """)
     return
 
 
@@ -319,12 +332,15 @@ def _(math):
             return cos_x
         else:
             return math.cos(x)
+
     return (cos,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""or""")
+    mo.md(r"""
+    or
+    """)
     return
 
 
@@ -343,12 +359,10 @@ def add(x, y):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    The add function probably won't be used directly but called using the + operator; 
+    mo.md(r"""
+    The add function probably won't be used directly but called using the + operator;
     therefore, it must allow us to define the `__add__` and `__radd__` methods:
-    """
-    )
+    """)
     return
 
 
@@ -361,17 +375,15 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    We notice many similarities between the two codes; 
-    rather than continuing this process for all the functions we will need, 
-    at the expense of abstraction effort, 
-    it would be possible to define a function that automatically performs this transformation. 
-    This function is a higher-order function because it takes a function (the original numerical function) 
-    as an argument and returns a new function compatible with node management. 
+    mo.md(r"""
+    We notice many similarities between the two codes;
+    rather than continuing this process for all the functions we will need,
+    at the expense of abstraction effort,
+    it would be possible to define a function that automatically performs this transformation.
+    This function is a higher-order function because it takes a function (the original numerical function)
+    as an argument and returns a new function compatible with node management.
     We can ignore its implementation on first reading.
-    """
-    )
+    """)
     return
 
 
@@ -400,13 +412,11 @@ def autodiff(function):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    Despite its apparent complexity, using this function is simple; 
-    thus, to make the `sin` function and the `*` operator compatible with node management, 
+    mo.md(r"""
+    Despite its apparent complexity, using this function is simple;
+    thus, to make the `sin` function and the `*` operator compatible with node management,
     all we need to do is:
-    """
-    )
+    """)
     return
 
 
@@ -418,7 +428,9 @@ def _(math):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""and""")
+    mo.md(r"""
+    and
+    """)
     return
 
 
@@ -433,24 +445,20 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    which is considerably faster and more readable than the approach taken for `cos` and `+`; 
+    mo.md(r"""
+    which is considerably faster and more readable than the approach taken for `cos` and `+`;
     but once again, the result is the same.
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    It's now possible to implement the tracer. 
-    This function encapsulates the arguments of the function to trace into nodes, 
+    mo.md(r"""
+    It's now possible to implement the tracer.
+    This function encapsulates the arguments of the function to trace into nodes,
     then calls the function and returns the node associated with the value returned by the function:
-    """
-    )
+    """)
     return
 
 
@@ -463,7 +471,9 @@ def trace(f, args):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""To verify that everything is working as expected, let's ensure we display a readable and friendly representation of the node contents as a string:""")
+    mo.md(r"""
+    To verify that everything is working as expected, let's ensure we display a readable and friendly representation of the node contents as a string:
+    """)
     return
 
 
@@ -479,7 +489,9 @@ def node_str(node):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Then, let's make sure it's used when invoking the `print` function, rather than the standard display:""")
+    mo.md(r"""
+    Then, let's make sure it's used when invoking the `print` function, rather than the standard display:
+    """)
     return
 
 
@@ -491,7 +503,9 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""We complete this description with a second representation, more explicit but also more verbose:""")
+    mo.md(r"""
+    We complete this description with a second representation, more explicit but also more verbose:
+    """)
     return
 
 
@@ -511,7 +525,9 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""We're ready to do our verification:""")
+    mo.md(r"""
+    We're ready to do our verification:
+    """)
     return
 
 
@@ -531,19 +547,19 @@ def _(h, pi):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    The result is read as follows: the computation of `h(pi)` produces the value `0.0`, 
-    resulting from the addition of `-1.0`, calculated as `cos(3.141592653589793)`, 
+    mo.md(r"""
+    The result is read as follows: the computation of `h(pi)` produces the value `0.0`,
+    resulting from the addition of `-1.0`, calculated as `cos(3.141592653589793)`,
     and the constant `1.0`. So, this seems correct!
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Another example, with two arguments, just for good measure:""")
+    mo.md(r"""
+    Another example, with two arguments, just for good measure:
+    """)
     return
 
 
@@ -563,7 +579,9 @@ def _(i):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Visualization""")
+    mo.md(r"""
+    ## Visualization
+    """)
     return
 
 
@@ -584,6 +602,7 @@ def _():
                 dot.edge(id_, str(id(arg)))
             todo.extend(node.args)
         return dot
+
     return (graph,)
 
 
@@ -593,6 +612,7 @@ def _(graph):
         start_nodes = [Node(arg) for arg in args]
         end_node = f(*start_nodes)
         return graph(end_node)
+
     return (graph_function,)
 
 
@@ -608,15 +628,13 @@ def _(graph_function, mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Differential of Elementary Functions
 
-    To leverage the computation graph we can now determine, we need to declare the differentials 
-    of primitive operations and functions in a "registry" of differentials, 
+    To leverage the computation graph we can now determine, we need to declare the differentials
+    of primitive operations and functions in a "registry" of differentials,
     indexed by the function to differentiate.
-    """
-    )
+    """)
     return
 
 
@@ -628,21 +646,19 @@ def _():
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    For addition and multiplication, we utilize the identities 
+    mo.md(r"""
+    For addition and multiplication, we utilize the identities
 
     $$
     d(x+y) = dx + dy
-    $$ 
+    $$
 
-    and 
+    and
 
     $$
     d(x \times y) = x \times dy + dx \times y
     $$
-    """
-    )
+    """)
     return
 
 
@@ -663,15 +679,13 @@ def _(differential, multiply):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    For a function such as `cos`, we use the identity 
+    mo.md(r"""
+    For a function such as `cos`, we use the identity
 
     $$
     d (\cos(x)) = -\sin(x) dx
     $$
-    """
-    )
+    """)
     return
 
 
@@ -687,12 +701,10 @@ def _(cos, differential, sin):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    But this is just a particular case of the identity $d (f(x)) = f'(x) dx$. 
+    mo.md(r"""
+    But this is just a particular case of the identity $d (f(x)) = f'(x) dx$.
     We can equip ourselves with a function that will compute the differential $df$ from the derivative $f'$:
-    """
-    )
+    """)
     return
 
 
@@ -707,7 +719,9 @@ def d_from_deriv(g):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""The declaration of differentials is thus simplified; for instance, from the identity $(\sin x)' = \cos x$, we have:""")
+    mo.md(r"""
+    The declaration of differentials is thus simplified; for instance, from the identity $(\sin x)' = \cos x$, we have:
+    """)
     return
 
 
@@ -719,13 +733,11 @@ def _(cos, differential, sin):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Differential of Composite Functions
 
     To leverage the tracing of a function, we need to extract from the final node produced by this process all the upstream nodes, which represent the arguments used in the calculation of the final value. Then, to prepare for the calculation of the differential, we will order the nodes so that the arguments of a function always appear before the value it produces. The following implementation, relatively naive, accomplishes this operation:
-    """
-    )
+    """)
     return
 
 
@@ -750,13 +762,11 @@ def find_and_sort_nodes(end_node):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    The calculation of the differential itself then consists of propagating the variation of the node arguments 
-    from node to node, based on the chain rule of differentiation; 
+    mo.md(r"""
+    The calculation of the differential itself then consists of propagating the variation of the node arguments
+    from node to node, based on the chain rule of differentiation;
     these intermediate variations are stored in the `d_value` attribute of the graph nodes.
-    """
-    )
+    """)
     return
 
 
@@ -786,18 +796,17 @@ def _(differential):
                 return end_node.d_value
             return df_x
         return df
+
     return (d,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Usage
 
     To simply leverage our differential calculation, we can deduce the derivative in the case of a function of a real variable; recall that we have $f'(x) = df(x) \cdot 1$.
-    """
-    )
+    """)
     return
 
 
@@ -808,12 +817,15 @@ def _(d):
         def deriv_f(x):
             return df(x)(1.0)
         return deriv_f
+
     return (deriv,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Let's verify that the behavior of these differentiation operators meets our expectations for single-variable functions; first, in the case of a constant function:""")
+    mo.md(r"""
+    Let's verify that the behavior of these differentiation operators meets our expectations for single-variable functions; first, in the case of a constant function:
+    """)
     return
 
 
@@ -845,7 +857,9 @@ def _(k_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Then, in the case of an affine function:""")
+    mo.md(r"""
+    Then, in the case of an affine function:
+    """)
     return
 
 
@@ -877,7 +891,9 @@ def _(l_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""And finally, in the case of a quadratic function:""")
+    mo.md(r"""
+    And finally, in the case of a quadratic function:
+    """)
     return
 
 
@@ -909,12 +925,10 @@ def _(m_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    To conclude within this framework, 
+    mo.md(r"""
+    To conclude within this framework,
     let's test two functions using trigonometric functions `sin` and `cos`:
-    """
-    )
+    """)
     return
 
 
@@ -946,7 +960,9 @@ def _(n_1):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""In the general case, since our functions always yield real values, we can deduce the gradient of the differential:""")
+    mo.md(r"""
+    In the general case, since our functions always yield real values, we can deduce the gradient of the differential:
+    """)
     return
 
 
@@ -963,12 +979,15 @@ def _(d):
                 grad_f_x[i] = df_x(*e_i)
             return grad_f_x  
         return grad_f
+
     return (grad,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""Similarly, constant, affine, and quadratic functions allow for elementary tests:""")
+    mo.md(r"""
+    Similarly, constant, affine, and quadratic functions allow for elementary tests:
+    """)
     return
 
 
@@ -1025,15 +1044,13 @@ def _(grad):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ## Backward Differentiation
 
     If we only intend to compute gradients of scalar-valued functions, we can use  **backward differentiation** instead of forwards differentiation which is more efficient in this case.
 
     Note that in Machine Learning, most of the time we are only interested in the gradient of the loss function with respect to the model parameters, so we are exactly in this scenario. For this reason, backward differentiation is very popular.
-    """
-    )
+    """)
     return
 
 
@@ -1091,6 +1108,7 @@ def _(gradient):
                         node_i.grad = [g + xg for g, xg in zip(node_i.grad, extra_grad)]
             return [node.grad[0] for node in start_nodes]
         return grad_f
+
     return (backward_grad,)
 
 

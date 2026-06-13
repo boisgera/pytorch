@@ -1,43 +1,46 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# MPG Linear Model""")
+    mo.md(r"""
+    # MPG Linear Model
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Learning Objectives
     - [ ] Learn what `torch.linalg.lstsq` (Least-Square Problem) is about,
     - [ ] Discover how it solves linear prediction with root mean square error,
-    - [ ] Try some linear and affine prediction of mpg based on weights only, 
+    - [ ] Try some linear and affine prediction of mpg based on weights only,
     - [ ] Display the results (`pairplot` or `scatter`)
     - [ ] compute RMS error and associated relative error (as a %)
     - [ ] Replace weight with its inverse (affine model), do it again.
     - [ ] Take into account the production year,
     - [ ] Take into account the origin.
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r""" """)
+    mo.md(r"""
+ 
+    """)
     return
 
 
@@ -45,6 +48,7 @@ def _(mo):
 def _():
     import torch
     import torch.linalg
+
     return (torch,)
 
 
@@ -65,7 +69,9 @@ def _(pd):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Linear Model wrt Weight""")
+    mo.md(r"""
+    ## Linear Model wrt Weight
+    """)
     return
 
 
@@ -97,8 +103,7 @@ def _(mpg, plt, weight):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Search for $\alpha \in \mathbb{R}$ that provides the best approximation
 
     $$
@@ -110,8 +115,7 @@ def _(mo):
     $$
     \text{loss}(\alpha) =  \sum_k (\text{mpg}[k] - \alpha \times \text{weight}[k])^2.
     $$
-    """
-    )
+    """)
     return
 
 
@@ -172,6 +176,7 @@ def _(pd):
                 {"name": "relative error", "value": f"{100 * relative_error:.1f} %" },
             ]
         )
+
     return (error_table,)
 
 
@@ -189,14 +194,15 @@ def _(mpg, pd, predicted_0, sns):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Affine Model wrt Weight""")
+    mo.md(r"""
+    ## Affine Model wrt Weight
+    """)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Search for $\alpha, \, \beta \in \mathbb{R}$ that provides the best approximation
 
     $$
@@ -208,8 +214,7 @@ def _(mo):
     $$
     \text{loss}(\alpha) =  \sum_k (\text{mpg}[k] - \alpha \times \text{weight}[k] - \beta)^2.
     $$
-    """
-    )
+    """)
     return
 
 
@@ -273,14 +278,15 @@ def _(mpg, pd, predicted_1, sns):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Linear Model wrt Inverse of Weight""")
+    mo.md(r"""
+    ## Linear Model wrt Inverse of Weight
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     Search for $\alpha, \, \beta \in \mathbb{R}$ that provides the best approximation
 
     $$
@@ -292,8 +298,7 @@ def _(mo):
     $$
     \text{loss}(\alpha) =  \sum_k \left(\text{mpg}[k] - \frac{\alpha}{\text{weight}[k]} - \beta \right)^2.
     $$
-    """
-    )
+    """)
     return
 
 
@@ -352,7 +357,27 @@ def _(mpg, pd, predicted_2, sns):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Take into Account Model Year""")
+    mo.md(r"""
+    ## Take into Account Model Year
+    """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""
+    Search for $\alpha, \, \beta, \, \gamma \in \mathbb{R}$ that provides the best approximation
+
+    $$
+    \text{mpg} \approx \frac{\alpha}{\text{weight}} + \beta +\gamma \times \text{year}
+    $$
+
+    Understood as, find the minimizer $\alpha$ of the loss function:
+
+    $$
+    \text{loss}(\alpha) =  \sum_k \left(\text{mpg}[k] - \frac{\alpha}{\text{weight}[k]} - \beta - \gamma \times \text{year}[k]\right)^2.
+    $$
+    """)
     return
 
 
@@ -415,29 +440,11 @@ def _(mpg, pd, predicted_3, sns):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
-    Search for $\alpha, \, \beta, \, \gamma \in \mathbb{R}$ that provides the best approximation
-
-    $$
-    \text{mpg} \approx \frac{\alpha}{\text{weight}} + \beta +\gamma \times \text{year}
-    $$
-
-    Understood as, find the minimizer $\alpha$ of the loss function:
-
-    $$
-    \text{loss}(\alpha) =  \sum_k \left(\text{mpg}[k] - \frac{\alpha}{\text{weight}[k]} - \beta - \gamma \times \text{year}[k]\right)^2.
-    $$
-    """
-    )
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""## Use the Origin""")
+    mo.md(r"""
+    ## Use the Origin
+    """)
     return
 
 

@@ -1,25 +1,27 @@
 import marimo
 
-__generated_with = "0.13.11"
+__generated_with = "0.23.5"
 app = marimo.App()
 
 
 @app.cell
 def _():
     import marimo as mo
+
     return (mo,)
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""# MPG Model (PyTorch)""")
+    mo.md(r"""
+    # MPG Model (PyTorch)
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     /// tip | Learning Objectives
     - [ ] Use PyTorch SGD to (try to) solve the least-square iteratively,
     - [ ] Investigate the situation theoretically. Why is it so slow?
@@ -27,14 +29,14 @@ def _(mo):
     - [ ] Try to improve the convergence with Adam,
     - [ ] Try to improve the convergence with preconditionning.
     ///
-    """
-    )
+    """)
     return
 
 
 @app.cell
 def _():
     import math
+
     return (math,)
 
 
@@ -43,6 +45,7 @@ def _():
     import torch
     import torch.linalg
     import torch.nn
+
     return (torch,)
 
 
@@ -97,7 +100,9 @@ def _(inv_weight, mpg, plt):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Iterative  Solution of the Linear Model with PyTorch""")
+    mo.md(r"""
+    ## Iterative  Solution of the Linear Model with PyTorch
+    """)
     return
 
 
@@ -181,8 +186,7 @@ def _(S, torch):
 
 @app.cell(hide_code=True)
 def _(cond, math, mo):
-    mo.md(
-        rf"""
+    mo.md(rf"""
     With the good learning rate, in the worst-case, an improvement of the initial error by 50% is achieved when the number of iterations $n$ satisfies
 
 
@@ -197,14 +201,15 @@ def _(cond, math, mo):
     \approx \kappa \log 2
     \approx {int(math.log(2.0) * cond)}
     $$
-    """
-    )
+    """)
     return
 
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### Speed up with Momentum""")
+    mo.md(r"""
+    ### Speed up with Momentum
+    """)
     return
 
 
@@ -248,7 +253,9 @@ def _(alpha_2, beta_2, mpg, plt, weight):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""### What about Adam?""")
+    mo.md(r"""
+    ### What about Adam?
+    """)
     return
 
 
@@ -292,13 +299,11 @@ def _(alpha_3, beta_3, mpg, plt, weight):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(
-        r"""
+    mo.md(r"""
     ### Precondition the Data
 
     i.e. improve its condition number.
-    """
-    )
+    """)
     return
 
 
@@ -335,8 +340,7 @@ def _(S_scaled, torch):
 
 @app.cell(hide_code=True)
 def _(S_scaled, math, mo, torch):
-    mo.md(
-        rf"""
+    mo.md(rf"""
     With the good learning rate, in the worst-case, an improvement of the initial error by 50% is achieved when the number of iterations $n$ satisfies
 
 
@@ -351,8 +355,7 @@ def _(S_scaled, math, mo, torch):
     \approx \kappa \log 2
     \approx {int(math.log(2.0) * torch.linalg.cond(S_scaled).item())}
     $$
-    """
-    )
+    """)
     return
 
 
