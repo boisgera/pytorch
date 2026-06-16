@@ -615,11 +615,11 @@ def _(mo):
     to compute the first-order variation of $z$ with respect to $x$, one can compute
 
     $$
-    \Delta y = J_f(x) \Delta x
+    \Delta y = J_f(x) \cdot \Delta x
     \;
     \text{ and then }
     \;
-    \Delta z  = J_g(y) \Delta y
+    \Delta z  = J_g(y) \cdot \Delta y
     $$
 
     or, using indices and partial derivatives
