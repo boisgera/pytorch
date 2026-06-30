@@ -380,6 +380,12 @@ def _(colors, pd):
 
 @app.cell
 def _(df, sns):
+    sns.pairplot(df)
+    return
+
+
+@app.cell
+def _(df, sns):
     sns.histplot(df, x="R", bins=10, color="red", stat="probability")
     return
 
